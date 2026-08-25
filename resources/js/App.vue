@@ -1,9 +1,13 @@
 
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Navigation from './pages/Navigation.vue';
+
+</script>
 
 <template>
-    <h1>
-        Hello World!
-    </h1>
+    <navigation />
+    <main>
+        <router-view />
+    </main>
 </template>

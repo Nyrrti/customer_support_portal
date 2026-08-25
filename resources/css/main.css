@@ -3,7 +3,7 @@
 :root {
     --bg-color-white: #ebebeb;
     --bg-color-dark: #0d2d54;
-    --bg-color-nav:  rgba(14, 39, 82, 0.7);
+    --bg-color-nav:  #0e2752b3;
     --bg-color-header: rgb(25, 54, 81);
  
     --color-yellow:#eea933;
@@ -12,7 +12,7 @@
     --color-light-blue: #77a1ea;
     --color-purple: #8d2de1;
     --color-dark-purple: #4a1774;
-    --color-cyan: #00a7c9;
+    --color-cyan: #0088a3;
     --color-light-grey:#bbbcc5;
     --color-medium-grey: #c0c1c3;
     --color-light-red: #d08383;
@@ -46,8 +46,8 @@
 
     --gradient-bg: linear-gradient(
         180deg,
-        rgb(246, 246, 246) 0%,
-        rgb(239, 239, 239) 75%
+        #0e2752b3 10%,
+        rgb(38, 80, 99) 75%
     );
 }
 
@@ -55,7 +55,7 @@ html, body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-color-white);
+    background-color: var(--bg-color-nav);
     background-image: var(--gradient-bg);
     color: var(--font-color-dark);
     padding: 0;
