@@ -6,8 +6,8 @@
     --bg-color-nav:  #0e2752b3;
     --bg-color-header: rgb(25, 54, 81);
  
-    --color-yellow:#eea933;
-    --color-orange: #ff921e;
+    --color-yellow:#e69a17;
+    --color-orange: #f1830e;
     --color-dark-blue: #15568a;
     --color-light-blue: #77a1ea;
     --color-purple: #8d2de1;
@@ -17,6 +17,8 @@
     --color-medium-grey: #c0c1c3;
     --color-light-red: #d08383;
     --color-red: #b71a1a;
+
+    --border-color-blue: #17406a;
 
     --table-bg: #e6e6ef;
     --table-title: #ffbf5f;
@@ -46,35 +48,56 @@
 
     --gradient-bg: linear-gradient(
         180deg,
-        #0e2752b3 10%,
-        rgb(38, 80, 99) 75%
+        #0e2752b3 15%,
+        #0a164ab3 80%
     );
+
+    --hero-bg:
+        radial-gradient(circle at top left, rgba(30, 70, 130, 0.45) 0%, rgba(30, 70, 130, 0) 35%),
+        radial-gradient(circle at bottom right, rgba(8, 30, 70, 0.55) 0%, rgba(8, 30, 70, 0) 40%),
+        linear-gradient(135deg, #081a33 0%, #0b2345 45%, #08172f 100%);
 }
 
-html, body {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
     min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bg-color-nav);
-    background-image: var(--gradient-bg);
-    color: var(--font-color-dark);
-    padding: 0;
     margin: 0;
+    padding: 0.75rem;
+    background-color: #06162b;
+
+    color: var(--font-color-dark);
     font-family: var(--font-family-body);
+}
+
+.page-bg {
+    width: 100%;
+    min-height: calc(100dvh - 1.5rem);
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b2345,
+            #07172e
+        );
+
+    border: 1px solid var(--border-color-blue);
+    border-radius: 1rem;
+
+    overflow: hidden;
 }
 
 .gradient-bg {
     background-color: var(--color-purple);
     background-image: var(--gradient-bg);
-}
-
-.gradient-bg-light {
-background: #f2f2ed;
-background: radial-gradient(circle,#f2f2ed 40%, #e3e3de 100%);
-}
-
-.hidden {
-    display: none;
 }
 
 h1,h2,h3,h4,h5 {
@@ -310,8 +333,6 @@ li {
     border: 1px solid var(--color-grey);
 }
 
-
-
 .border-right {
     border-right: 1px solid var(--color-grey);
 }
@@ -428,9 +449,6 @@ tbody tr:hover {
         --font-size-xxl: 2rem;
     }
 
-    :root {
-        --bar-height: 10.1rem;
-    }
 }
 
 /* Extra large devices (extra large laptops and desktops, 2000px and up) */
