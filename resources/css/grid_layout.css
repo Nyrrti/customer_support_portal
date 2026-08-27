@@ -18,6 +18,7 @@
 .grid-container {
     display: grid;
     grid-template-columns: var(--grid-cols);
+    width: 100%;
   /* gap: var(--gap); */
 }
 

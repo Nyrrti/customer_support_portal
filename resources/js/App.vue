@@ -8,10 +8,8 @@ import Navigation from './pages/Navigation.vue';
 <template>
     <div class="page-bg">
         <navigation />
-        <main class="grid-container-fluid">
-            <div class="grid-container max-width px-5">
-                <router-view />
-            </div>
+        <main>
+            <router-view />
         </main>
     </div>
 </template>

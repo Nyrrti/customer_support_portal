@@ -6,17 +6,17 @@
 <template>
     <nav class="grid-container-fluid nav-bar">
         <div class="grid-container max-width px-5">
-            <div class="col-3">
+            <div class="col-4">
                 <RouterLink to="/" class="logo">
-                    TicketyTicker
+                    <span class="logo-yellow">
+                        Tickety
+                    </span>
+                    Ticker
                 </RouterLink>
             </div>
-            <div class="col-6 nav-links">
+            <div class="col-8 nav-links">
                 <RouterLink to="/" class="nav">
                     Home
-                </RouterLink>
-                <RouterLink to="/" class="nav">
-                    Tickets
                 </RouterLink>
             </div>
         </div>
@@ -27,11 +27,9 @@
 <style scoped>
 
     .nav-bar {
-        min-height: 4.5rem;
-
-        background-color: rgba(4, 14, 30, 0.6);
-        border-bottom: 2px solid var(--color-yellow);
-
+        min-height: 5.25rem;
+        background-color: rgba(6, 31, 70, 0.6);
+        border-bottom: 1px solid var(--color-yellow);
         display: flex;
         align-items: center;
     }
@@ -43,8 +41,15 @@
     .logo {
         display: flex;
         justify-content: center;
-        align-items: center;
-        gap: 2rem;   
+        align-items: center; 
+    }
+
+    .logo-yellow {
+        color: var(--color-yellow);
+        text-transform: uppercase;
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        letter-spacing: 0.05rem;
     }
 
     .nav-actions {
@@ -54,16 +59,16 @@
     }
 
     .nav {
-        
+        font-size: 1.05rem;
         text-transform: uppercase;
         letter-spacing: 0.05rem;
-        padding: 1.5rem 0 0.6rem;
+        padding: 1.5rem 0 0.1rem;
         border-bottom: 2px dotted var(--color-yellow);
     }
 
     .nav:hover,
     .nav.router-link-active {
-        color: var(--font-color-light);
+        color: var(--font-color-title-light);
         border-bottom-color: var(--color-yellow);
     }
 

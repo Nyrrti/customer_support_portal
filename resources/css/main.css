@@ -2,11 +2,11 @@
 
 :root {
     --bg-color-white: #ebebeb;
-    --bg-color-dark: #0d2d54;
+    --bg-color-dark: #092041;
     --bg-color-nav:  #0e2752b3;
     --bg-color-header: rgb(25, 54, 81);
  
-    --color-yellow:#e69a17;
+    --color-yellow:#f3ab0f;
     --color-orange: #f1830e;
     --color-dark-blue: #15568a;
     --color-light-blue: #77a1ea;
@@ -18,7 +18,7 @@
     --color-light-red: #d08383;
     --color-red: #b71a1a;
 
-    --border-color-blue: #17406a;
+    --border-color-blue: #194672;
 
     --table-bg: #e6e6ef;
     --table-title: #ffbf5f;
@@ -35,9 +35,9 @@
     --font-size-xxs: 0.9rem;
     --font-size-xs: 0.95rem;
     --font-size-sm: 1rem;
-    --font-size-md: 1.1rem;
+    --font-size-md: 1.05rem;
     --font-size-lg: 1.2rem;
-    --font-size-xl: 1.5rem;
+    --font-size-xl: 1.4rem;
     --font-size-xxl: 1.6rem;
 
     --font-family-title: 'Roboto Slab', serif;
@@ -53,9 +53,9 @@
     );
 
     --hero-bg:
-        radial-gradient(circle at top left, rgba(30, 70, 130, 0.45) 0%, rgba(30, 70, 130, 0) 35%),
+        radial-gradient(circle at top left, rgba(33, 75, 139, 0.45) 0%, rgba(31, 74, 139, 0) 35%),
         radial-gradient(circle at bottom right, rgba(8, 30, 70, 0.55) 0%, rgba(8, 30, 70, 0) 40%),
-        linear-gradient(135deg, #081a33 0%, #0b2345 45%, #08172f 100%);
+        linear-gradient(135deg, #091e3b 0%, #0c264a 45%, #08172f 100%);
 }
 
 *,
@@ -72,7 +72,7 @@ body {
     min-height: 100dvh;
     margin: 0;
     padding: 0.75rem;
-    background-color: #06162b;
+    background-color: var(--bg-color-dark);
 
     color: var(--font-color-dark);
     font-family: var(--font-family-body);
@@ -83,12 +83,12 @@ body {
     min-height: calc(100dvh - 1.5rem);
 
     background:
+        radial-gradient(circle at top left, rgba(9, 84, 181, 0.5) 0%, rgba(23, 72, 145, 0.1) 40%),
         linear-gradient(
             135deg,
-            #0b2345,
-            #07172e
+            #0f2a52 0%,
+            #081f43 80%
         );
-
     border: 1px solid var(--border-color-blue);
     border-radius: 1rem;
 
@@ -107,7 +107,7 @@ h1,h2,h3,h4,h5 {
     margin: 0;
 }
 
-h1.color, h3.color, h4.color, h5.color {
+h1.color, h2.color, h3.color, h4.color, h5.color {
     color: var(--font-color-title-light);
 }
 
@@ -121,10 +121,6 @@ h2 {
     font-size: var(--font-size-xl);
     text-transform: uppercase;
     margin: 0.2rem 0rem;
-}
-
-h2.color {
-    color: var(--color-dark-blue);
 }
 
 h3 {
@@ -445,8 +441,8 @@ tbody tr:hover {
         --font-size-sm: 1.05rem;
         --font-size-md: 1.25rem;
         --font-size-lg: 1.35rem;
-        --font-size-xl: 1.8rem;
-        --font-size-xxl: 2rem;
+        --font-size-xl: 1.7rem;
+        --font-size-xxl: 1.9rem;
     }
 
 }
