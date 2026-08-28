@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
+    --bg-color-white: #fff;
     --bg-color-primary: #ebebeb;
-    --bg-color-secondary: #dce0e7;
-    --bg-color-dark: #263242;
+    --bg-color-secondary: #dadee6;
+    --bg-color-body: #47505b;
     --bg-color-nav:  #0e2752b3;
     --bg-color-header: #0F1D33;
     --bg-color-sidebar: #132643;
@@ -12,8 +13,9 @@
     --color-blue: #2563EB;
     --color-grey: #6e6f72;
 
-    --border-color: #E6ECF3;
+    --border-color: #cdd4df;
     --border-input: #37506c;
+    --border-input-light: #bcc3cd;
 
     --table-bg: #e6e6ef;
     --table-title: #ffbf5f;
@@ -23,8 +25,10 @@
     --font-color-nav: #F1F5F9;
     --font-color-light: #F1F5F9;
     --font-color-dark: #0F172A;
-    --font-color-medium: #64748B;
-    --font-color-title-light: #2563EB;
+    --font-color-medium: #7a8da6;
+    --font-color-medium-light: #7a8da6;
+    --font-color-medium-dark: #4f5e74;
+    --font-color-title-light: #3b79ff;
     --font-color-title-dark: #0c2a6b;
 
     --font-size-caption: 0.75rem;
@@ -54,8 +58,8 @@ html {
 body {
     min-height: 100dvh;
     margin: 0;
-    padding: 0.75rem;
-    background-color: var(--bg-color-dark);
+    padding: 0;
+    background-color: var(--bg-color-body);
     color: var(--font-color-dark);
     font-family: var(--font-family-body);
 }
@@ -144,16 +148,28 @@ a:hover {
     color: var(--font-color-light);
 }
 
+.medium-light {
+    color: var(--font-color-medium-light);
+}
+
+.medium-dark {
+    color: var(--font-color-medium-dark);
+}
+
 .dark {
     color: var(--font-color-dark);
 }
  .title-dark {
     color: var(--font-color-title-dark);
- }
+}
 
  .title-light {
     color: var(--font-color-title-light);
- }
+}
+
+.yellow {
+    color: var(--color-yellow);
+}
 
 .bold {
     font-weight: 700;
@@ -175,7 +191,7 @@ a:hover {
 
 .btn:hover {
     background-color: color-mix(in srgb, var(--color-blue) 80%, black);
-    color: var(--font-color-dark);
+    color: var(--font-color-light);
 }
 
 .btn.back {
@@ -238,7 +254,7 @@ label {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.4rem;
 }
 
 input, textarea, select {

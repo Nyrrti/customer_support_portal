@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import LoginSection from '../components/LoginSection.vue';
     import PortalHeader from '../components/PortalHeader.vue';
     import PortalSidebar from '../components/PortalSidebar.vue';
 </script>
@@ -12,7 +13,7 @@
                     <PortalSidebar />
                 </section>
                 <section class="col-12 col-lg-7 portal-login">
-                    Login Section
+                    <LoginSection />
                 </section>
             </main>
         </div>
@@ -22,9 +23,11 @@
 <style scoped>
 
     .page-bg {
+        min-height: 100dvh;
+        padding: 0.75rem;
         display: flex;
         justify-content: center;
-        padding: 1rem;
+        align-items: center;
     }
 
     .portal {
@@ -37,10 +40,13 @@
         border-radius: var(--portal-radius);
         overflow: hidden;
         box-shadow: var(--portal-shadow);
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100dvh - 1.5rem);
     }
 
     .portal-content {
-        min-height: calc(100dvh - 8.5rem);
+        flex: 1;
     }
 
     .portal-login {

@@ -1,23 +1,52 @@
 <template>
     <div class="sidebar-content">
         <div>
-            <p class="brand-title">
-                TICKETYTICKER
-            </p>
-
             <h1 class="light">
-                Manage events and tickets with ease
+                Welcome to <span class="yellow">TicketyTicker</span>
             </h1>
-
-            <p class="sidebar-text">
+            <p class="sidebar-intro light">
                 Submit, track and resolve support tickets quickly and efficiently.
             </p>
         </div>
+        <div class="sidebar-features">
+            <div class="feature">
+                <div class="feature-icon">
+                    +
+                </div>
+                <div>
+                    <h4 class="light">
+                        Track Status
+                    </h4>
+                    <p class="feature-text">
+                        Submit a new request with all the details we need.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    ✓
+                </div>
+                <div>
+                    <h4 class="light">
+                        Track Status
+                    </h4>
+                    <p class="feature-text">
+                        Monitor the progress of your ticket.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    ≡
+                </div>
 
-        <div class="sidebar-footer">
-            <p class="caption">
-                Simple event management.
-            </p>
+                <div>
+                    <h4 class="light">View Responses</h4>
+                    <p class="feature-text">
+                        Read replies and updates from our support team.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -26,33 +55,53 @@
     .sidebar-content {
         --sidebar-padding: 3rem;
         --sidebar-gap: 1.5rem;
+        --feature-gap: 1rem;
+        --feature-icon-size: 3rem;
 
         min-height: 100%;
         padding: var(--sidebar-padding);
-
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-
+        justify-content: space-evenly;
+        gap: var(--sidebar-gap);
         background-color: var(--bg-color-sidebar);
     }
 
-    .brand-title {
-        margin-bottom: var(--sidebar-gap);
-        color: var(--color-yellow);
-        font-size: var(--font-size-xs);
-        font-weight: 700;
-        letter-spacing: 0.12rem;
+    .sidebar-intro {
+        max-width: 24rem;
+        margin-top: 1rem;
     }
 
-    .sidebar-text {
-        max-width: 28rem;
-        margin-top: var(--sidebar-gap);
-
-        color: var(--font-color-medium);
+    .sidebar-features {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
 
-    .sidebar-footer p {
-        color: var(--font-color-medium);
+    .feature {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--feature-gap);
+        min-height: 5rem;
     }
+
+    .feature-icon {
+        width: var(--feature-icon-size);
+        height: var(--feature-icon-size);
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: var(--color-blue);
+        color: var(--font-color-light);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+    }
+
+    .feature-text {
+        max-width: 18rem;
+        color: var(--font-color-medium-light);
+    }
+
 </style>

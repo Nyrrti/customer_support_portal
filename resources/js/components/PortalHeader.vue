@@ -43,7 +43,7 @@
         --header-padding-x: 2rem;
         --header-gap: 2rem;
         --brand-gap: 0.75rem;
-        --brand-icon-size: 2rem;
+        --brand-icon-size: 2.5rem;
 
         min-height: var(--header-height);
         display: flex;
