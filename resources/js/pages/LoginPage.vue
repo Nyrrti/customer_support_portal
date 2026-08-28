@@ -24,25 +24,26 @@
 
     .page-bg {
         min-height: 100dvh;
-        padding: 0.75rem;
+        padding: 0.65rem;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
     .portal {
-        --portal-max-width: 95rem;
+        --portal-max-width: 90rem;
         --portal-radius: 1rem;
-        --portal-shadow: 0 1rem 3rem rgba(15, 29, 51, 0.5);
+        --portal-shadow: 0 1rem 2.5rem rgba(15, 29, 51, 0.5);
 
         width: 100%;
         max-width: var(--portal-max-width);
         border-radius: var(--portal-radius);
+        border: 1px solid var(--bg-color-header);
         overflow: hidden;
         box-shadow: var(--portal-shadow);
         display: flex;
         flex-direction: column;
-        min-height: calc(100dvh - 1.5rem);
+        min-height: calc(100dvh - 1.3rem);
     }
 
     .portal-content {
@@ -50,6 +51,6 @@
     }
 
     .portal-login {
-        background-color: var(--bg-color-primary);
+        background-color: var(--bg-color-card);
     }
 </style>

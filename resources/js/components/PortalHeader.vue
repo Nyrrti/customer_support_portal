@@ -50,7 +50,7 @@
         align-items: center;
         padding-inline: var(--header-padding-x);
         background-color: var(--bg-color-header);
-        border-bottom: 1px solid var(--border-input);
+        border-bottom: 1px solid var(--border-color-blue);
     }
 
     .header-grid {

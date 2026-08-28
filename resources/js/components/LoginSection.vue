@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import LoginForm from './LoginForm.vue';
+    import LoginForm from './LoginForm.vue';
+    import RegisterSection from './RegisterSection.vue';
 
 </script>
 
@@ -12,12 +13,12 @@ import LoginForm from './LoginForm.vue';
                     Welcome back
                 </h2>
             </div>
-            <div class="login-card">
+            <div class="login-form">
                 <LoginForm />
             </div>
-            <div class="register-card">
-                Register section goes here
-            </div>
+            
+            <RegisterSection />
+            
         </div>
         
     </div>
@@ -28,7 +29,7 @@ import LoginForm from './LoginForm.vue';
     .login-section {
         --login-padding: 3rem;
         --login-content-width: 28rem;
-        --login-gap: 1.75rem;
+        
 
         min-height: 100%;
         display: flex;
@@ -36,6 +37,20 @@ import LoginForm from './LoginForm.vue';
         align-items: center;
         padding: var(--login-padding);
         background-color: var(--bg-color-secondary);
+        background:
+        linear-gradient(
+            135deg,
+            var(--bg-color-secondary),
+            color-mix(in srgb, var(--bg-color-secondary) 85%, rgb(92, 119, 153))
+        );
+    }
+
+    .login-heading {
+        margin-bottom: 0.8rem;
+    }
+
+    .login-form {
+        margin-bottom: 1.75rem;
     }
 
     .login-content {
@@ -43,13 +58,6 @@ import LoginForm from './LoginForm.vue';
         max-width: var(--login-content-width);
         display: flex;
         flex-direction: column;
-        gap: var(--login-gap);
-    }
-
-    .login-heading {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
     }
 
     .login-card,

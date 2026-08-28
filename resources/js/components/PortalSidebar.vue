@@ -64,8 +64,38 @@
         flex-direction: column;
         justify-content: space-evenly;
         gap: var(--sidebar-gap);
+        position: relative;
+        overflow: hidden;
         background-color: var(--bg-color-sidebar);
     }
+
+    .sidebar-content > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sidebar-content::before {
+        content: "";
+        position: absolute;
+
+        width: 110rem;
+        height: 60rem;
+
+        top: -25rem;
+        left: -60rem;
+
+        border-radius: 50%;
+
+        background: radial-gradient(
+            ellipse,
+            color-mix(in srgb, var(--bg-color-sidebar) 65%, var(--sidebar-glow)) 0%,
+            color-mix(in srgb, var(--bg-color-sidebar) 75%, var(--sidebar-glow-purple)) 38%,
+            transparent 65%
+        );
+
+            pointer-events: none;
+            z-index: 0;
+        }
 
     .sidebar-intro {
         max-width: 24rem;

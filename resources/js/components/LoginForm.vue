@@ -58,16 +58,18 @@
             Login
         </button>
     </div>
-
+    
 </template>
+
+
 
 <style scoped>
 
     .login-bg {
-        background-color: var(--bg-color-primary);    
-        border-radius: 0.5rem;
+        background-color: var(--bg-color-card);    
+        border-radius: 0.6rem;
         border: 1px solid var(--border-color);
-        box-shadow: 0 0.5rem 1.5rem rgba(15, 29, 51, 0.08);
+        box-shadow: 0 0.5rem 1.5rem rgba(15, 29, 51, 0.07);
     }
 
     .login-heading {
@@ -103,7 +105,7 @@
     .login-input-field input {
         width: 100%;
         padding: 0.7rem;
-        background-color: var(--bg-color-primary);
+        background-color: var(--bg-color-card);
         border: 1px solid var(--border-input-light);
         border-radius: 0.4rem;
     }
