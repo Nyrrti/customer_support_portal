@@ -1,7 +1,6 @@
 <script setup lang="ts">
     import LoginForm from './LoginForm.vue';
-    import RegisterSection from './RegisterSection.vue';
-
+    import RegisterPrompt from './RegisterPrompt.vue';
 </script>
 
 
@@ -17,7 +16,7 @@
                 <LoginForm />
             </div>
             
-            <RegisterSection />
+            <RegisterPrompt />
             
         </div>
         
@@ -30,11 +29,9 @@
         --login-padding: 3rem;
         --login-content-width: 28rem;
         
-
         min-height: 100%;
         display: flex;
         justify-content: center;
-        align-items: center;
         padding: var(--login-padding);
         background-color: var(--bg-color-secondary);
         background:
@@ -42,7 +39,7 @@
             135deg,
             var(--bg-color-secondary),
             color-mix(in srgb, var(--bg-color-secondary) 85%, rgb(92, 119, 153))
-        );
+        );   
     }
 
     .login-heading {
@@ -63,5 +60,16 @@
     .login-card,
     .register-card {
         width: 100%;
+    }
+
+    /* Very large Screens */
+    @media (min-width: 1600px) {
+        .login-section {
+            --login-padding: 4rem;
+        }
+        
+        .login-content {
+            margin-top: 1rem;
+        }
     }
 </style>

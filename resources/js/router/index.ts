@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../pages/LoginPage.vue';
+import DashboardPage from '../pages/DashboardPage.vue';
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -8,6 +9,11 @@ export const router = createRouter({
             path: '/',
             component: LoginPage,
             name: 'home',
+        },
+        {
+            path: '/logged',
+            component: DashboardPage,
+            name: 'dashboard',
         },
 
     ],

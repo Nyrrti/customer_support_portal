@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar-content">
-        <div>
+        <div class="mt-4">
             <h1 class="light">
                 Welcome to <span class="yellow">TicketyTicker</span>
             </h1>
@@ -54,7 +54,7 @@
 <style scoped>
     .sidebar-content {
         --sidebar-padding: 3rem;
-        --sidebar-gap: 1.5rem;
+        --sidebar-gap: 4.5rem;
         --feature-gap: 1rem;
         --feature-icon-size: 3rem;
 
@@ -62,7 +62,6 @@
         padding: var(--sidebar-padding);
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
         gap: var(--sidebar-gap);
         position: relative;
         overflow: hidden;

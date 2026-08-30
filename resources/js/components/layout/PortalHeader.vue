@@ -7,30 +7,19 @@
     <header class="portal-header">
         <div class="grid-container header-grid">
             <div class="col-12 d-flex justify-between items-center">
-                <a href="/" class="brand d-flex items-center">
+                <div class="brand-box">
                     <span class="brand-icon">
                         TT
                     </span>
                     >>
-                    <span class="brand-name">
+                    <RouterLink to="/" class="brand-name">
                         Tickety<span>Ticker</span>
-                    </span>
-                </a>
-                <nav>
-                    <ul class="d-flex items-center header-links">
-                        <li>
-                            <a href="/login">
-                                Login
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/register" class="btn">
-                                Register
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                    </RouterLink>
+                </div>
+                    
+                <div class="header-actions">
+                    <slot />
+                </div>
             </div>
         </div>
     </header>
@@ -55,6 +44,13 @@
 
     .header-grid {
         align-items: center;
+    }
+
+    .brand-box {
+        display: flex;
+        align-items: center;
+        gap: var(--brand-gap);
+        color: var(--font-color-light);
     }
 
     .brand {
@@ -83,14 +79,6 @@
 
     .brand-name span {
         color: var(--color-yellow);
-    }
-
-    .header-links {
-        gap: var(--header-gap);
-    }
-
-    .header-links a:not(.btn) {
-        font-size: var(--font-size-xs);
     }
 
     @media (max-width: 600px) {
