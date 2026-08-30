@@ -1,8 +1,8 @@
 <script setup lang="ts">
-
+    import HeaderSearch from '../components/layout/HeaderSearch.vue';
     import PortalHeader from '../components/layout/PortalHeader.vue';
-import PortalNavSidebar from '../components/layout/PortalNavSidebar.vue';
-
+    import PortalNavSidebar from '../components/layout/PortalNavSidebar.vue';
+    import UserProfileMenu from '../components/layout/UserProfileMenu.vue';
 </script>
 
 
@@ -11,7 +11,8 @@ import PortalNavSidebar from '../components/layout/PortalNavSidebar.vue';
     <div class="page-bg">
         <div class="portal">
             <portal-header>
-
+                <header-search />
+                <user-profile-menu />
             </portal-header>
             <main class="grid-container portal-content">
                 <aside class="portal-nav">
@@ -37,10 +38,12 @@ import PortalNavSidebar from '../components/layout/PortalNavSidebar.vue';
     }
 
     .portal {
-        --portal-max-width: 90rem;
-        --portal-shadow: 0 1rem 2.5rem rgba(15, 29, 51, 0.5);
+        --portal-max-width: 110rem;
+        --portal-shadow: 0 0.9rem 2rem rgba(15, 29, 51, 0.5);
 
         width: 100%;
+        max-width: var(--portal-max-width);
+        margin-inline: auto;
         max-width: var(--portal-max-width);
         border: 1px solid var(--bg-color-header);
         overflow: hidden;
@@ -60,4 +63,9 @@ import PortalNavSidebar from '../components/layout/PortalNavSidebar.vue';
         background-color: var(--bg-color-card);
     }
 
+    @media (min-width: 768px) {
+        .portal {
+            width: min(110rem, calc(100% - 2rem));
+        }
+    }
 </style>

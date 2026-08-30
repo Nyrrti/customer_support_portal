@@ -38,7 +38,7 @@ const tickets = [
 <template>
     <section class="overview-panel">
         <div class="overview-card">
-            <div class="overview-header">
+            <div class="overview-header py-3">
                 <div class="overview-title-group">
                     <div class="overview-icon">
                         T
@@ -97,7 +97,9 @@ const tickets = [
                                     {{ ticket.status }}
                                 </span>
                             </td>
-                            <td>{{ ticket.updated }}</td>
+                            <td class="updated">
+                                {{ ticket.updated }}
+                            </td>
                             <td>{{ ticket.assignedTo }}</td>
                              <td class="actions-cell">
                                 <button
@@ -159,11 +161,9 @@ const tickets = [
     .overview-icon {
         width: 2.5rem;
         height: 2.5rem;
-
         display: flex;
         justify-content: center;
         align-items: center;
-
         border-radius: 0.65rem;
         background-color: var(--color-blue);
         color: var(--font-color-light);
@@ -172,9 +172,12 @@ const tickets = [
 
     .overview-table-wrap {
         overflow-x: auto;
-
-        border: 1px solid var(--table-border);
         border-radius: 0.6rem;
+        border: 1px solid color-mix(
+            in srgb,
+            var(--table-border) 85%,
+            transparent
+        );
     }
 
     .title-bold {
@@ -184,38 +187,37 @@ const tickets = [
     .ticket-table {
         width: 100%;
         border-collapse: collapse;
-
         background-color: var(--table-bg);
     }
 
     .ticket-table thead {
         background-color: color-mix(
             in srgb,
-            var(--table-bg) 95%,
+            var(--table-bg) 97%,
             var(--font-color-medium-dark)
         );
     }
 
     .ticket-table th {
-        padding: 0.9rem 0.75rem;
-
+        padding: 1rem 0.75rem;
         text-align: left;
-
         color: var(--table-text-muted);
         font-size: var(--font-size-xxs);
-        font-weight: 600;
-
+        font-weight: 500;
         border-bottom: 1px solid var(--table-border);
     }
 
     .ticket-table td {
         padding: 1rem 0.75rem;
-
         color: var(--table-text);
         font-size: var(--font-size-xs);
-
         background-color: transparent;
         border-bottom: 1px solid var(--table-border);
+    }
+
+    .ticket-table td.updated {
+        color: var(--font-color-medium-dark);
+        font-size: var(--font-size-xxs);
     }
 
     .ticket-table tbody tr:last-child td {
@@ -229,7 +231,7 @@ const tickets = [
     .ticket-table tbody tr:nth-child(even) {
         background-color: color-mix(
             in srgb,
-            var(--table-bg) 96%,
+            var(--table-bg) 98%,
             var(--color-grey)
         );
     }
@@ -249,13 +251,27 @@ const tickets = [
     }
 
     .pill.category {
-        background-color: color-mix(in srgb, var(--color-blue) 18%, white);
-        color: var(--color-blue);
+        background-color: color-mix(
+            in srgb,
+            var(--bg-color-card) 85%,
+            var(--color-blue)
+        );
+
+        color: color-mix(
+            in srgb,
+            var(--font-color-dark) 30%,
+            var(--color-blue)
+        );
     }
 
     .pill.status {
-        background-color: color-mix(in srgb, #6ccf8d 18%, white);
-        color: #3b8f59;
+        background-color: color-mix(
+            in srgb,
+            var(--bg-color-card) 84%,
+            #6ccf8d
+        );
+
+        color: #4d7f5f;
     }
 
     .overview-footer {
@@ -273,20 +289,15 @@ const tickets = [
     .actions-button {
         width: 2rem;
         height: 2rem;
-
         display: inline-flex;
         align-items: center;
         justify-content: center;
-
         padding: 0;
-
         background: transparent;
         border: 0;
         border-radius: 0.4rem;
-
         color: var(--font-color-medium-dark);
         font-size: var(--font-size-lg);
-
         cursor: pointer;
     }
 

@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import TicketOverview from '../components/TicketOverview.vue';
-import LoggedInLayout from '../layouts/LoggedInLayout.vue';
-
-
-
-
+    import TicketOverview from '../components/TicketOverview.vue';
+    import LoggedInLayout from '../layouts/LoggedInLayout.vue';
 </script>
 
 

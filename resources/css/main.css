@@ -6,7 +6,7 @@
     --bg-color-secondary: #dde1e8;
     --bg-color-body: #485463;
     --bg-color-nav:  #0e2650b3;
-    --bg-color-header: #152d54;
+    --bg-color-header: #152f59;
     --bg-color-sidebar: #243b62;
  
     --color-yellow:#eeae40;
@@ -28,15 +28,15 @@
     --table-text-muted: var(--font-color-medium-dark);
     --table-accent: var(--color-blue);
     --table-accent-secondary: var(--color-purple);
-    --table-border: #c9d2dd;
-    --table-row-hover: #cfd7e8;
+    --table-border: #cfd8e3;
+    --table-row-hover: #dae0ec;
 
     --font-color-nav: #F1F5F9;
     --font-color-light: #e6ecf5;
     --font-color-dark: #11192e;
     --font-color-medium: #7a8da6;
     --font-color-medium-light: #95aac5;
-    --font-color-medium-dark: #445165;
+    --font-color-medium-dark: #48566b;
     --font-color-title-light: #fff1b2;
     --font-color-title-dark: #1e3c7a;
 

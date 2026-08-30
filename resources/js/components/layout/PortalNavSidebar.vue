@@ -100,6 +100,26 @@
     flex-direction: column;
     padding: var(--nav-padding);
     background-color: var(--bg-color-sidebar);
+    background:
+        radial-gradient(
+            ellipse 250% 60% at -10% -10% in oklab,
+            rgba(37, 80, 146, 1) 12%,
+            rgba(49, 66, 148, 0.95) 26%,
+            rgba(66, 50, 144, 0.85) 42%,
+            rgba(66, 50, 144, 0.35) 60%,
+            rgba(66, 50, 144, 0) 76%
+        ),
+
+        radial-gradient(
+            ellipse 250% 40% at 115% 108% in oklab,
+            rgba(3, 135, 145, 0.42) 0%,
+            rgba(4, 117, 143, 0.38) 20%,
+            rgba(12, 96, 140, 0.35) 40%,
+            rgba(37, 80, 146, 0.2) 58%,
+            rgba(37, 80, 146, 0) 76%
+        ),
+
+        var(--bg-color-sidebar);
 }
 
     .nav-list {
@@ -141,7 +161,7 @@
         background-color:
             color-mix(
                 in srgb,
-                var(--bg-color-sidebar) 70%,
+                var(--bg-color-sidebar) 60%,
                 var(--color-blue)
             );
         color: var(--font-color-light);

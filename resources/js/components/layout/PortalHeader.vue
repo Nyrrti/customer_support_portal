@@ -6,8 +6,8 @@
 <template>
     <header class="portal-header">
         <div class="grid-container header-grid">
-            <div class="col-12 d-flex justify-between items-center">
-                <div class="brand-box">
+            <div class="row">
+                <div class="col-12 col-lg-3 brand-box">
                     <span class="brand-icon">
                         TT
                     </span>
@@ -15,9 +15,8 @@
                     <RouterLink to="/" class="brand-name">
                         Tickety<span>Ticker</span>
                     </RouterLink>
-                </div>
-                    
-                <div class="header-actions">
+                </div>  
+                <div class="col-12 col-lg-9 header-actions">
                     <slot />
                 </div>
             </div>
@@ -28,7 +27,7 @@
 <style scoped>
 
     .portal-header {
-        --header-height: 5rem;
+        --header-height: 5.25rem;
         --header-padding-x: 2rem;
         --header-gap: 2rem;
         --brand-gap: 0.75rem;
@@ -46,11 +45,18 @@
         align-items: center;
     }
 
+    .header-actions {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        gap: 1rem;
+    }
+
     .brand-box {
         display: flex;
         align-items: center;
         gap: var(--brand-gap);
-        color: var(--font-color-light);
+        color: var(--color-blue);
     }
 
     .brand {
@@ -63,9 +69,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--color-blue);
+        background-color: transparent;
         color: var(--font-color-light);
-        border-radius: 0.35rem;
+        border: 5px solid var(--color-blue);
+        border-radius: 0.3rem;
         font-size: var(--font-size-caption);
         font-weight: 700;
     }
