@@ -3,6 +3,7 @@
 :root {
     --bg-color-white: #fff;
     --bg-color-card: #e4e6eb;
+    --bg-color-card-dark: #cbd4e1;
     --bg-color-secondary: #dde1e8;
     --bg-color-body: #485463;
     --bg-color-nav:  #0e2650b3;
@@ -33,7 +34,7 @@
 
     --font-color-nav: #F1F5F9;
     --font-color-light: #e6ecf5;
-    --font-color-dark: #11192e;
+    --font-color-dark: #151e35;
     --font-color-medium: #7a8da6;
     --font-color-medium-light: #95aac5;
     --font-color-medium-dark: #48566b;
