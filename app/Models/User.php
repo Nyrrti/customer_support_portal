@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(["name", "email", "password", "is_admin"])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,5 +29,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get created tickets of user
+     */
+    public function createdTickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class, "created_by_id");
+    }
+
+    /**
+     * Get assigned tickets of user
+     */
+    public function assignedTickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class, "assigned_to_id");
     }
 }
