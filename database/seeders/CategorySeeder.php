@@ -13,8 +13,19 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()
-        ->count(6)
-        ->create();
+        $categories = [
+            "Account Access",
+            "Payments",
+            "Feature Request",
+            "Technical",
+            "Billing",
+            "General",
+        ];
+
+        foreach ($categories as $category) {
+            Category::create([
+                "title" => $category,
+            ]);
+        }
     }
 }

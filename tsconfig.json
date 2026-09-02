@@ -19,5 +19,5 @@
         "jsx": "preserve",
         "resolveJsonModule": true
     },
-    "include": ["resources/js/**/*"]
+    "include": ["resources/js/**/*", "resources/js/components/TicketOverview.vue", "resources/domains/tickets/pages/TicketShowPage.vue", "resources/domains/tickets/components/TicketDetails.vue"]
 }

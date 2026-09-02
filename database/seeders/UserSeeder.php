@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ticket;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -15,6 +16,11 @@ class UserSeeder extends Seeder
     {
         User::factory()
         ->count(6)
+        ->create(); 
+
+        User::factory()
+        ->count(4)
+        ->admin()
         ->create();
     }
 }

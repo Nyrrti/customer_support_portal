@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Model>
+ * 
  */
 class CategoryFactory extends Factory
 {
@@ -18,14 +17,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            "title" => fake()->randomElement([
-            "Account Access",
-            "Payments",
-            "Feature Request",
-            "Technical",
-            "Billing",
-            "General",
-            ]),
+            //
         ];
     }
 }

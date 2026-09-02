@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import TicketDetails from '../components/ticket/TicketDetails.vue';
-    import LoggedInLayout from '../layouts/LoggedInLayout.vue';
+    import TicketDetails from '../components/TicketDetails.vue';
+    import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
 
     const ticket = {
         id: 1008,
