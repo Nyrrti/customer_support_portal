@@ -26,6 +26,7 @@
 
     --table-bg: var(--bg-color-card);
     --table-text: var(--font-color-dark);
+    --table-link: var(--font-color-title-dark);
     --table-text-muted: var(--font-color-medium-dark);
     --table-accent: var(--color-blue);
     --table-accent-secondary: var(--color-purple);
@@ -39,7 +40,7 @@
     --font-color-medium-light: #95aac5;
     --font-color-medium-dark: #48566b;
     --font-color-title-light: #fff1b2;
-    --font-color-title-dark: #1e3c7a;
+    --font-color-title-dark: #2700a5;
 
     --font-size-caption: 0.75rem;
     --font-size-xxs: 0.85rem;

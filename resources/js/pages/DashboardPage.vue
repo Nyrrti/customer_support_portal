@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import TicketOverview from '../components/TicketOverview.vue';
+    import TicketsOverview from '../../domains/tickets/components/TicketsOverview.vue';
     import LoggedInLayout from '../layouts/LoggedInLayout.vue';
 </script>
 
@@ -8,7 +8,7 @@
 
     <LoggedInLayout>
         <div class="dashboard-bg">
-            <TicketOverview />
+            <TicketsOverview />
         </div>
     </LoggedInLayout>
 

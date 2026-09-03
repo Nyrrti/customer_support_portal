@@ -1,38 +1,18 @@
 <script setup lang="ts">
-const tickets = [
-    {
-        id: '#1008',
-        subject: 'Unable to login',
-        category: 'Account Access',
-        status: 'Open',
-        updated: '5m ago',
-        assignedTo: 'Olivia Rhye',
-    },
-    {
-        id: '#1007',
-        subject: 'Payment not going through',
-        category: 'Payments',
-        status: 'In Progress',
-        updated: '15m ago',
-        assignedTo: 'Liam Steiner',
-    },
-    {
-        id: '#1006',
-        subject: 'Feature request: Dark mode',
-        category: 'Feature Request',
-        status: 'Pending',
-        updated: '1h ago',
-        assignedTo: 'Demi Wilkinson',
-    },
-    {
-        id: '#1005',
-        subject: 'How to export reports?',
-        category: 'Reports',
-        status: 'Open',
-        updated: '2h ago',
-        assignedTo: 'Candice Wu',
-    },
-];
+    import { onMounted } from 'vue';
+    import { fetchTickets, getAllTickets } from '../ticketstore';
+
+    function formatDate(date: string): string {
+        const formatted = new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        }).format(new Date(date))
+
+        return formatted.replace(/\//g, '-')
+    }
+
+    fetchTickets();
 </script>
 
 <template>
@@ -49,9 +29,9 @@ const tickets = [
                     </h3>
                 </div>
                 <div class="d-flex gap-1">
-                    <button class="btn ticket">
-                       + Create Ticket
-                    </button>
+                    <RouterLink :to="{name: 'tickets.create'}" class="btn ticket">
+                        + New Ticket
+                    </RouterLink>
                     <button class="btn filter">
                     &#9947; Filter
                     </button>
@@ -82,14 +62,18 @@ const tickets = [
                     </thead>
 
                     <tbody>
-                        <tr v-for="ticket in tickets" :key="ticket.id">
+                        <tr v-for="ticket in getAllTickets" :key="ticket.id">
                             <td class="title-bold">
-                                {{ ticket.id }}
+                                #{{ ticket.id }}
                             </td>
-                            <td>{{ ticket.subject }}</td>
+                            <td>
+                                
+                                {{ ticket.subject }}
+                                
+                            </td>
                             <td>
                                 <span class="pill category">
-                                    {{ ticket.category }}
+                                    {{ ticket.category.title }}
                                 </span>
                             </td>
                             <td>
@@ -98,9 +82,11 @@ const tickets = [
                                 </span>
                             </td>
                             <td class="updated">
-                                {{ ticket.updated }}
+                                {{ formatDate(ticket.updated_at) }}
                             </td>
-                            <td>{{ ticket.assignedTo }}</td>
+                            <td>
+                                {{ ticket.assigned_to?.name }}
+                            </td>
                              <td class="actions-cell">
                                 <button
                                     class="actions-button"
@@ -182,6 +168,15 @@ const tickets = [
 
     .title-bold {
         font-weight: 500;
+    }
+
+    .ticket-link {
+        color: var(--table-link);
+        font-size: var(--font-size-xs);
+    }
+
+    .ticket-link:hover {
+        text-decoration: underline;
     }
 
     .ticket-table {

@@ -14,6 +14,7 @@
     defineProps<{
         ticket: Ticket;
     }>();
+    
 </script>
 
 <template>
