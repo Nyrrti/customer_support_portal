@@ -4,11 +4,7 @@ import Create from "./pages/Create.vue"
 import TicketsOverview from "./components/TicketsOverview.vue";
 
 export const ticketRoutes: RouteRecordRaw[] = [
-    {
-        path: "/tickets",
-        component: TicketsOverview,
-        name: "tickets",
-    },
+    
     {
         path: "/tickets/:id",
         component: TicketDetailPage,
@@ -17,6 +13,6 @@ export const ticketRoutes: RouteRecordRaw[] = [
     {
         path: "/tickets/create",
         component: Create,
-        name: "tickets.create",
+        name: "create",
     },
 ]

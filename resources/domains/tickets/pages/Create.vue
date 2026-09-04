@@ -1,9 +1,10 @@
 <script setup lang="ts">
     import { ref } from 'vue';
-
     import Form from '../components/Form.vue';
-    import { createTicket } from '../ticketstore.js';
+    import { ticketStore } from '../store.js';
     import { useRouter } from 'vue-router';
+    import type { CreateTicket } from '../types.js';
+import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
 
     const router = useRouter();
 
@@ -12,19 +13,20 @@
         description: '',
     });
 
-    const handleSubmit = async (data) => {
-        await createTicket(data);
-        router.push({name: 'tickets.overview'});
+    const handleSubmit = async (data: CreateTicket) => {
+        await ticketStore.actions.create(data);
+        router.push({name: 'tickets'});
     };
 </script>
 
 <template>
-    <div class="dashboard-bg">
-        <h2>
-            Create new ticket
-        </h2>
-        <Form :ticket="ticket" @submit="handleSubmit" />
-    </div>
+    <LoggedInLayout>
+        <div class="dashboard-bg">
+            <div class="form-wrapper py-3">
+                <Form :ticket="ticket" @submit="handleSubmit" />
+            </div>
+        </div>
+    </LoggedInLayout>
 </template>
 
 <style scoped>
@@ -41,4 +43,8 @@
         );
     }
 
+    .form-wrapper {
+        max-width: 34rem;
+        margin: 0 auto;
+    }
 </style>

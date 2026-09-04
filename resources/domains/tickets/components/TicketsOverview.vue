@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import { onMounted } from 'vue';
-    import { fetchTickets, getAllTickets } from '../ticketstore';
+    import { onMounted, computed } from 'vue';
+    import { ticketStore } from '../store';
 
     function formatDate(date: string): string {
         const formatted = new Intl.DateTimeFormat('en-GB', {
@@ -12,7 +12,16 @@
         return formatted.replace(/\//g, '-')
     }
 
-    fetchTickets();
+    // Read the state
+    const tickets = computed(() =>
+        Object.values(ticketStore.getters.all.value)
+    );
+
+    onMounted(async () => {
+        // Fetch tickets and put them into state
+        await ticketStore.actions.getAll();
+    });
+    
 </script>
 
 <template>
@@ -23,13 +32,12 @@
                     <div class="overview-icon">
                         T
                     </div>
-
                     <h3>
                         Ticket Overview
                     </h3>
                 </div>
                 <div class="d-flex gap-1">
-                    <RouterLink :to="{name: 'tickets.create'}" class="btn ticket">
+                    <RouterLink :to="{name: 'create'}" class="btn ticket">
                         + New Ticket
                     </RouterLink>
                     <button class="btn filter">
@@ -44,9 +52,9 @@
                             <col class="table-w-8">
                             <col class="">
                             <col class="table-w-15">
-                            <col class="table-w-15">
                             <col class="table-w-12">
-                            <col class="table-w-15">
+                            <col class="table-w-12">
+                            <col class="table-w-18">
                             <col class="table-w-5">
                         </colgroup>
                     <thead>
@@ -62,7 +70,7 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="ticket in getAllTickets" :key="ticket.id">
+                        <tr v-for="ticket in tickets" :key="ticket.id">
                             <td class="title-bold">
                                 #{{ ticket.id }}
                             </td>
@@ -73,7 +81,7 @@
                             </td>
                             <td>
                                 <span class="pill category">
-                                    {{ ticket.category.title }}
+                                    {{ ticket.category?.title }}
                                 </span>
                             </td>
                             <td>

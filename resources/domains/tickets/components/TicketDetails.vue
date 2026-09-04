@@ -19,8 +19,8 @@
 
 <template>
     <div class="ticket-nav">
-        <RouterLink to="/">
-            Tickets 
+        <RouterLink :to="{ name: 'dashboard' }">
+            Tickets
         </RouterLink>
         > #1008
     </div>
@@ -87,10 +87,6 @@
     .ticket-nav {
         padding: 0.75rem 0.5rem;
         color: var(--font-color-medium-dark);
-    }
-
-    .ticket-nav a {
-        color: var(--color-blue);
     }
 
     .ticket-nav:hover a {
