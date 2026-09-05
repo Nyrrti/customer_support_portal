@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { onMounted, computed } from 'vue';
     import { ticketStore } from '../store';
+    import type { Ticket } from '../types';
 
     function formatDate(date: string): string {
         const formatted = new Intl.DateTimeFormat('en-GB', {
@@ -13,7 +14,7 @@
     }
 
     // Read the state
-    const tickets = computed(() =>
+    const tickets = computed<Ticket[]>(() =>
         Object.values(ticketStore.getters.all.value)
     );
 
@@ -93,7 +94,7 @@
                                 {{ formatDate(ticket.updated_at) }}
                             </td>
                             <td>
-                                {{ ticket.assigned_to?.name }}
+                                {{ ticket.assigned_to?.name ?? "Not assigned yet" }}
                             </td>
                              <td class="actions-cell">
                                 <button

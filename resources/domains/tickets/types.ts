@@ -1,4 +1,5 @@
-    
+    import type { Category } from "../categories/types";
+
     export interface Ticket {
         id: number
         subject: string
@@ -17,7 +18,7 @@
     export interface CreateTicket {
         subject: string
         description: string
-        category_id: number
+        category_id: number | null;
     }
 
     export interface UpdateTicket {
@@ -26,11 +27,6 @@
         status?: string
         assigned_to_id?: number | null
         category_id?: number
-    }
-
-    export interface Category {
-        id: number
-        title: string
     }
 
     export interface User {

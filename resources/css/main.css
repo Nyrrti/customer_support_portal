@@ -35,7 +35,7 @@
 
     --font-color-nav: #F1F5F9;
     --font-color-light: #e6ecf5;
-    --font-color-dark: #151e35;
+    --font-color-dark: #1b243b;
     --font-color-medium: #7a8da6;
     --font-color-medium-light: #95aac5;
     --font-color-medium-dark: #48566b;
@@ -274,11 +274,12 @@ label {
 
 input, textarea, select {
     font-size: var(--font-size-xxs);
-    padding: 0.5rem;
+    padding: 0.75rem;
+    color: var(--font-color-dark);
 }
 
 input {
-    background-color: var(--bg-color-primary);
+    background-color: var(--bg-color-card);
     border: 1px solid var(--border-input);
 }
 
@@ -286,14 +287,14 @@ textarea {
     min-height: 6rem;
     max-height: 20rem;
     resize: vertical;
-    background-color: var(--bg-color-primary);
+    background-color: var(--bg-color-card);
     line-height: 1.35rem;
     border: 1px solid var(--border-input-light);
 }
 
 select {
-    background-color: var(--bg-color-primary);
-    border: 1px solid var(--color-grey);
+    background-color: var(--bg-color-card);
+    border: 1px solid var(--border-input-light);
 }
 
 table {

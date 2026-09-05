@@ -20,9 +20,23 @@ class TicketController extends Controller
     }
 
     public function store(StoreTicketRequest $request) {
-        $ticket = Ticket::create($request->validated()); 
+        $data = $request->validated();
+        
+        
+        // Add logged-in user id
+        // $data["created_by_id"] = $request->user()->id;
+        // TEMP
+        $data["created_by_id"] = 1;
 
-        $tickets = Ticket::all();
+        // Create ticket with form data + creator id
+        Ticket::create($data);
+
+        $tickets = Ticket::with([
+            "createdBy",
+            "assignedTo",
+            "category",
+        ])->get();
+
         return TicketResource::collection($tickets);
     }
 }

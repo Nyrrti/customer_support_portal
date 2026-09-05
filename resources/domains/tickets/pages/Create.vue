@@ -1,29 +1,40 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, onMounted, computed } from 'vue';
     import Form from '../components/Form.vue';
     import { ticketStore } from '../store.js';
+    import { categoryStore } from "../../categories/store.js"
     import { useRouter } from 'vue-router';
     import type { CreateTicket } from '../types.js';
-import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
+    import type { Category } from '../../categories/types.js';
+    import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
 
     const router = useRouter();
+    
+    const createTicket = async (data: CreateTicket) => {
+        await ticketStore.actions.create(data);
+        router.push({name: 'dashboard'});
+    };
 
-    const ticket = ref({
-        subject: '',
-        description: '',
+    // Read the state
+    const categories = computed<Category[]>(() =>
+        Object.values(categoryStore.getters.all.value)
+    );
+
+    onMounted(async () => {
+        // Fetch categories and put them into state
+        await categoryStore.actions.getAll();
+
+        console.log("store:", categoryStore.getters.all.value);
+        console.log("array:", Object.values(categoryStore.getters.all.value));
     });
 
-    const handleSubmit = async (data: CreateTicket) => {
-        await ticketStore.actions.create(data);
-        router.push({name: 'tickets'});
-    };
 </script>
 
 <template>
     <LoggedInLayout>
         <div class="dashboard-bg">
             <div class="form-wrapper py-3">
-                <Form :ticket="ticket" @submit="handleSubmit" />
+                <Form :categories="categories" @submit="createTicket" />
             </div>
         </div>
     </LoggedInLayout>

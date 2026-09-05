@@ -25,6 +25,7 @@ class StoreTicketRequest extends FormRequest
         return [
             "subject" => "required|string|max:255",
             "description" => "required|string",
+            "category_id" => "required|integer|exists:categories,id",
         ];
     }
 }
