@@ -10,5 +10,5 @@ Route::get('/{any}', function () {
 
 Route::post("/login", [AuthController::class, "login"]);
 
-Route::get('/', [AuthController::class, 'logout'])
+Route::post("/logout", [AuthController::class, "logout"])
     ->middleware('auth:sanctum');

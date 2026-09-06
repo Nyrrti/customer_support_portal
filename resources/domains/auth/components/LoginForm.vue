@@ -2,7 +2,9 @@
     import { ref, onMounted } from 'vue';
     import axios from 'axios';
     import type { User } from "../types";
+    import { useRouter } from 'vue-router';
 
+    const router = useRouter();
     const email = ref('');
     const password = ref('');
     const remember = ref(false);
@@ -22,6 +24,7 @@
             });
 
             await getUser();
+            await router.push('/tickets');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response?.status === 422) {
@@ -57,9 +60,10 @@
      */
     async function logout() {
         try {
-            await axios.get("/");
+            await axios.post("/logout");
             console.log("Logout successful");
             user.value = null;
+            await router.push('/');
         } catch (error) {
             console.error("Logout failed:", error);
         }

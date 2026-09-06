@@ -23,11 +23,7 @@
     onMounted(async () => {
         // Fetch categories and put them into state
         await categoryStore.actions.getAll();
-
-        console.log("store:", categoryStore.getters.all.value);
-        console.log("array:", Object.values(categoryStore.getters.all.value));
     });
-
 </script>
 
 <template>
