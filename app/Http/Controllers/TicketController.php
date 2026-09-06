@@ -27,6 +27,7 @@ class TicketController extends Controller
         // $data["created_by_id"] = $request->user()->id;
         // TEMP
         $data["created_by_id"] = 1;
+        $data["status"] = "Open";
 
         // Create ticket with form data + creator id
         Ticket::create($data);

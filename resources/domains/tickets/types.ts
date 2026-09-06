@@ -1,4 +1,5 @@
     import type { Category } from "../categories/types";
+    import type { User } from "../auth/types"
 
     export interface Ticket {
         id: number
@@ -27,9 +28,4 @@
         status?: string
         assigned_to_id?: number | null
         category_id?: number
-    }
-
-    export interface User {
-        id: number
-        name: string
     }
