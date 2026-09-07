@@ -18,12 +18,12 @@
         try {
             await axios.get("/sanctum/csrf-cookie");
 
-            const response = await axios.post("/login", {
+            const response = await axios.post("/api/login", {
                 email: email.value,
                 password: password.value,
             });
 
-            await getUser();
+            // await getUser();
             await router.push('/tickets');
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -59,14 +59,13 @@
      * Logout
      */
     async function logout() {
-        try {
-            await axios.post("/logout");
-            console.log("Logout successful");
-            user.value = null;
-            await router.push('/');
-        } catch (error) {
-            console.error("Logout failed:", error);
-        }
+        axios.get("/api/logout")
+            .then(function(response){
+                window.location.href = "/";
+            })
+            .catch(function(error){
+                console.error("Logout failed:", error); 
+            })
     }
 
     onMounted(() => {
