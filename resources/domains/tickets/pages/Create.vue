@@ -1,18 +1,18 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from 'vue';
-    import Form from '../components/Form.vue';
-    import { ticketStore } from '../store.js';
+    import { ref, onMounted, computed } from "vue";
+    import Form from "../components/Form.vue";
+    import { ticketStore } from "../store.js";
     import { categoryStore } from "../../categories/store.js"
-    import { useRouter } from 'vue-router';
-    import type { CreateTicket } from '../types.js';
-    import type { Category } from '../../categories/types.js';
-    import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
+    import { useRouter } from "vue-router";
+    import type { CreateTicket } from "../types.js";
+    import type { Category } from "../../categories/types.js";
+    import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
 
     const router = useRouter();
     
     const createTicket = async (data: CreateTicket) => {
         await ticketStore.actions.create(data);
-        router.push({name: 'dashboard'});
+        router.push({name: "dashboard"});
     };
 
     // Read the state
@@ -30,7 +30,7 @@
     <LoggedInLayout>
         <div class="dashboard-bg">
             <div class="form-wrapper py-3">
-                <Form :categories="categories" @submit="createTicket" />
+                <Form :categories="categories" @submit="createTicket" mode="create"/>
             </div>
         </div>
     </LoggedInLayout>

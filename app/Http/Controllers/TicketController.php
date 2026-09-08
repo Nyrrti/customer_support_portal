@@ -19,14 +19,14 @@ class TicketController extends Controller
         return TicketResource::collection($tickets);
     }
 
+    // CREATE
     public function store(StoreTicketRequest $request) {
+        $this->authorize('create', Ticket::class);
+
         $data = $request->validated();
         
-        
         // Add logged-in user id
-        // $data["created_by_id"] = $request->user()->id;
-        // TEMP
-        $data["created_by_id"] = 1;
+        $data["created_by_id"] = $request->user()->id;
         $data["status"] = "Open";
 
         // Create ticket with form data + creator id
@@ -38,6 +38,24 @@ class TicketController extends Controller
             "category",
         ])->get();
 
+        return TicketResource::collection($tickets);
+    }
+
+    // VIEW
+    public function show(Ticket $ticket)
+    {
+        $this->authorize('view', $ticket);
+        return $ticket->load([
+            "createdBy",
+            "assignedTo",
+            "category",
+        ]);
+    }
+
+    public function update(StoreTicketRequest $request, Ticket $ticket) {
+        $ticket->update($request->validated());
+        
+        $tickets = Ticket::all();
         return TicketResource::collection($tickets);
     }
 }

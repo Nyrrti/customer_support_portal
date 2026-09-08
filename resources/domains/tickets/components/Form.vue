@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CreateTicket } from '../types';
 import type { Category } from '../../categories/types';
+import type { CreateTicket, Ticket, UpdateTicket } from '../types';
+
 
     const props = defineProps<{
         categories: Category[];
+        mode: "create" | "edit"
+        ticket?: Ticket;
     }>();
     
     const ticket = ref<CreateTicket>({
-        subject: "",
-        description: "",
-        category_id: null,
+        subject: props.ticket?.subject ?? "",
+        description: props.ticket?.description ?? "",
+        category_id: props.ticket?.category_id ?? null,
     });
 
     /**
@@ -22,7 +25,7 @@ import type { Category } from '../../categories/types';
      * The "submit" event must include one CreateTicket object.
      */
     const emit = defineEmits<{
-        submit: [ticket: CreateTicket]
+        submit: [ticket: CreateTicket | UpdateTicket]
     }>();
 
     /**
@@ -44,7 +47,7 @@ import type { Category } from '../../categories/types';
             Tickets 
         </RouterLink>
         <span>
-            > Create new Ticket
+            > {{ mode === "create" ? "Create new Ticket" : "Edit Ticket" }}
         </span>
     </div>
     <form class="ticket-form-bg"  @submit.prevent="submitForm">
@@ -64,7 +67,7 @@ import type { Category } from '../../categories/types';
                     </svg>
                 </div>
                 <h5>
-                    Create new ticket
+                    {{ mode === "create" ? "Create new Ticket" : "Edit Ticket" }}
                 </h5>
             </div>
             <RouterLink
@@ -121,7 +124,7 @@ import type { Category } from '../../categories/types';
         </div>
         <div class="ticket-form-footer p-4">
             <button class="btn create" type="submit">
-                Create Ticket
+                {{ mode === "create" ? "Create Ticket" : "Edit Ticket" }}
             </button>
         </div>
     </form>

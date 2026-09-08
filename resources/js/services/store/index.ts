@@ -35,8 +35,8 @@ export const storeModuleFactory = (moduleName: string) => {
             }
         },
         // Remove the item stored under this key/id.
-        deleteByItem: (item) => {
-            delete state.value[item];
+        deleteByItem: (id) => {
+            delete state.value[id];
         }
     };
 

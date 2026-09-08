@@ -18,5 +18,8 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get("/categories", [CategoryController::class, "index"]);
 
     Route::get("/tickets", [TicketController::class, "index"]);
+    Route::get("/tickets/{ticket}", [TicketController::class, "show"]); 
+    Route::put("/tickets/{ticket}", [TicketController::class, "update"]);
     Route::post("/tickets", [TicketController::class, "store"]);
+    
 });

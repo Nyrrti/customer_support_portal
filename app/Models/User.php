@@ -46,4 +46,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class, "assigned_to_id");
     }
+
+    /**
+     * Check user role
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
 }

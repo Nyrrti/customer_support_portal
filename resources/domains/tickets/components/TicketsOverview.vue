@@ -1,16 +1,28 @@
 <script setup lang="ts">
-    import { onMounted, computed } from 'vue';
-    import { ticketStore } from '../store';
-    import type { Ticket } from '../types';
+    import { onMounted, computed } from "vue";
+    import { useRouter } from "vue-router"
+    import { ticketStore } from "../store";
+    import type { Ticket } from "../types";
+
+    const router = useRouter()
+
+    function openTicket(ticket: Ticket) {
+        router.push({
+            name: "ticket-detail",
+            params: {
+                id: ticket.id,
+            },
+        })
+    }
 
     function formatDate(date: string): string {
-        const formatted = new Intl.DateTimeFormat('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
+        const formatted = new Intl.DateTimeFormat("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
         }).format(new Date(date))
 
-        return formatted.replace(/\//g, '-')
+        return formatted.replace(/\//g, "-")
     }
 
     // Read the state
@@ -21,8 +33,7 @@
     onMounted(async () => {
         // Fetch tickets and put them into state
         await ticketStore.actions.getAll();
-    });
-    
+    }); 
 </script>
 
 <template>
@@ -71,7 +82,11 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="ticket in tickets" :key="ticket.id">
+                        <tr v-for="ticket in tickets" 
+                            :key="ticket.id"
+                            @click="openTicket(ticket)"
+                            class="cursor-pointer"
+                        >
                             <td class="title-bold">
                                 #{{ ticket.id }}
                             </td>

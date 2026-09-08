@@ -1,85 +1,113 @@
 <script setup lang="ts">
-    interface Ticket {
-        id: number;
-        subject: string;
-        category: string;
-        status: string;
-        createdBy: string;
-        createdAt: string;
-        updatedAt: string;
-        assignedTo: string | null;
-        description: string;
+    import { onMounted, ref } from "vue"
+    import { useRoute } from "vue-router"
+    import axios from "axios"
+
+    const route = useRoute();
+    const loading = ref(true);
+    const error = ref(null);
+
+    const ticket = ref(null);
+    
+    function formatDate(date: string): string {
+        const formatted = new Intl.DateTimeFormat("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        }).format(new Date(date))
+
+        return formatted.replace(/\//g, "-")
     }
 
-    defineProps<{
-        ticket: Ticket;
-    }>();
+    async function fetchTicket() {
+        loading.value = true
+
+        try {
+            const response = await axios.get(`/api/tickets/${route.params.id}`)
+
+            ticket.value = response.data
+        } catch (error) {
+            error.value = "Could not load the ticket."
+        } finally {
+            loading.value = false
+        }
+    }
     
+    onMounted(fetchTicket);
+
 </script>
 
 <template>
-    <div class="ticket-nav">
-        <RouterLink :to="{ name: 'dashboard' }">
-            Tickets
-        </RouterLink>
-        > #1008
+    <div v-if="loading">
+        Loading ticket...
     </div>
-    <section class="ticket-summary">
-        
-        <header class="ticket-summary-header">
-            <div class="ticket-summary-number">
-                <div class="ticket-number">
-                    <span>Ticket</span>
-                    <strong>#{{ ticket.id }}</strong>
-                </div>
-            </div>
-
-            <div class="ticket-summary-subject">
-                <h1>{{ ticket.subject }}</h1>
-
-                <span class="badge status">
-                    {{ ticket.status }}
-                </span>
-            </div>
-
-            <button type="button" class="btn">
-                > Edit ticket
-            </button>
-        </header>
-
-        <dl class="ticket-summary-meta">
-
-            <div class="meta-item">
-                <dt>Category</dt>
-                <dd>{{ ticket.category }}</dd>
-            </div>
-
-            <div class="meta-item">
-                <dt>Created by</dt>
-                <dd>{{ ticket.createdBy }}</dd>
-            </div>
-
-            <div class="meta-item">
-                <dt>Created</dt>
-                <dd>{{ ticket.createdAt }}</dd>
-            </div>
-
-            <div class="meta-item">
-                <dt>Last updated</dt>
-                <dd>{{ ticket.updatedAt }}</dd>
-            </div>
-
-            <div class="meta-item">
-                <dt>Assigned to</dt>
-                <dd>{{ ticket.assignedTo ?? "Unassigned" }}</dd>
-            </div>
-        </dl>
-
-        <div class="ticket-summary-description">
-            <h2>Description</h2>
-            <p>{{ ticket.description }}</p>
+    <div v-else-if="error">
+        {{ error }}
+    </div>
+    <div v-else-if="ticket">
+        <div class="ticket-nav">
+            <RouterLink :to="{ name: 'dashboard' }">
+                Tickets
+            </RouterLink>
+            > #{{ String(ticket.id).padStart(4, '0') }}
         </div>
-    </section>
+        <section class="ticket-summary">
+            
+            <header class="ticket-summary-header">
+                <div class="ticket-summary-number">
+                    <div class="ticket-number">
+                        <span>Ticket</span>
+                        <strong>#{{ ticket.id }}</strong>
+                    </div>
+                </div>
+
+                <div class="ticket-summary-subject">
+                    <h1>{{ ticket.subject }}</h1>
+
+                    <span class="badge status">
+                        {{ ticket.status }}
+                    </span>
+                </div>
+
+                <RouterLink :to="{ name: 'edit', params: { id: ticket.id } }" class="btn edit">
+                   > Edit Ticket
+                </RouterLink>
+            </header>
+
+            <dl class="ticket-summary-meta">
+
+                <div class="meta-item">
+                    <dt>Category</dt>
+                    <dd>{{ ticket.category?.title }}</dd>
+                </div>
+
+                <div class="meta-item">
+                    <dt>Created by</dt>
+                    <dd>{{ ticket.created_by.name }}</dd>
+                </div>
+
+                <div class="meta-item">
+                    <dt>Created</dt>
+                    <dd>{{ formatDate(ticket.created_at) }}</dd>
+                </div>
+
+                <div class="meta-item">
+                    <dt>Last updated</dt>
+                    <dd>{{ formatDate(ticket.updated_at) }}</dd>
+                </div>
+
+                <div class="meta-item">
+                    <dt>Assigned to</dt>
+                    <dd>{{ ticket.assigned_to?.name ?? "Not assigned yet" }}</dd>
+                </div>
+            </dl>
+
+            <div class="ticket-summary-description">
+                <h2>Description</h2>
+                <p>{{ ticket.description }}</p>
+            </div>  
+        </section>
+    </div>
 </template>
 
 <style scoped>

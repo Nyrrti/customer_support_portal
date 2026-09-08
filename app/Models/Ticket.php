@@ -23,7 +23,7 @@ class Ticket extends Model
      */
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
      /**
@@ -31,7 +31,7 @@ class Ticket extends Model
      */
     public function assignedTo(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'assigned_to_id');
     }
 
      /**
@@ -39,6 +39,6 @@ class Ticket extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
