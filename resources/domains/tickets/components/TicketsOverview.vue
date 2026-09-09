@@ -87,7 +87,7 @@
                             @click="openTicket(ticket)"
                             class="cursor-pointer"
                         >
-                            <td class="title-bold">
+                            <td class="title-bold muted">
                                 #{{ ticket.id }}
                             </td>
                             <td>
@@ -194,15 +194,6 @@
         font-weight: 500;
     }
 
-    .ticket-link {
-        color: var(--table-link);
-        font-size: var(--font-size-xs);
-    }
-
-    .ticket-link:hover {
-        text-decoration: underline;
-    }
-
     .ticket-table {
         width: 100%;
         border-collapse: collapse;
@@ -218,25 +209,31 @@
     }
 
     .ticket-table th {
-        padding: 1rem 0.75rem;
+        padding: 1.2rem 0.75rem;
         text-align: left;
         color: var(--table-text-muted);
-        font-size: var(--font-size-xxs);
+        font-size: var(--text-card-title);
+        letter-spacing: var(--table-letter-spacing);
         font-weight: 500;
         border-bottom: 1px solid var(--table-border);
     }
 
     .ticket-table td {
-        padding: 1rem 0.75rem;
+        padding: 1.2rem 0.75rem;
         color: var(--table-text);
-        font-size: var(--font-size-xs);
+        font-size: var(--text-table);
+        letter-spacing: var(--table-letter-spacing);
         background-color: transparent;
         border-bottom: 1px solid var(--table-border);
     }
 
+    .title-bold.muted {
+        color: var(--table-text-muted);
+    }
+
     .ticket-table td.updated {
         color: var(--font-color-medium-dark);
-        font-size: var(--font-size-xxs);
+        font-size: var(--text-label);
     }
 
     .ticket-table tbody tr:last-child td {
@@ -265,7 +262,7 @@
         justify-content: center;
         padding: 0.35rem 0.65rem;
         border-radius: 0.45rem;
-        font-size: var(--font-size-caption);
+        font-size: var(--text-caption);
         font-weight: 500;
     }
 
@@ -316,7 +313,7 @@
         border: 0;
         border-radius: 0.4rem;
         color: var(--font-color-medium-dark);
-        font-size: var(--font-size-lg);
+        font-size: var(--text-page-title);
         cursor: pointer;
     }
 

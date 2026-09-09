@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&display=swap');
+
 
 :root {
     --bg-color-white: #fff;
@@ -32,28 +34,45 @@
     --table-accent-secondary: var(--color-purple);
     --table-border: #cfd8e3;
     --table-row-hover: #dae0ec;
+    --table-letter-spacing: 0.01em;
 
     --font-color-nav: #F1F5F9;
     --font-color-light: #e6ecf5;
     --font-color-dark: #1b243b;
     --font-color-medium: #7a8da6;
+    --font-color-lead: #c3d4eb;
     --font-color-medium-light: #95aac5;
     --font-color-medium-dark: #48566b;
     --font-color-title-light: #fff1b2;
     --font-color-title-dark: #2700a5;
 
-    --font-size-caption: 0.75rem;
-    --font-size-xxs: 0.85rem;
-    --font-size-xs: 0.9rem;
-    --font-size-sm: 1.03rem;
-    --font-size-md: 1.2rem;
-    --font-size-lg: 1.5rem;
-    --font-size-xl: 1.8rem;
-    --font-size-xxl: 2.25rem;
+    --font-size-xs: 0.75rem;   
+    --font-size-sm: 0.9rem;   
+    --font-size-md: 0.97rem;   
+    --font-size-lg: 1.05rem;   
+    --font-size-xl: 1.15rem;    
+    --font-size-2xl: 1.55rem;    
+    --font-size-3xl: 1.8rem;      
+    --font-size-4xl: 2.3rem;    
+    --font-size-5xl: 3.5rem;    
+
+    --text-caption: var(--font-size-xs);
+    --text-label: var(--font-size-sm);
+    --text-body: var(--font-size-md);
+    --text-table: var(--font-size-md);
+    --text-lead: var(--font-size-lg);
+    --text-link: var(--font-size-md);
+    --text-card-title: var(--font-size-md);
+    --text-section-title: var(--font-size-1xl);
+    --text-page-title: var(--font-size-2xl);
+    --text-page-title-cta: var(--font-size-5xl);
 
     --font-family-title: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-family-body: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-family-subtitle: "Space Grotesk", sans-serif;
+    --font-family-body: "Plus Jakarta Sans", sans-serif;
 
+
+    
 }
 
 *,
@@ -87,63 +106,53 @@ h1.color, h2.color, h3.color, h4.color, h5.color {
 }
 
 h1 {
-    font-size: var(--font-size-xxl);
+    font-size: var(--font-size-4xl);
     font-weight: 700;
     line-height: 2.75rem;
 }
 
 h2 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-3xl);
     font-weight: 700;
     line-height: 2.35rem;
 }
 
 h3 {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-2xl);
     font-weight: 600;
     line-height: 2rem;
 }
 
 h4 {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-xl);
     font-weight: 600;
     line-height: 1.75rem;
 }
 
 h5 {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xl);
     font-weight: 600;
-    line-height: 1.63rem;
+    line-height: 1.5rem;
 }
 
 p {
     font-family: var(--font-family-body);
     color: var(--font-color-dark);
-    font-size: var(--font-size-xs);
+    font-size: var(--text-body);
     font-weight: 400;
     margin: 0;
-    line-height: 1.5rem;
-}
-
-p.large {
-    font-size: var(--font-size-sm);
-    line-height: 1.75rem;
-}
-
-p.small {
-    font-size: var(--font-size-xxs);
-    line-height: 1.25rem; 
+    line-height: 1.6rem;
 }
 
 p.caption {
-    font-size: var(--font-size-caption);
+    font-size: var(--text-caption);
     line-height: 1rem;
 }
 
 a {
     font-family: var(--font-family-title);
     color: var(--color-blue);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md);
     text-decoration: none;
 }
 
@@ -187,12 +196,12 @@ a:hover {
 }
 
 .btn {
-    font-family: var(--font-family-title);
+    font-family: var(--font-family-body);
     background-color: var(--color-blue);
     color: var(--font-color-light);
     border: 0px;
     border-radius: 0.5rem;
-    font-size: var(--font-size-xs);
+    font-size: var(--text-body);
     line-height: 1.25rem;
     font-weight: 600;
     padding: 0.65rem 1.2rem;
@@ -260,7 +269,7 @@ li {
 }
 
 label {
-    font-size: var(--font-size-xxs);
+    font-size: var(--text-label);
     font-weight: 500;
     line-height: 1.25rem;
 }
@@ -268,8 +277,8 @@ label {
 .field {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    margin-bottom: 0.4rem;
+    gap: 0.3rem;
+    margin-bottom: 0.35rem;
 }
 
 input, textarea, select {
@@ -312,6 +321,9 @@ td {
 }
 
 @media (min-width: 1600px) {
+    :root {
+        --font-size-md: 1.03rem;
+    }
    
 }
 

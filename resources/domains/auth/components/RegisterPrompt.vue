@@ -9,7 +9,9 @@
                 R
             </div>
             <div>
-                <h5>New to TicketyTicker?</h5>
+                <h5>
+                    New to TicketyTicker?
+                </h5>
                 <p>
                     Create an account to submit and track your support tickets.
                 </p>
@@ -29,7 +31,7 @@
         box-shadow: 0 0.5rem 1.5rem rgba(15, 29, 51, 0.07);
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.25rem;
     }
 
     .register-content {

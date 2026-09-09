@@ -8,7 +8,7 @@
     <div class="login-section">
         <div class="login-content">
             <div class="login-heading">
-                <h2>
+                <h2 class="py-2">
                     Welcome back
                 </h2>
             </div>

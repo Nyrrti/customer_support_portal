@@ -98,7 +98,7 @@
 
     .user-profile p {
         color: var(--font-color-medium-light);
-        font-size: var(--font-size-caption);
+        font-size: var(--text-caption);
         line-height: 0.85rem;
     }
 </style>

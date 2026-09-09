@@ -115,19 +115,21 @@
                     >
                 </div>
             </div>
-            <div class="bottom-row my-3">
-                <div class="remember">
-                    <input id="remember" type="checkbox">
-                    <label for="remember">
-                        Remember me
-                    </label>
+            <div class="bottom-row">
+                <div class="remember-field mt-2">
+                    <div class="remember">
+                        <input id="remember" type="checkbox">
+                        <label for="remember">
+                            Remember me
+                        </label>
+                    </div>
+                    <a href="/" class="dark">Forgot password?</a>
                 </div>
-                <a href="/" class="dark">Forgot password?</a>
+                <button class="btn login" type="submit">
+                    Login
+                </button> 
             </div>
-        
-            <button class="btn login" type="submit">
-                Login
-            </button>
+            
         </form>
     </div>
     <div v-else>
@@ -160,7 +162,7 @@
 
     .login-heading p {
         color: var(--font-color-medium-dark);
-        font-size: var(--font-size-xxs);
+        font-size: var(--text-body);
     }
 
     .login-icon {
@@ -178,7 +180,7 @@
     .login-input-field {
         display: flex;
         flex-direction: column;
-        gap:0.5rem;
+        gap:0.65rem;
     }
 
     .login-input-field input {
@@ -191,8 +193,13 @@
 
     .bottom-row {
         display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .remember-field {
+        display: flex;
         justify-content: space-between;
-        align-items: center;
     }
 
     .remember {
@@ -202,7 +209,7 @@
     }
 
     .bottom-row a {
-        font-size: var(--font-size-xxs);
+        font-size: var(--text-body);
         color: var(--color-blue);
         font-weight: 500;
     }

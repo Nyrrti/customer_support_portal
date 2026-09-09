@@ -134,14 +134,10 @@
         display: flex;
         align-items: center;
         gap: 0.9rem;
-
         padding: 0.65rem 0.9rem;
-
         border-radius: var(--nav-radius);
-
         color: var(--font-color-medium-light);
-
-        font-size: var(--font-size-xs);
+        font-size: var(--text-link);
         font-weight: 500;
 
         transition:

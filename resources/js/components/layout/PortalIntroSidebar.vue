@@ -112,6 +112,8 @@
     .sidebar-intro {
         max-width: 24rem;
         margin-top: 1rem;
+        font-size: var(--text-lead);
+        color: var(--font-color-lead);
     }
 
     .sidebar-features {
@@ -137,7 +139,7 @@
         border-radius: 50%;
         background-color: var(--color-blue);
         color: var(--font-color-light);
-        font-size: var(--font-size-lg);
+        font-size: var(--text-section-title);
         font-weight: 600;
     }
 

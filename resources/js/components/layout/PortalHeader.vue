@@ -73,14 +73,14 @@
         color: var(--font-color-light);
         border: 5px solid var(--color-blue);
         border-radius: 0.3rem;
-        font-size: var(--font-size-caption);
+        font-size: var(--text-caption);
         font-weight: 700;
     }
 
     .brand-name {
         color: var(--font-color-light);
         font-family: var(--font-family-title);
-        font-size: var(--font-size-lg);
+        font-size: var(--text-page-title);
         font-weight: 700;
     }
 
