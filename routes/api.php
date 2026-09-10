@@ -12,8 +12,8 @@ Route::post("/login", [AuthController::class, "login"])
 
 //PROTECTED
 Route::middleware("auth:sanctum")->group(function () {
-    Route::get("/user", [AuthController::class, "profile"]);
-    Route::get("/logout", [AuthController::class, "logout"]);
+    Route::get("/user", [AuthController::class, "user"]);
+    Route::post("/logout", [AuthController::class, "logout"]);
 
     Route::get("/categories", [CategoryController::class, "index"]);
 

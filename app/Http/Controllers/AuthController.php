@@ -36,7 +36,7 @@ class AuthController extends Controller
     /**
      * Return the authenticated user's profile.
      */
-    public function profile(Request $request): JsonResponse
+    public function user(Request $request): JsonResponse
     {
         return response()->json([
             "user" => new UserResource($request->user()),

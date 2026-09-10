@@ -121,6 +121,11 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr v-if="tickets.length === 0">
+                            <td colspan="7" class="text-center">
+                                No tickets found.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

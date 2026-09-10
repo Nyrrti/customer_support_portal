@@ -1,7 +1,5 @@
 <script setup lang="ts">
-
-
-
+    import { authStore } from '../../../domains/auth/store';
 </script>
 
 
@@ -22,12 +20,15 @@
                 A
             </div>
             <div class="user">
-                <div>
-                    <h5>
-                        Admin User
-                    </h5>
+                <div v-if="authStore.loading">
+                    <h5>Loading...</h5>
+                    <p>Loading...</p>
+                </div>
+
+                <div v-else-if="authStore.user">
+                    <h5>{{ authStore.user.name }}</h5>
                     <p>
-                        Administrator
+                        {{ authStore.user.is_admin ? "Administrator" : "User" }}
                     </p>
                 </div>
                 <h5>

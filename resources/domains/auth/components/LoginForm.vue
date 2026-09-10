@@ -1,81 +1,36 @@
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
-    import axios from 'axios';
-    import type { User } from "../types";
+    import { ref } from 'vue';
+    import {authStore} from "../../auth/store"
     import { useRouter } from 'vue-router';
 
     const router = useRouter();
-    const email = ref('');
-    const password = ref('');
+    const email = ref<string>("");
+    const password = ref<string>("");
     const remember = ref(false);
 
-    const user = ref<User | null>(null);
-
-    /**
-     * Login
-     */
-    async function login() {
-        try {
-            await axios.get("/sanctum/csrf-cookie");
-
-            const response = await axios.post("/api/login", {
-                email: email.value,
-                password: password.value,
-            });
-
-            // await getUser();
-            await router.push('/tickets');
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                if (error.response?.status === 422) {
-                    console.log(error.response?.data.errors);
-                }
-
-                if (error.response?.status === 401) {
-                    console.log(error.response?.data.message ?? "");
-                }
-            }
+    async function handleLogin() {
+        const success = await authStore.login(
+            email.value,
+            password.value
+        );
+        
+        if (success) {
+            await router.push("/tickets");
         }
     }
 
-    /**
-     * Get the current logged in user
-     */
-    async function getUser() {
-        try {
-            const response = await axios.get("/api/user");
-            user.value = response.data;
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 401) {
-                user.value = null;
-                return;
-            }
+    async function handleLogout() {
+        await authStore.logout();
 
-            console.error("Could not get user:", error);
-        }
+        router.push("/");
     }
 
-     /**
-     * Logout
-     */
-    async function logout() {
-        axios.get("/api/logout")
-            .then(function(response){
-                window.location.href = "/";
-            })
-            .catch(function(error){
-                console.error("Logout failed:", error); 
-            })
-    }
 
-    onMounted(() => {
-        getUser();
-    });
 </script>
 
 <template>
-    <div v-if="user === null">
-        <form @submit.prevent="login" class="login-bg p-4">
+    <div v-if="authStore.user === null">
+        <form @submit.prevent="handleLogin" class="login-bg p-4">
             <div class="login-heading py-2">
                 <div class="login-icon">
                     L
@@ -134,9 +89,9 @@
     </div>
     <div v-else>
         <h2>
-            Welcome, User
+            Welcome, {{ authStore.user.name }}
         </h2>
-        <button @click="logout" class="btn">
+        <button @click="handleLogout" class="btn">
             Logout
         </button>
     </div>

@@ -9,36 +9,47 @@ use App\Models\Ticket;
 
 class TicketController extends Controller
 {
-    public function index() {
-        $tickets = Ticket::with([
+    public function index(Request $request) {
+
+        $user = $request->user();
+
+        $query = Ticket::with([
             "createdBy",
             "assignedTo",
             "category",
-        ])->get();
+        ]);
 
-        return TicketResource::collection($tickets);
+        if (!$user->is_admin) {
+            $query->where("created_by_id", $user->id);
+        }
+        return TicketResource::collection($query->get());
     }
 
     // CREATE
-    public function store(StoreTicketRequest $request) {
+    public function store(StoreTicketRequest $request)
+    {
         $this->authorize('create', Ticket::class);
 
         $data = $request->validated();
-        
-        // Add logged-in user id
+
         $data["created_by_id"] = $request->user()->id;
         $data["status"] = "Open";
 
-        // Create ticket with form data + creator id
         Ticket::create($data);
 
-        $tickets = Ticket::with([
+        $user = $request->user();
+
+        $query = Ticket::with([
             "createdBy",
             "assignedTo",
             "category",
-        ])->get();
+        ]);
 
-        return TicketResource::collection($tickets);
+        if (!$user->is_admin) {
+            $query->where("created_by_id", $user->id);
+        }
+
+        return TicketResource::collection($query->get());
     }
 
     // VIEW
@@ -52,10 +63,24 @@ class TicketController extends Controller
         ]);
     }
 
-    public function update(StoreTicketRequest $request, Ticket $ticket) {
+    public function update(StoreTicketRequest $request, Ticket $ticket)
+    {
+        $this->authorize('update', $ticket);
+
         $ticket->update($request->validated());
-        
-        $tickets = Ticket::all();
-        return TicketResource::collection($tickets);
+
+        $user = $request->user();
+
+        $query = Ticket::with([
+            "createdBy",
+            "assignedTo",
+            "category",
+        ]);
+
+        if (!$user->is_admin) {
+            $query->where("created_by_id", $user->id);
+        }
+
+        return TicketResource::collection($query->get());
     }
 }
