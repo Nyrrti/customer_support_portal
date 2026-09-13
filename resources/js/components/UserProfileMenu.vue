@@ -1,12 +1,11 @@
 <script setup lang="ts">
-    import { authStore } from '../../../domains/auth/store';
+    import { authStore } from '../../domains/auth/store';
 </script>
 
 
 
 <template>
-
-    <div class="profile-bg">
+    <div class="profile-field">
         <div class="profile-icons">
             <div class="icon">
                 B
@@ -19,21 +18,17 @@
             <div class="icon user">
                 A
             </div>
-            <div class="user">
+            <div class="user-details">
                 <div v-if="authStore.loading">
                     <h5>Loading...</h5>
                     <p>Loading...</p>
                 </div>
-
                 <div v-else-if="authStore.user">
                     <h5>{{ authStore.user.name }}</h5>
                     <p>
                         {{ authStore.user.is_admin ? "Administrator" : "User" }}
                     </p>
-                </div>
-                <h5>
-                    &#128899;
-                </h5>  
+                </div>  
             </div> 
         </div>
     </div>
@@ -43,7 +38,7 @@
 
 <style scoped>
 
-    .profile-bg {
+    .profile-field {
         --profile-gap: 2rem;
         --icon-gap: 1.1rem;
 
@@ -56,8 +51,7 @@
     }
 
     .profile-icons {
-        display: flex;
-        gap: var(--icon-gap);
+        display: none;
     }
 
     .icon {
@@ -87,10 +81,8 @@
         gap: var(--icon-gap);
     }
     
-    .user {
-        display: flex;
-        align-items: center;
-        gap: var(--icon-gap);
+    .user-details {
+        display: none;
     }
 
     .user-profile h5 {
@@ -102,4 +94,25 @@
         font-size: var(--text-caption);
         line-height: 0.85rem;
     }
+
+
+    @media (min-width: 768px) {
+
+        .profile-field {
+            padding-inline: 1.5rem;
+        }
+
+        .profile-icons {
+            display: flex;
+            gap: var(--icon-gap);
+        } 
+
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: var(--icon-gap);
+        }
+    }
+
+    
 </style>

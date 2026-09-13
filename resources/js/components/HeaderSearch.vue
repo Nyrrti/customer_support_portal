@@ -9,7 +9,7 @@
 <style scoped>
 
     .header-search-bar {
-        width: min(30rem, 100%);
+        display: none;
     }
 
     input.search-bar {
@@ -19,7 +19,13 @@
         border-radius: 0.35rem;
         color: var(--font-color-light);
         padding: 0.7rem;
-        width: 100%;
     }
 
+    @media (min-width: 768px) {
+        .header-search-bar {
+            display: flex;
+            justify-content: center;
+            width: min(30rem, 100%);
+        }
+    }
 </style>

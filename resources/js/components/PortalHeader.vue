@@ -4,29 +4,28 @@
 
 
 <template>
-    <header class="portal-header">
-        <div class="grid-container header-grid">
-            <div class="row">
-                <div class="col-12 col-lg-3 brand-box">
-                    <span class="brand-icon">
-                        TT
-                    </span>
-                    >>
-                    <RouterLink to="/" class="brand-name">
-                        Tickety<span>Ticker</span>
-                    </RouterLink>
-                </div>  
-                <div class="col-12 col-lg-9 header-actions">
-                    <slot />
-                </div>
-            </div>
+    <header class="header">
+        <div class="brand-field">
+            <span class="brand-icon">
+                TT
+            </span>
+            >>
+            <RouterLink to="/" class="brand-name">
+                Tickety<span>Ticker</span>
+            </RouterLink>
+        </div>  
+        <div class="header-search">
+            <slot name="search" />
+        </div>
+        <div class="header-user-profile">
+            <slot name="user-profile" />
         </div>
     </header>
 </template>
 
 <style scoped>
 
-    .portal-header {
+    .header {
         --header-height: 5.25rem;
         --header-padding-x: 2rem;
         --header-gap: 2rem;
@@ -36,6 +35,7 @@
         min-height: var(--header-height);
         display: flex;
         align-items: center;
+        justify-content: space-between;
         padding-inline: var(--header-padding-x);
         background-color: var(--bg-color-header);
         border-bottom: 1px solid var(--border-color-blue);
@@ -45,14 +45,13 @@
         align-items: center;
     }
 
-    .header-actions {
+    .header-user-profile {
         display: flex;
         justify-content: end;
         align-items: center;
-        gap: 1rem;
     }
 
-    .brand-box {
+    .brand-field {
         display: flex;
         align-items: center;
         gap: var(--brand-gap);
@@ -80,7 +79,7 @@
     .brand-name {
         color: var(--font-color-light);
         font-family: var(--font-family-title);
-        font-size: var(--text-page-title);
+        font-size: var(--text-section-title);
         font-weight: 700;
     }
 
@@ -88,15 +87,26 @@
         color: var(--color-yellow);
     }
 
-    @media (max-width: 600px) {
+    @media (min-width: 768px) {
 
-        .portal-header {
+        .header {
             --header-padding-x: 1rem;
             --header-gap: 1rem;
         }
 
+        .brand-field {
+            flex-shrink: 0;
+        }
+
+        .header-search {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            justify-content: center;
+        }
+
         .brand-name {
-            font-size: var(--font-size-md);
+            font-size: var(--text-page-title);
         }
     }
 

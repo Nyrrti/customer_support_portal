@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import PortalHeader from '../components/layout/PortalHeader.vue';
-    import PortalIntroSidebar from '../components/layout/PortalIntroSidebar.vue';
+    import PortalHeader from "../components/PortalHeader.vue";
+    import PortalIntroSidebar from '../components/PortalIntroSidebar.vue';
 </script>
 
 <template>

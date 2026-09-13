@@ -211,4 +211,7 @@
         color: var(--color-yellow);
     }
 
+    @media (min-width: 768px) {
+       
+    }
 </style>

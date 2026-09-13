@@ -4,9 +4,10 @@
 
 :root {
     --bg-color-white: #fff;
-    --bg-color-card: #e4e6eb;
-    --bg-color-card-dark: #cbd4e1;
-    --bg-color-secondary: #dde1e8;
+    --bg-color-card: #edf0f5;
+    --bg-color-card-medium: #e6ebf2;
+    --bg-color-card-dark: #e4e9f2;
+    --bg-color-secondary: #dce1e8;
     --bg-color-body: #485463;
     --bg-color-nav:  #0e2650b3;
     --bg-color-header: #152f59;
@@ -38,15 +39,15 @@
 
     --font-color-nav: #F1F5F9;
     --font-color-light: #e6ecf5;
-    --font-color-dark: #1b243b;
-    --font-color-medium: #7a8da6;
+    --font-color-dark: #1d2740;
+    --font-color-medium: #6b7b8f;
     --font-color-lead: #c3d4eb;
     --font-color-medium-light: #95aac5;
-    --font-color-medium-dark: #48566b;
+    --font-color-medium-dark: #4f5c70;
     --font-color-title-light: #fff1b2;
     --font-color-title-dark: #2700a5;
 
-    --font-size-xs: 0.8rem;   
+    --font-size-xs: 0.84rem;   
     --font-size-sm: 0.9rem;   
     --font-size-md: 0.98rem;   
     --font-size-lg: 1.05rem;   
@@ -63,7 +64,7 @@
     --text-lead: var(--font-size-lg);
     --text-link: var(--font-size-md);
     --text-card-title: var(--font-size-md);
-    --text-section-title: var(--font-size-1xl);
+    --text-section-title: var(--font-size-xl);
     --text-page-title: var(--font-size-2xl);
     --text-page-title-cta: var(--font-size-5xl);
 
@@ -130,7 +131,7 @@ h4 {
 }
 
 h5 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     font-weight: 600;
     line-height: 1.5rem;
 }

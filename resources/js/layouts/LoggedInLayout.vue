@@ -1,8 +1,10 @@
 <script setup lang="ts">
-    import HeaderSearch from '../components/layout/HeaderSearch.vue';
-    import PortalHeader from '../components/layout/PortalHeader.vue';
-    import PortalNavSidebar from '../components/layout/PortalNavSidebar.vue';
-    import UserProfileMenu from '../components/layout/UserProfileMenu.vue';
+    import TicketsOverview from "../../domains/tickets/components/TicketsOverview.vue";
+import HeaderSearch from "../components/HeaderSearch.vue";
+    import PortalHeader from "../components/PortalHeader.vue";
+    import PortalNavSidebar from "../components/PortalNavSidebar.vue";
+    import UserProfileMenu from "../components/UserProfileMenu.vue";
+    import TicketCard from "../../domains/tickets/components/TicketCard.vue"
 </script>
 
 
@@ -11,14 +13,17 @@
     <div class="page-bg">
         <div class="portal">
             <portal-header>
-                <header-search />
-                <user-profile-menu />
+                <template #search>
+                    <header-search />
+                </template>
+                <template #user-profile>
+                    <user-profile-menu />
+                </template>
             </portal-header>
             <main class="grid-container portal-content">
                 <aside class="portal-nav">
                     <portal-nav-sidebar />
                 </aside>
-
                 <section class="portal-main">
                     <slot />
                 </section>
@@ -44,19 +49,26 @@
         width: 100%;
         max-width: var(--portal-max-width);
         margin-inline: auto;
-        max-width: var(--portal-max-width);
         border: 1px solid var(--bg-color-header);
-        overflow: hidden;
         box-shadow: var(--portal-shadow);
         display: flex;
         flex-direction: column;
         min-height: 100dvh;
+        overflow: hidden;
+    }
+
+    .portal-nav {
+        display: none;
+    }
+
+    .portal-main {
+        min-width: 0;
     }
 
     .portal-content {
         flex:1;
         display: grid;
-        grid-template-columns: clamp(12rem, 18vw, 17rem) 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .portal-login {
@@ -66,6 +78,16 @@
     @media (min-width: 768px) {
         .portal {
             width: min(110rem, calc(100% - 2rem));
+        }
+
+        .portal-content {
+            grid-template-columns:
+                clamp(14rem, 18vw, 17rem)
+                minmax(0, 1fr);
+        }
+
+        .portal-nav {
+            display: block;
         }
     }
 </style>

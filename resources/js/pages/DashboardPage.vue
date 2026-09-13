@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import TicketsOverview from '../../domains/tickets/components/TicketsOverview.vue';
     import LoggedInLayout from '../layouts/LoggedInLayout.vue';
+    import TicketCard from '../../domains/tickets/components/TicketCard.vue';
 </script>
 
 
@@ -8,7 +9,12 @@
 
     <LoggedInLayout>
         <div class="dashboard-bg">
-            <TicketsOverview />
+            <div class="mobile">
+                <TicketCard />
+            </div>
+            <div class="desktop">
+                <TicketsOverview />
+            </div>  
         </div>
     </LoggedInLayout>
 
@@ -18,7 +24,7 @@
 
     .dashboard-bg {
         min-height: 100%;
-        padding: 1rem;
+        padding: 0.75rem;
         background-color: var(--bg-color-secondary);
         background:
         linear-gradient(
@@ -28,4 +34,26 @@
         );
     }
 
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+
+        .dashboard-bg {
+            padding: 1rem;
+        }
+       
+        .mobile {
+            display: none;
+        }
+
+        .desktop {
+            display: block;
+        }
+    }
 </style>
