@@ -4,6 +4,7 @@
     import PortalNavSidebar from "../components/PortalNavSidebar.vue";
     import UserProfileMenu from "../components/UserProfileMenu.vue";
     import TicketCard from "../../domains/tickets/components/TicketCard.vue"
+import MobileNav from "../components/MobileNav.vue";
 </script>
 
 
@@ -12,6 +13,9 @@
     <div class="page-bg">
         <div class="portal">
             <portal-header>
+                <template #nav-mobile>
+                    <mobile-nav />
+                </template>
                 <template #user-profile>
                     <user-profile-menu />
                 </template>
@@ -72,7 +76,11 @@
     }
 
     @media (min-width: 768px) {
-        .portal {
+       
+    }
+
+    @media (min-width: 1200px) {
+         .portal {
             width: min(110rem, calc(100% - 2rem));
         }
 

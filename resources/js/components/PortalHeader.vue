@@ -5,6 +5,7 @@
 
 <template>
     <header class="header">
+        <slot name="nav-mobile" />
         <div class="brand-field">
             <span class="brand-icon">
                 TT

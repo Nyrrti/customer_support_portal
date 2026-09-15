@@ -1,5 +1,6 @@
 <script setup lang="ts">
-    import type { Ticket } from '../types';
+    import CheckTime from '../../../js/components/CheckTime.vue';
+import type { Ticket } from '../types';
 
     defineProps<{
         tickets: Ticket[];
@@ -25,9 +26,15 @@
             </button>
         </div>
         <div class="card-content">
-                <h4 class="yellow pt-1">
+                <RouterLink
+                    class="ticket-link"
+                    :to="{
+                        name: 'ticket-detail',
+                        params: { id: ticket.id },
+                    }"
+                >
                     {{ ticket.subject }}
-                </h4>
+                </RouterLink>
                 <div class="ticket-update-section content-border pb-1">
                     <span class="ticket-status">
                         <svg class="status-check" viewBox="0 0 24 24" aria-hidden="true">
@@ -48,7 +55,7 @@
                             <circle cx="12" cy="12" r="9" />
                             <path d="M12 6v6h5" />
                         </svg>
-                        Updated: Placeholder 
+                        <CheckTime :date="ticket.updated_at" />
                     </span>
                 </div>
             
@@ -189,6 +196,17 @@
         padding-top: 1.8rem;
     }
 
+    .ticket-link {
+        color: var(--color-yellow);
+        text-decoration: none;
+        padding-top: 0.65rem;
+        font-weight: 500;
+    }
+
+    .ticket-link:hover {
+        text-decoration: underline;
+    }
+
     .ticket-update-section {
         display: flex;
         flex-wrap: wrap;
@@ -222,7 +240,7 @@
         align-items: center;
         gap: 0.6rem;
         padding-left: 1rem;
-        border-left: 1px solid var(--border-color-darker);
+        border-left: 1px solid var(--card-border);
         color: var(--font-color-medium-light);
         font-size: var(--text-label);
         line-height: 1.5;

@@ -56,18 +56,12 @@
 
 <style scoped>
     .overview-panel {
-        --overview-panel-padding: 0.3rem;
-        
-        background-color: var(--bg-color-secondary);
+        min-height: 100%;
+        background-color: var(--bg-color-header-dark);
     }
 
     .overview-card {
-        --overview-card-padding: 1rem;
-        
-        background-color: var(--bg-color-header-dark);
-        border: 1px solid var(--bg-color-header);
-        padding: var(--overview-card-padding);
-        box-shadow: 0 0.5rem 1.5rem rgba(15, 29, 51, 0.07);
+        padding: 1rem;
     }
 
     .overview-header {
@@ -117,7 +111,7 @@
     }
 
     .overview-footer p {
-        color: var(--font-color-medium-dark);
+        color: var(--font-color-medium-light);
     }
 
     .btn.filter {
@@ -133,6 +127,7 @@
     .btn.ticket {
         background-color: var(--color-yellow);
         color: var(--font-color-dark);
+        padding: 0.8rem 2rem;
     }
 
     .btn.ticket:hover {

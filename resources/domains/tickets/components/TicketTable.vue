@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import type { Ticket } from "../types"
+    import type { Ticket } from "../types"
 
-defineProps<{
-    tickets: Ticket[];
-}>();
+    defineProps<{
+        tickets: Ticket[];
+    }>();
 
-const emit = defineEmits<{
-    (event: "actions", ticket: Ticket): void;
-}>();
+    const emit = defineEmits<{
+        (event: "actions", ticket: Ticket): void;
+    }>();
 
-function formatDate(date: string): string {
-    return new Intl.DateTimeFormat("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-    })
-        .format(new Date(date))
-        .replace(/\//g, "-");
-}
+    function formatDate(date: string): string {
+        return new Intl.DateTimeFormat("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        })
+            .format(new Date(date))
+            .replace(/\//g, "-");
+    }
 </script>
 
 <template>
@@ -115,6 +115,7 @@ function formatDate(date: string): string {
         overflow-x: auto;
         border-radius: 0.6rem;
         border: 1px solid var(--border-ticket-table);
+        min-height: 100%;
     }
 
     .ticket-link {
@@ -138,7 +139,7 @@ function formatDate(date: string): string {
     .ticket-table {
         width: 100%;
         border-collapse: collapse;
-        background-color: var(--table-bg);
+        /* background-color: var(--table-bg); */
     }
 
     .ticket-table thead {

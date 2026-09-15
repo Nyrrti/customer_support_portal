@@ -28,7 +28,6 @@
     .header-search-bar {
         display: flex;
         justify-content: center;
-        width: min(30rem, 100%);
     }
 
     input.search-bar {
@@ -49,7 +48,7 @@
     .filter {
         background-color: var(--bg-color-sidebar);
         min-height: 2.5rem;
-        border: 2px solid var(--border-color-blue);
+        border: 1px solid var(--border-color-blue);
         border-radius: 0.5rem;
         flex: 1;
         color: var(--font-color-light);

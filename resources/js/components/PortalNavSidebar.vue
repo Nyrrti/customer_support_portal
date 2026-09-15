@@ -145,14 +145,6 @@
             color 0.15s ease;
     }
 
-    .nav-icon {
-        width: 1.4rem;
-        display: flex;
-        justify-content: center;
-        flex-shrink: 0;
-        color: inherit;
-    }
-
     .nav-item:hover {
         background-color:
             color-mix(
@@ -162,6 +154,16 @@
             );
         color: var(--font-color-light);
     }
+
+    .nav-icon {
+        width: 1.4rem;
+        display: flex;
+        justify-content: center;
+        flex-shrink: 0;
+        color: inherit;
+    }
+
+    
 
     .nav-item.active {
         background:
