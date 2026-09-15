@@ -1,12 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+    import type { Ticket } from '../types';
+
+    defineProps<{
+        tickets: Ticket[];
+    }>();
+
+</script>
 
 <template>
-
-    <div class="ticket-card">
+    <div v-for="ticket in tickets" :key="ticket.id" class="ticket-card">
         <div class="card-header">
             <div class="ticket-number">
                 <span>TICKET</span>
-                <strong>#001</strong>
+                <strong> 
+                    #{{ String(ticket.id).padStart(3, '0') }}
+                </strong>
             </div>
             <button
                 class="ticket-menu"
@@ -17,8 +25,8 @@
             </button>
         </div>
         <div class="card-content">
-                <h4>
-                    Title of this Ticket but what if its really long
+                <h4 class="yellow pt-1">
+                    {{ ticket.subject }}
                 </h4>
                 <div class="ticket-update-section content-border pb-1">
                     <span class="ticket-status">
@@ -33,14 +41,14 @@
                                 stroke-linejoin="round"
                             />
                         </svg>
-                        Closed
+                        {{ ticket.status }}
                     </span>
                     <span class="ticket-updated">
                         <svg class="clock-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="12" cy="12" r="9" />
                             <path d="M12 6v6h5" />
                         </svg>
-                        Updated: 1 day ago
+                        Updated: Placeholder 
                     </span>
                 </div>
             
@@ -51,7 +59,9 @@
 
                 <div class="category-text">
                     <span>Category</span>
-                    <strong>General</strong>
+                    <strong>
+                        {{ ticket.category.title }}
+                    </strong>
                 </div>
             </div>
         </div>
@@ -69,7 +79,9 @@
 
                 <div class="users-text">
                     <span class="users-label">Created by</span>
-                    <span class="users-name">Dannie Harvey</span>
+                    <span class="users-name">
+                        {{ ticket.created_by.name }}
+                    </span>
                 </div>
             </div>
 
@@ -87,7 +99,9 @@
 
                 <div class="users-text">
                     <span class="users-label">Assigned to</span>
-                    <span class="users-name">Eliza Graves Long</span>
+                    <span class="users-name">
+                        {{ ticket.assigned_to?.name ?? "Not assigned yet" }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -97,52 +111,54 @@
 
 <style scoped>
     .ticket-card {
-        --card-border: #b8c4fa;
+        --card-border: #3b68a5;
+        --ticket-card-border-dark: #597db1;
+        --bg-ticket-card: #2d5690;
     
         width: 100%;
         min-width: 0;
         box-sizing: border-box;
         border: 1px solid var(--card-border);
         border-radius: 1.25rem;
-        background: var(--bg-color-card);
         color: var(--font-color-medium-dark);
+        background-color: var(--bg-ticket-card);
     }
 
     
     .card-header {
         position: relative;
-        height: 2.9rem;
-        border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0;
+        height: 2.1rem;
+        border-radius: 1.25rem 1.25rem 0rem 0rem;
         background: linear-gradient(
             110deg,
-            #c2cef5,
-            #cbbff3 55%,
-            #bdccf4
+            #1b4682,
+            #244e88 50%,
+            #2d5690 100%
         );
     }
 
     .ticket-number {
         position: absolute;
-        top: 1.12rem;
+        top: 1rem;
         left: 1.25rem;
         display: flex;
         flex-direction: column;
         gap: 0.13rem;
         align-items: center;
-        min-width: 5.5rem;
+        min-width: 5.75rem;
         box-sizing: border-box;
         padding: 0.62rem 0.75rem;
-        background: var(--bg-color-card);
-        color: var(--font-color-medium)
+        background-color: var(--bg-ticket-card);
+        color: var(--font-color-medium-light)
     }
 
     .ticket-number span {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
     }
 
     .ticket-number strong {
-        font-size: var(--text-label);
+        font-size: var(--text-caption);
     }
 
     .ticket-menu {
@@ -151,8 +167,8 @@
         right: 0.75rem;
         display: grid;
         place-items: center;
-        width: 2.75rem;
-        height: 2.75rem;
+        width: 2.5rem;
+        height: 2.5rem;
         padding: 0;
         border: 1.5px dashed var(--border-color-darker);
         border-radius: 50%;
@@ -186,8 +202,8 @@
         gap: 0.5rem;
         padding: 0.5rem 0.9rem;
         border-radius: 0.5rem;
-        background: #dae8db;
-        color: #3f6f45;
+        background: #b6cfb9;
+        color: #427749;
         font-size: var(--text-caption);
         font-weight: 700;
         line-height: 1.2;
@@ -207,7 +223,7 @@
         gap: 0.6rem;
         padding-left: 1rem;
         border-left: 1px solid var(--border-color-darker);
-        color: var(--font-color-medium-dark);
+        color: var(--font-color-medium-light);
         font-size: var(--text-label);
         line-height: 1.5;
     }
@@ -259,7 +275,7 @@
         stroke-width: 1.8;
         stroke-linecap: round;
         stroke-linejoin: round;
-        color: var(--font-color-medium);
+        color: var(--font-color-medium-light);
     }
 
     .clock-icon {
@@ -285,12 +301,12 @@
     }
 
     .category-text span {
-        color: var(--font-color-medium);
+        color: var(--font-color-medium-light);
         font-size: var(--text-caption);
     }
 
     .category-text strong {
-        color: var(--font-color-medium-dark);
+        color: var(--font-color-light);
         font-weight: 700;
         font-size: var(--text-label);
     }
@@ -298,15 +314,15 @@
     .card-footer {
         display: flex;
         flex-direction: column;
-        gap: 1.75rem;
+        gap: 1rem;
         padding: 1.2rem 1.5rem;
-        border-top: 1px dashed var(--border-color-darker);
+        border-top: 1px dashed var(--ticket-card-border-dark);
         border-radius: 0 0 calc(1.25rem - 1px) calc(1.25rem - 1px);
         background: var(--bg-color-card-medium);
     }
 
     .content-border {
-        border-bottom: 1px dashed var(--card-border);
+        border-bottom: 1px dashed var(--ticket-card-border-dark);
     }
 
     @media (min-width: 400px) {
@@ -337,11 +353,12 @@
                 "title title"
                 "updates category";
             align-items: center;
-            gap: var(--space-4);
+            gap: 1rem;
         }
 
         .card-content > h4 {
             grid-area: title;
+            padding-top: 0.25rem;
         }
 
         .ticket-update-section {

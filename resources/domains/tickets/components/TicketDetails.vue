@@ -51,8 +51,7 @@
             </RouterLink>
             > #{{ String(ticket.id).padStart(4, '0') }}
         </div>
-        <section class="ticket-summary">
-            
+        <section class="ticket-summary"> 
             <header class="ticket-summary-header">
                 <div class="ticket-summary-number">
                     <div class="ticket-number">
@@ -165,7 +164,7 @@
         position: relative;
         z-index: 1;
         padding: 1.25rem 1.5rem;
-        background: var(--bg-color-secondary);
+        background: var(--bg-color-card);
         font-size: 1.35rem;
         font-weight: 700;
         transform: translateY(1rem);
@@ -178,7 +177,6 @@
         justify-content: center;
         gap: 0.15rem;
         padding: 0.25rem 1rem;
-        background: var(--bg-color-secondary);
         border-left: 0.25rem solid var(--color-blue);
     }
     
@@ -201,7 +199,7 @@
         gap: 0;
         margin: 0;
         padding: 2rem 1.75rem 1.25rem;
-        background: var(--bg-color-secondary);
+        background: var(--bg-color-card-medium);
         border-bottom: 1px solid var(--border-color-outside);
     }
 

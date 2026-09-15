@@ -1,6 +1,5 @@
 <script setup lang="ts">
     import TicketsOverview from "../../domains/tickets/components/TicketsOverview.vue";
-import HeaderSearch from "../components/HeaderSearch.vue";
     import PortalHeader from "../components/PortalHeader.vue";
     import PortalNavSidebar from "../components/PortalNavSidebar.vue";
     import UserProfileMenu from "../components/UserProfileMenu.vue";
@@ -13,9 +12,6 @@ import HeaderSearch from "../components/HeaderSearch.vue";
     <div class="page-bg">
         <div class="portal">
             <portal-header>
-                <template #search>
-                    <header-search />
-                </template>
                 <template #user-profile>
                     <user-profile-menu />
                 </template>

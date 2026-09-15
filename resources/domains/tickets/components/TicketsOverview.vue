@@ -1,29 +1,10 @@
 <script setup lang="ts">
     import { onMounted, computed } from "vue";
-    import { useRouter } from "vue-router"
     import { ticketStore } from "../store";
+    import TicketTable from "../components/TicketTable.vue";
+    import TicketCard from "./TicketCard.vue";
     import type { Ticket } from "../types";
-
-    const router = useRouter()
-
-    function openTicket(ticket: Ticket) {
-        router.push({
-            name: "ticket-detail",
-            params: {
-                id: ticket.id,
-            },
-        })
-    }
-
-    function formatDate(date: string): string {
-        const formatted = new Intl.DateTimeFormat("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        }).format(new Date(date))
-
-        return formatted.replace(/\//g, "-")
-    }
+    import SearchFilter from "../../../js/components/SearchFilter.vue";
 
     // Read the state
     const tickets = computed<Ticket[]>(() =>
@@ -40,99 +21,33 @@
     <section class="overview-panel">
         <div class="overview-card">
             <div class="overview-header py-3">
-                <div class="overview-title-group">
-                    <div class="overview-icon">
-                        T
+                <div class="title-section py-3">
+                    <div class="overview-title">
+                        <div class="overview-icon">
+                            T
+                        </div>
+                        <h3 class="light">
+                            All Tickets
+                        </h3>
                     </div>
-                    <h3>
-                        Ticket Overview
-                    </h3>
+                    <div class="overview-buttons">
+                        <RouterLink :to="{name: 'create'}" class="btn ticket">
+                            + New Ticket
+                        </RouterLink>
+                    </div>
                 </div>
-                <div class="d-flex gap-1">
-                    <RouterLink :to="{name: 'create'}" class="btn ticket">
-                        + New Ticket
-                    </RouterLink>
-                    <button class="btn filter">
-                    &#9947; Filter
-                    </button>
-                </div>
+                <SearchFilter />
             </div>
-
-            <div class="overview-table-wrap">
-                <table class="ticket-table">
-                        <colgroup>
-                            <col class="table-w-8">
-                            <col class="">
-                            <col class="table-w-15">
-                            <col class="table-w-12">
-                            <col class="table-w-12">
-                            <col class="table-w-18">
-                            <col class="table-w-5">
-                        </colgroup>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Subject</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Updated</th>
-                            <th>Assigned To</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr v-for="ticket in tickets" 
-                            :key="ticket.id"
-                            @click="openTicket(ticket)"
-                            class="cursor-pointer"
-                        >
-                            <td class="title-bold muted">
-                                #{{ ticket.id }}
-                            </td>
-                            <td>
-                                
-                                {{ ticket.subject }}
-                                
-                            </td>
-                            <td>
-                                <span class="pill category">
-                                    {{ ticket.category?.title }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="pill status">
-                                    {{ ticket.status }}
-                                </span>
-                            </td>
-                            <td class="updated">
-                                {{ formatDate(ticket.updated_at) }}
-                            </td>
-                            <td>
-                                {{ ticket.assigned_to?.name ?? "Not assigned yet" }}
-                            </td>
-                             <td class="actions-cell">
-                                <button
-                                    class="actions-button"
-                                    type="button"
-                                    aria-label="Ticket actions"
-                                >
-                                    ⋮
-                                </button>
-                            </td>
-                        </tr>
-                        <tr v-if="tickets.length === 0">
-                            <td colspan="7" class="text-center">
-                                No tickets found.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="mobile">
+                <TicketCard :tickets="tickets" />
             </div>
-
+            <div class="desktop">
+                <TicketTable :tickets="tickets" />
+            </div>
+            
             <div class="overview-footer">
                 <p>
-                    Showing 1 to 4 of 42 tickets
+                    Showing {{ tickets.length }} tickets
                 </p>
             </div>
         </div>
@@ -142,32 +57,44 @@
 <style scoped>
     .overview-panel {
         --overview-panel-padding: 0.3rem;
-        --overview-panel-radius: 1rem;
-
+        
         background-color: var(--bg-color-secondary);
-        border-radius: var(--overview-panel-radius);
     }
 
     .overview-card {
-        --overview-card-padding: 1.5rem;
-        --overview-card-radius: 0.85rem;
-
-        background-color: var(--bg-color-card);
-        border: 1px solid var(--border-color-darker);
-        border-radius: var(--overview-card-radius);
+        --overview-card-padding: 1rem;
+        
+        background-color: var(--bg-color-header-dark);
+        border: 1px solid var(--bg-color-header);
         padding: var(--overview-card-padding);
         box-shadow: 0 0.5rem 1.5rem rgba(15, 29, 51, 0.07);
     }
 
     .overview-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    .overview-title-group {
+    .overview-buttons {
+        display: flex;
+        gap: var(--space-2);
+    }
+
+    .overview-buttons > .btn {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .overview-title {
         display: flex;
         align-items: center;
         gap: 0.75rem;
@@ -185,116 +112,6 @@
         font-weight: 700;
     }
 
-    .overview-table-wrap {
-        overflow-x: auto;
-        border-radius: 0.6rem;
-        border: 1px solid color-mix(
-            in srgb,
-            var(--table-border) 85%,
-            transparent
-        );
-    }
-
-    .title-bold {
-        font-weight: 500;
-    }
-
-    .ticket-table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: var(--table-bg);
-    }
-
-    .ticket-table thead {
-        background-color: color-mix(
-            in srgb,
-            var(--table-bg) 97%,
-            var(--font-color-medium-dark)
-        );
-    }
-
-    .ticket-table th {
-        padding: 1.2rem 0.75rem;
-        text-align: left;
-        color: var(--table-text-muted);
-        font-size: var(--text-card-title);
-        letter-spacing: var(--table-letter-spacing);
-        font-weight: 500;
-        border-bottom: 1px solid var(--table-border);
-    }
-
-    .ticket-table td {
-        padding: 1.2rem 0.75rem;
-        color: var(--table-text);
-        font-size: var(--text-table);
-        letter-spacing: var(--table-letter-spacing);
-        background-color: transparent;
-        border-bottom: 1px solid var(--table-border);
-    }
-
-    .title-bold.muted {
-        color: var(--table-text-muted);
-    }
-
-    .ticket-table td.updated {
-        color: var(--font-color-medium-dark);
-        font-size: var(--text-label);
-    }
-
-    .ticket-table tbody tr:last-child td {
-        border-bottom: 0;
-    }
-
-    .ticket-table tbody tr:nth-child(odd) {
-        background-color: var(--table-bg);
-    }
-
-    .ticket-table tbody tr:nth-child(even) {
-        background-color: color-mix(
-            in srgb,
-            var(--table-bg) 98%,
-            var(--color-grey)
-        );
-    }
-
-    .ticket-table tbody tr:hover {
-        background-color: var(--table-row-hover);
-    }
-
-    .pill {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.35rem 0.65rem;
-        border-radius: 0.45rem;
-        font-size: var(--text-caption);
-        font-weight: 500;
-    }
-
-    .pill.category {
-        background-color: color-mix(
-            in srgb,
-            var(--bg-color-card) 85%,
-            var(--color-blue)
-        );
-
-        color: color-mix(
-            in srgb,
-            var(--font-color-dark) 30%,
-            var(--color-blue)
-        );
-    }
-
-    .pill.status {
-        background-color: color-mix(
-            in srgb,
-            var(--bg-color-card) 84%,
-            #6ccf8d
-        );
-
-        color: #4d7f5f;
-    }
-
     .overview-footer {
         margin-top: 1.25rem;
     }
@@ -303,34 +120,10 @@
         color: var(--font-color-medium-dark);
     }
 
-    .actions-cell {
-        text-align: center;
-    }
-
-    .actions-button {
-        width: 2rem;
-        height: 2rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        background: transparent;
-        border: 0;
-        border-radius: 0.4rem;
-        color: var(--font-color-medium-dark);
-        font-size: var(--text-page-title);
-        cursor: pointer;
-    }
-
-    .actions-button:hover {
-        background-color: var(--table-row-hover);
-        color: var(--font-color-dark);
-    }
-
     .btn.filter {
         background-color: transparent;
-        border: 1px solid var(--border-color-darker);
-        color: var(--font-color-medium-dark);
+        border: 2px solid var(--border-color-blue);
+        color: var(--font-color-medium-light);
     }
 
     .btn.filter:hover {
@@ -344,5 +137,63 @@
 
     .btn.ticket:hover {
         background-color: color-mix(in srgb, var(--color-yellow) 85%, black); 
+    }
+
+    .mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+
+        .overview-header {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .overview-actions > .btn {
+            flex: initial;
+        }
+    }
+
+    @media (min-width: 1200px) {
+
+        .overview-card {
+            --overview-card-padding: 1.5rem;
+        }
+
+        .mobile {
+            display: none;
+        }
+
+        .desktop {
+            display: block;
+        }
+
+        .overview-header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .overview-title {
+            padding-bottom: 0;
+        }
+
+        .overview-buttons {
+            width: auto;
+            flex: 0 0 auto;
+        }
+
+        .overview-buttons > .btn {
+            flex: 0 0 auto;
+            width: auto;
+        }
     }
 </style>

@@ -14,9 +14,6 @@
                 Tickety<span>Ticker</span>
             </RouterLink>
         </div>  
-        <div class="header-search">
-            <slot name="search" />
-        </div>
         <div class="header-user-profile">
             <slot name="user-profile" />
         </div>
@@ -96,13 +93,6 @@
 
         .brand-field {
             flex-shrink: 0;
-        }
-
-        .header-search {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            justify-content: center;
         }
 
         .brand-name {
