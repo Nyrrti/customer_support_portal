@@ -1,19 +1,6 @@
 <script setup lang="ts">
     import TicketDetails from '../components/TicketDetails.vue';
     import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
-
-    const ticket = {
-        id: 1008,
-        subject: "Unable to login",
-        category: "Account Access",
-        status: "In progress",
-        createdBy: "Sophia Carter",
-        createdAt: "30 Aug 2026, 14:22",
-        updatedAt: "30 Aug 2026, 14:37",
-        assignedTo: "Olivia Rhye",
-        description:
-            "After entering my email and password, the page reloads and returns me to the login screen.",
-    };
 </script>
 
 <template>

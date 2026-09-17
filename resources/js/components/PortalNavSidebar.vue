@@ -23,15 +23,6 @@
             </RouterLink>
 
             <RouterLink
-                to="/my-tickets"
-                class="nav-item"
-                active-class="active"
-            >
-                <span class="nav-icon">○</span>
-                <span>My Tickets</span>
-            </RouterLink>
-
-            <RouterLink
                 to="/tickets/create"
                 class="nav-item"
                 active-class="active"
@@ -91,7 +82,7 @@
 
     .portal-nav {
     --nav-padding: 1.5rem;
-    --nav-gap: 0.5rem;
+    --nav-gap: 0.75rem;
     --nav-item-height: 3rem;
     --nav-radius: 0.5rem;
 
@@ -99,6 +90,7 @@
     display: flex;
     flex-direction: column;
     padding: var(--nav-padding);
+    border-right: 1px solid var(--border-color-dark-blue);
     background-color: var(--bg-color-sidebar);
     background:
         radial-gradient(

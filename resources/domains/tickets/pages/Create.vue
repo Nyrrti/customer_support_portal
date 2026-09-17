@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from "vue";
+    import { onMounted, computed } from "vue";
     import Form from "../components/Form.vue";
     import { ticketStore } from "../store.js";
     import { categoryStore } from "../../categories/store.js"

@@ -24,6 +24,13 @@
             >
                 Tickets
             </RouterLink>
+            <RouterLink
+                to="/categories"
+                class="nav-item"
+                active-class="active"
+            >
+                Categories
+            </RouterLink>
         </div>
     </nav>
 

@@ -13,31 +13,29 @@
      * 
      * @param data Get the timestamp of database table updated_at
      */
-    function formattedUpdate(data: string) {
+    function formattedUpdateTime(data: string) {
         const startDate = new Date(data);
         const now = new Date();
-        const elapsedSeconds = Math.floor((now.getTime() - startDate.getTime()) / 1000);
+        const elapsedSeconds = Math.floor(
+            (now.getTime() - startDate.getTime()) / 1000
+        );
 
-        const days = Math.floor(elapsedSeconds / 86400);
-        const hours = Math.floor((elapsedSeconds % 86400) / 3600);
-        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-        const seconds = elapsedSeconds % 60;
+        const minutes = Math.floor(elapsedSeconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
 
-        let result;
+        if (elapsedSeconds < 60) {
+            return "Just now";
+        }
+        if (minutes < 60) {
+            return `${minutes}m ago`;
+        }
+        if (hours < 24) {
+           return `${hours}h ago`;
+        }
         
-        if (elapsedSeconds > 60) {
-            result = `${minutes} minute(s) ago`;
-        }
-        if (elapsedSeconds > 3600) {
-            result = `${hours} hour(s) ago`;
-        }
-        if (elapsedSeconds > 86400) {
-            result = `${days} day(s) ago`;
-        }
-        else {
-            result = "Just now";
-        }
-        return result;
+        return `${days}d ago`;
+    
     }
 
 
@@ -46,7 +44,7 @@
 
 <template>
     <span>
-        Updated: {{ formattedUpdate(props.date) }}
+        {{ formattedUpdateTime(props.date) }}
     </span>
 </template>
 

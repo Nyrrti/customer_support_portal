@@ -21,17 +21,19 @@
 <style scoped>
 
     .section {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         gap: 0.6rem;
+        width: 100%;
     }
 
     .header-search-bar {
-        display: flex;
-        justify-content: center;
+        width: 100%;
     }
 
     input.search-bar {
         width: 100%;
+        box-sizing: border-box;
         background-color: var(--bg-color-sidebar);
         border: 1px solid var(--border-color-blue);
         border-radius: 0.35rem;
@@ -41,8 +43,7 @@
 
     .button-section {
         display: flex;
-        justify-content: space-between;
-        gap: 1.5rem;
+        gap: 0.75rem;
     }
 
     .filter {
@@ -50,8 +51,9 @@
         min-height: 2.5rem;
         border: 1px solid var(--border-color-blue);
         border-radius: 0.5rem;
-        flex: 1;
         color: var(--font-color-light);
+        flex: 1;
+        
     }
 
     .select-dark {
@@ -64,8 +66,26 @@
     @media (min-width: 1200px) {
 
         .section {
+            flex-direction: row;
+            align-items: stretch;
+            gap: 4rem;
+        }
+
+        .header-search-bar {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .button-section {
+            flex: 0 0 auto;
             display: flex;
-            gap: 2rem;
+            gap: 0.75rem;
+        }
+
+        .filter,
+        .select-dark {
+            flex: 0 0 auto;
+            width: auto;
         }
     }
 </style>

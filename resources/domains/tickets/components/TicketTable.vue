@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type { Ticket } from "../types"
+    import CheckTime from "../../../js/components/CheckTime.vue";
 
     defineProps<{
         tickets: Ticket[];
@@ -9,15 +10,6 @@
         (event: "actions", ticket: Ticket): void;
     }>();
 
-    function formatDate(date: string): string {
-        return new Intl.DateTimeFormat("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        })
-            .format(new Date(date))
-            .replace(/\//g, "-");
-    }
 </script>
 
 <template>
@@ -76,7 +68,7 @@
                     </td>
 
                     <td class="updated">
-                        {{ formatDate(ticket.updated_at) }}
+                        <CheckTime :date="ticket.updated_at" />
                     </td>
 
                     <td class="assigned">

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-    import TicketsOverview from "../../domains/tickets/components/TicketsOverview.vue";
     import PortalHeader from "../components/PortalHeader.vue";
     import PortalNavSidebar from "../components/PortalNavSidebar.vue";
     import UserProfileMenu from "../components/UserProfileMenu.vue";
-    import TicketCard from "../../domains/tickets/components/TicketCard.vue"
+    
 import MobileNav from "../components/MobileNav.vue";
 </script>
 

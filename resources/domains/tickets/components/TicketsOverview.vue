@@ -21,7 +21,7 @@
     <section class="overview-panel">
         <div class="overview-card">
             <div class="overview-header py-3">
-                <div class="title-section py-3">
+                <div class="title-section pt-1 pb-4">
                     <div class="overview-title">
                         <div class="overview-icon">
                             T
@@ -30,8 +30,8 @@
                             All Tickets
                         </h3>
                     </div>
-                    <div class="overview-buttons">
-                        <RouterLink :to="{name: 'create'}" class="btn ticket">
+                    <div class="overview-ticket-button">
+                        <RouterLink :to="{name: 'create-ticket'}" class="btn ticket">
                             + New Ticket
                         </RouterLink>
                     </div>
@@ -69,12 +69,12 @@
         align-items: stretch;
     }
 
-    .overview-buttons {
+    .overview-ticket-button {
         display: flex;
         gap: var(--space-2);
     }
 
-    .overview-buttons > .btn {
+    .overview-ticket-button > .btn {
         flex: 1;
         min-width: 0;
         display: flex;
@@ -146,11 +146,6 @@
 
     @media (min-width: 768px) {
 
-        .overview-header {
-            flex-direction: row;
-            align-items: center;
-        }
-
         .overview-actions > .btn {
             flex: initial;
         }
@@ -159,7 +154,7 @@
     @media (min-width: 1200px) {
 
         .overview-card {
-            --overview-card-padding: 1.5rem;
+            padding: 1.5rem;
         }
 
         .mobile {
@@ -170,23 +165,16 @@
             display: block;
         }
 
-        .overview-header {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-        }
-
         .overview-title {
             padding-bottom: 0;
         }
 
-        .overview-buttons {
+        .overview-ticket-button {
             width: auto;
             flex: 0 0 auto;
         }
 
-        .overview-buttons > .btn {
+        .overview-ticket-button > .btn {
             flex: 0 0 auto;
             width: auto;
         }
