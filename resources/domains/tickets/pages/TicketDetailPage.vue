@@ -6,7 +6,7 @@
 <template>
 
     <LoggedInLayout>
-        <div class="dashboard-bg">
+        <div class="ticket-page-background">
             <TicketDetails :ticket="ticket" />
         </div>
     </LoggedInLayout>
@@ -16,7 +16,7 @@
 
 <style scoped>
 
-    .dashboard-bg {
+    .ticket-page-background {
         min-height: 100%;
         padding: 1rem;
         background-color: var(--bg-color-secondary);

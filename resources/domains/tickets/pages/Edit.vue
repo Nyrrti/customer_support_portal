@@ -40,7 +40,7 @@
 
 <template>
     <LoggedInLayout>
-        <div class="dashboard-bg">
+        <div class="ticket-page-background">
             <div class="form-wrapper py-3">
                 <Form v-if="ticket" 
                     :ticket="ticket" 
@@ -55,7 +55,7 @@
 
 <style scoped>
 
-    .dashboard-bg {
+    .ticket-page-background {
         min-height: 100%;
         padding: 1rem;
         background-color: var(--bg-color-secondary);

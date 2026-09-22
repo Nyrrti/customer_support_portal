@@ -9,7 +9,7 @@ import MobileNav from "../components/MobileNav.vue";
 
 <template>
 
-    <div class="page-bg">
+    <div class="page-background">
         <div class="portal">
             <portal-header>
                 <template #nav-mobile>
@@ -34,7 +34,7 @@ import MobileNav from "../components/MobileNav.vue";
 
 <style scoped>
 
-    .page-bg {
+    .page-background {
         min-height: 100dvh;
         display: flex;
         justify-content: center;

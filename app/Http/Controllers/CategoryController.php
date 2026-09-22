@@ -11,4 +11,5 @@ class CategoryController extends Controller
         return CategoryResource::collection(Category::all());
     }
     
+    
 }

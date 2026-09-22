@@ -8,6 +8,8 @@
     --bg-color-card-medium: #d3dae5;
     --bg-color-card-dark: #cad1e0;
     --bg-color-secondary: #d3dae3;
+    --bg-color-blue: #1b3e75;
+    --bg-color-dark-blue: #1b3b6b;
     --bg-color-body: #485463;
     --bg-color-nav:  #0e2650b3;
     --bg-color-header: #1b3e75;
@@ -18,6 +20,7 @@
     --color-blue: #3368da;
     --color-purple: #6d52da;
     --color-grey: #6e6f72;
+    --color-red: #ec807a;
 
     --sidebar-glow: rgb(39, 108, 212);
     --sidebar-glow-purple: rgb(78, 56, 221);

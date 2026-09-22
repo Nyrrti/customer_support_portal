@@ -57,7 +57,7 @@
 <style scoped>
     .overview-panel {
         min-height: 100%;
-        background-color: var(--bg-color-header-dark);
+        background-color: var(--bg-color-blue);
     }
 
     .overview-card {

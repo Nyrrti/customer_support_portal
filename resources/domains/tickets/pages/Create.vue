@@ -28,7 +28,7 @@
 
 <template>
     <LoggedInLayout>
-        <div class="dashboard-bg">
+        <div class="page-background">
             <div class="form-wrapper py-3">
                 <Form :categories="categories" @submit="createTicket" mode="create"/>
             </div>
@@ -38,16 +38,10 @@
 
 <style scoped>
 
-    .dashboard-bg {
+    .ticket-page-background {
         min-height: 100%;
         padding: 1rem;
-        background-color: var(--bg-color-secondary);
-        background:
-        linear-gradient(
-            135deg,
-            var(--bg-color-secondary),
-            color-mix(in srgb, var(--bg-color-secondary) 95%, rgb(92, 119, 153))
-        );
+        background-color: var(--bg-color-blue);
     }
 
     .form-wrapper {

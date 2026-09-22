@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { Category } from '../../categories/types';
-import type { CreateTicket, Ticket, UpdateTicket } from '../types';
+import type { Category, CreateCategory, UpdateCategory } from '../types';
 
 
     const props = defineProps<{
-        categories: Category[];
         mode: "create" | "edit"
-        ticket?: Ticket;
+        category?: Category;
     }>();
     
-    const ticket = ref<CreateTicket>({
-        subject: props.ticket?.subject ?? "",
-        description: props.ticket?.description ?? "",
-        category_id: props.ticket?.category_id ?? null,
+    const category = ref<CreateCategory>({
+        title: props.category?.title ?? "",
+        category_id: props.category?.category_id ?? null,
     });
 
     /**
@@ -22,38 +19,38 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
      * Describes what data that event carries
      * Send out
      *
-     * The "submit" event must include one CreateTicket object.
+     * The "submit" event must include one CreateCategory object.
      */
     const emit = defineEmits<{
-        submit: [ticket: CreateTicket | UpdateTicket]
+        submit: [category: CreateCategory | UpdateCategory]
     }>();
 
     /**
-     * Handles submitting the ticket form.
+     * Handles submitting the category form.
      *
-     * Emits the current CreateTicket data to the parent component,
+     * Emits the current Createcategory data to the parent component,
      * where it can be sent to the store/API.
      *
      * @returns void
      */
     const submitForm = () => {
-        emit("submit", ticket.value);
+        emit("submit", category.value);
     };
 </script>
 
 <template>
     <div class="nav-link my-2 p-2">
-        <RouterLink :to="{ name: 'dashboard' }">
-            Tickets 
+        <RouterLink :to="{ name: 'category-overview' }">
+            Categories 
         </RouterLink>
         <span>
-            > {{ mode === "create" ? "Create new Ticket" : "Edit Ticket" }}
+            > {{ mode === "create" ? "Create new Category" : "Edit Category" }}
         </span>
     </div>
-    <form class="ticket-form-bg"  @submit.prevent="submitForm">
-        <div class="ticket-form-heading p-4">
+    <form class="category-form-bg"  @submit.prevent="submitForm">
+        <div class="category-form-heading p-4">
             <div class="d-flex items-center">
-                <div class="ticket-form-icon me-1" aria-hidden="true">
+                <div class="category-form-icon me-1" aria-hidden="true">
                     <svg
                         viewBox="0 0 24 24"
                         width="40"
@@ -67,64 +64,32 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
                     </svg>
                 </div>
                 <h5>
-                    {{ mode === "create" ? "Create new Ticket" : "Edit Ticket" }}
+                    {{ mode === "create" ? "Create new Category" : "Edit Category" }}
                 </h5>
             </div>
             <RouterLink
-                :to="{ name: 'dashboard' }"
-                class="ticket-form-icon form-close"
-                aria-label="Back to ticket overview"
+                :to="{ name: 'category-overview' }"
+                class="category-form-icon form-close"
+                aria-label="Back to category overview"
             >
                 ↩
             </RouterLink>
         </div>
-        <div class="ticket-form-input-field">
+        <div class="category-form-input-field">
             <div class="field">
                 <label for="subject">
-                    Subject
+                    Title
                 </label>
                 <input 
-                    id="subject"
-                    v-model="ticket.subject"
+                    id="title"
+                    v-model="category.title"
                     type="text"
                 >
             </div>
-            <div class="field">
-                <label for="category">
-                    Category
-                </label>
-                <select 
-                    id="category"
-                    v-model="ticket.category_id" 
-                    required
-                >
-                    <option :value="null" disabled>
-                        -- Please select a category --
-                    </option>
-
-                    <option
-                        v-for="category in categories"
-                        :key="category.id"
-                        :value="category.id"
-                    >
-                        {{ category.title }}
-                    </option>
-                </select>
-            </div>
-            <div class="field">
-                <label for="description">
-                    Description
-                </label>
-                <textarea
-                    id="description"
-                    v-model="ticket.description"
-                >
-                </textarea>
-            </div>
         </div>
-        <div class="ticket-form-footer p-4">
+        <div class="category-form-footer p-4">
             <button class="btn create" type="submit">
-                {{ mode === "create" ? "Create Ticket" : "Edit Ticket" }}
+                {{ mode === "create" ? "Create Category" : "Edit Category" }}
             </button>
         </div>
     </form>
@@ -136,7 +101,7 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         color: var(--font-color-medium-light);
     }
 
-    .ticket-form-bg {
+    .category-form-bg {
         background-color: var(--bg-color-card);    
         border-radius: 0.6rem;
         border: 1px solid var(--bg-color-card-dark);
@@ -146,7 +111,7 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         gap: 1.5rem;
     }
 
-    .ticket-form-heading {
+    .category-form-heading {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -161,11 +126,11 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         position: relative;
     }
 
-    .ticket-form-heading h5 {
+    .category-form-heading h5 {
         color: var(--font-color-light);
     }
 
-    .ticket-form-icon {
+    .category-form-icon {
         flex-shrink: 0;
         display: flex;
         align-items: center;
@@ -190,14 +155,14 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         color: var(--color-yellow);
     }
 
-    .ticket-form-input-field {
+    .category-form-input-field {
         display: flex;
         flex-direction: column;
         gap: 1rem;
         padding: 1.5rem 1.5rem 0rem 1.5rem;
     }
 
-    .ticket-form-input-field input {
+    .category-form-input-field input {
         width: 100%;
         padding: 0.7rem;
         background-color: var(--bg-color-card);
@@ -205,7 +170,7 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         border-radius: 0.4rem;
     }
 
-    .tick-form-footer {
+    .category-form-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
