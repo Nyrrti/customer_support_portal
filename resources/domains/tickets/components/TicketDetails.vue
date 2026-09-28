@@ -2,6 +2,7 @@
     import { onMounted, ref } from "vue"
     import { useRoute } from "vue-router"
     import axios from "axios"
+    import CheckTime from "../../../js/components/CheckTime.vue";
 
     const route = useRoute();
     const loading = ref(true);
@@ -9,16 +10,6 @@
 
     const ticket = ref(null);
     
-    function formatDate(date: string): string {
-        const formatted = new Intl.DateTimeFormat("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        }).format(new Date(date))
-
-        return formatted.replace(/\//g, "-")
-    }
-
     async function fetchTicket() {
         loading.value = true
 
@@ -87,12 +78,16 @@
 
                 <div class="meta-item">
                     <dt>Created</dt>
-                    <dd>{{ formatDate(ticket.created_at) }}</dd>
+                    <dd>
+                        <CheckTime :date="ticket.created_at" />
+                    </dd>
                 </div>
 
                 <div class="meta-item">
                     <dt>Last updated</dt>
-                    <dd>{{ formatDate(ticket.updated_at) }}</dd>
+                    <dd>
+                        <CheckTime :date="ticket.updated_at" />
+                    </dd>
                 </div>
 
                 <div class="meta-item">

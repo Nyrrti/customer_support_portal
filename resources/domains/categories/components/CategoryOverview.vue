@@ -20,7 +20,7 @@
             <thead>
                 <tr class="category-table-header">
                     <th class="p-3 py-4">
-                            <h4 class="light">
+                        <h4 class="table-title">
                             Categories
                         </h4>
                     </th>
@@ -62,14 +62,21 @@
         border: 1px solid var(--border-color-blue);
         display: flex;
         flex-direction: column;
+        border-radius: 0.6rem;
+        overflow: hidden;
     }
 
     .category-table {
-        background-color: var(--bg-color-card);
+        background-color: var(--bg-color-card);  
+    }
+
+    .table-title {
+        color: var(--font-color-medium-light);
     }
 
     .category-table-header {
-        background-color: var(--bg-color-blue);
+        background-color: var(--table-header);
+        border-radius: 0.6rem;
     }
 
     .category-card {
@@ -88,6 +95,13 @@
 
     .btn.delete, .btn.edit {
         font-size: var(--text-label);
+    }
+
+     @media (min-width: 1200px) {
+
+        .category-card {
+            padding: 1.5rem 2rem;
+        }
     }
 
 </style>

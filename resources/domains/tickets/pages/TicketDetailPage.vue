@@ -1,13 +1,14 @@
 <script setup lang="ts">
+    
     import TicketDetails from '../components/TicketDetails.vue';
     import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
+    
 </script>
 
 <template>
-
     <LoggedInLayout>
         <div class="ticket-page-background">
-            <TicketDetails :ticket="ticket" />
+            <TicketDetails />
         </div>
     </LoggedInLayout>
 

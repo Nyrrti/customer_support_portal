@@ -33,6 +33,7 @@
     --border-input-light: #bcc3cd;
 
     --table-bg: var(--bg-color-card);
+    --table-header: #2e538f;
     --table-text: var(--font-color-dark);
     --table-link: var(--font-color-title-dark);
     --table-text-muted: var(--font-color-medium);
@@ -54,7 +55,7 @@
 
     --font-size-xs: 0.84rem;   
     --font-size-sm: 0.9rem;   
-    --font-size-md: 0.98rem;   
+    --font-size-md: 0.97rem;   
     --font-size-lg: 1.05rem;   
     --font-size-xl: 1.15rem;    
     --font-size-2xl: 1.55rem;    

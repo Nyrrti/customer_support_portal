@@ -14,9 +14,14 @@ export const router = createRouter({
             name: 'home',
         },
         {
-            path: '/tickets',
+            path: '/dashboard',
             component: DashboardPage,
             name: 'dashboard',
+        },
+        {
+            path: '/tickets',
+            component: DashboardPage,
+            name: 'tickets',
         },
         ...ticketRoutes,
         ...categoryRoutes,

@@ -28,7 +28,7 @@
 
 <template>
     <LoggedInLayout>
-        <div class="page-background">
+        <div class="ticket-page-background">
             <div class="form-wrapper py-3">
                 <Form :categories="categories" @submit="createTicket" mode="create"/>
             </div>
@@ -41,7 +41,7 @@
     .ticket-page-background {
         min-height: 100%;
         padding: 1rem;
-        background-color: var(--bg-color-blue);
+        background-color: var(--bg-color-dark-blue);
     }
 
     .form-wrapper {

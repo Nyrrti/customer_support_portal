@@ -100,7 +100,6 @@
 <style scoped>
 
     .overview-table-wrap {
-        --table-header: #2e538f;
         --border-ticket-table: #426db2;
         --border-id: #bdc4cf;
 

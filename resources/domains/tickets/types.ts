@@ -6,6 +6,7 @@
         title: string
         description: string
         status: string
+        created_at: string
         updated_at: string
         created_by_id: number
         assigned_to_id: number | null

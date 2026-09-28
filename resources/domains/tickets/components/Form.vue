@@ -11,7 +11,7 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
     }>();
     
     const ticket = ref<CreateTicket>({
-        subject: props.ticket?.subject ?? "",
+        title: props.ticket?.title ?? "",
         description: props.ticket?.description ?? "",
         category_id: props.ticket?.category_id ?? null,
     });

@@ -31,7 +31,7 @@
                         </h3>
                     </div>
                     <div class="overview-ticket-button">
-                        <RouterLink :to="{name: 'create'}" class="btn ticket">
+                        <RouterLink :to="{name: 'create-ticket'}" class="btn ticket">
                             + New Ticket
                         </RouterLink>
                     </div>

@@ -34,4 +34,11 @@
         padding: 1rem;
     }
 
+     @media (min-width: 1200px) {
+
+        .category-page-background {
+            padding: 1.5rem;
+        }
+    }
+
 </style>
