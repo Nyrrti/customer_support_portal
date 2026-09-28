@@ -17,7 +17,7 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            "subject" => fake()->sentence(),
+            "title" => fake()->sentence(),
             "description" => fake()->paragraph(),
             "status" => fake()->randomElement(['Open', 'In Progress', 'Closed']),
 

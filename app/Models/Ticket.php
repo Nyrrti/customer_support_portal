@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 
 #[Fillable([
-    "subject",
+    "title",
     "description",
     "status",
     "created_by_id",
@@ -23,7 +24,7 @@ class Ticket extends Model
      */
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, "created_by_id");
     }
 
      /**
@@ -31,14 +32,30 @@ class Ticket extends Model
      */
     public function assignedTo(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assigned_to_id');
+        return $this->belongsTo(User::class, "assigned_to_id");
     }
 
-     /**
+    /**
      * Get the category the ticket belongs to.
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, "category_id");
+    }
+
+     /**
+     * Get the replies for the ticket.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class, "replies");
+    }
+
+     /**
+     * Get the notes for the ticket.
+     */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class, "notes");
     }
 }

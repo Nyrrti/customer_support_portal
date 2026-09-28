@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(["name", "email", "password"])]
+#[Fillable(["first_name","last_name","email","phone_number", "password"])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -56,5 +56,21 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->is_admin;
+    }
+
+    /**
+     * Get the replies written by the user.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Get the notes written by the user.
+     */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
     }
 }
