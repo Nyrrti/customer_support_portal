@@ -15,18 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string("subject");
             $table->text("description");
-            $table->enum("status", ["Open", "In Progress", "Closed"]);
+            $table->string('status')->default('Pending');
             $table->timestamps();
 
             $table->foreignId('created_by_id')
-            ->constrained("users");
+            ->constrained("users")
+            ->cascadeOnDelete();
             
             $table->foreignId('assigned_to_id')
             ->nullable()
+            ->nullOnDelete()
             ->constrained("users");
             
             $table->foreignId('category_id')
-            ->constrained();
+            ->constrained()
+            ->restrictOnDelete();
             });
     }
 

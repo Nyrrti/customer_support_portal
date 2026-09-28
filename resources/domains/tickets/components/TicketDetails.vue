@@ -68,7 +68,7 @@
                     </span>
                 </div>
 
-                <RouterLink :to="{ name: 'edit', params: { id: ticket.id } }" class="btn edit">
+                <RouterLink :to="{ name: 'edit-ticket', params: { id: ticket.id } }" class="btn edit">
                    > Edit Ticket
                 </RouterLink>
             </header>

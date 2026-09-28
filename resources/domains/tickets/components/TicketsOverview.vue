@@ -31,7 +31,7 @@
                         </h3>
                     </div>
                     <div class="overview-ticket-button">
-                        <RouterLink :to="{name: 'create-ticket'}" class="btn ticket">
+                        <RouterLink :to="{name: 'create'}" class="btn ticket">
                             + New Ticket
                         </RouterLink>
                     </div>
@@ -57,7 +57,7 @@
 <style scoped>
     .overview-panel {
         min-height: 100%;
-        background-color: var(--bg-color-blue);
+        background-color: var(--bg-color-dark-blue);
     }
 
     .overview-card {

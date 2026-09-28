@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index() {
-        return CategoryResource::collection(Category::all());
+    
+    public function index(Request $request) {
+
+        $user = $request->user();
+
+        $query = Category;
+        
+
+        if (!$user->is_admin) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+        return CategoryResource::collection($query->get());
     }
-    
-    
 }

@@ -14,11 +14,11 @@ export const categoryRoutes: RouteRecordRaw[] = [
     {
         path: "/categories/create",
         component: Create,
-        name: "create-category",
+        name: "create",
     },
     {
         path: "/categories/:id/edit",
         component: Edit,
-        name: "edit-category",
+        name: "edit",
     },
 ]

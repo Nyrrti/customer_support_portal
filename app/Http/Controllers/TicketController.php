@@ -28,7 +28,7 @@ class TicketController extends Controller
     // CREATE
     public function store(StoreTicketRequest $request)
     {
-        $this->authorize('create-ticket', Ticket::class);
+        $this->authorize('create', Ticket::class);
 
         $data = $request->validated();
 
@@ -56,16 +56,16 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $this->authorize('view', $ticket);
-        return $ticket->load([
+            return new TicketResource($ticket->load([
             "createdBy",
             "assignedTo",
             "category",
-        ]);
+        ]));
     }
 
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
-        $this->authorize('update-ticket', $ticket);
+        $this->authorize('update', $ticket);
 
         $ticket->update($request->validated());
 

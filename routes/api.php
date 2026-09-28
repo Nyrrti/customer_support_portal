@@ -14,10 +14,9 @@ Route::post("/login", [AuthController::class, "login"])
 Route::middleware("auth:sanctum")->group(function () {
     Route::get("/user", [AuthController::class, "user"]);
     Route::post("/logout", [AuthController::class, "logout"]);
-
-    Route::get("/categories", [CategoryController::class, "index"]);
-
+// Logged in
     Route::get("/tickets", [TicketController::class, "index"]);
+    Route::get("/categories", [CategoryController::class, "index"]);
     Route::get("/tickets/{ticket}", [TicketController::class, "show"]); 
     Route::put("/tickets/{ticket}", [TicketController::class, "update"]);
     Route::post("/tickets", [TicketController::class, "store"]);

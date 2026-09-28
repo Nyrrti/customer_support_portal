@@ -14,11 +14,11 @@ export const ticketRoutes: RouteRecordRaw[] = [
     {
         path: "/tickets/create",
         component: Create,
-        name: "create-ticket",
+        name: "create",
     },
     {
         path: "/tickets/:id/edit",
         component: Edit,
-        name: "edit-ticket",
+        name: "edit",
     },
 ]

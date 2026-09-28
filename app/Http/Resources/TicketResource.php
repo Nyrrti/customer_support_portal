@@ -22,10 +22,9 @@ class TicketResource extends JsonResource
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "category_id" => $this->category_id,
-            "created_by" => $this->whenLoaded("createdBy"),
-            "assigned_to" => $this->whenLoaded("assignedTo"),
-            "category" => $this->whenLoaded("category"),
-            
+            "created_by" => new UserResource($this->whenLoaded("createdBy")),
+            "assigned_to" => new UserResource($this->whenLoaded("assignedTo")),
+            "category" => new CategoryResource($this->whenLoaded("category")), 
         ];
     }
 }
