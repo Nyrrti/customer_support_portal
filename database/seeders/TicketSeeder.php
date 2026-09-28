@@ -7,6 +7,9 @@ use Illuminate\Database\Seeder;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Note;
+use App\Models\Reply;
+
 
 class TicketSeeder extends Seeder
 {
@@ -17,21 +20,33 @@ class TicketSeeder extends Seeder
     {   
         for ($i=0; $i <  8 ; $i++) { 
             $user = User::where("is_admin", false)
-            ->inRandomOrder()
-            ->first();
+                ->inRandomOrder()
+                ->first();
 
             $admin = User::where("is_admin", true)
-            ->inRandomOrder()
-            ->first();
+                ->inRandomOrder()
+                ->first();
 
             $category = Category::inRandomOrder()
-            ->first();
+                ->first();
 
-            Ticket::factory()
-            ->for($user, "createdBy")
-            ->for($admin, "assignedTo")
-            ->for($category)
-            ->create();
+            $ticket = Ticket::factory()
+                ->for($user, "createdBy")
+                ->for($admin, "assignedTo")
+                ->for($category)
+                ->create();
+
+            Reply::factory()
+                ->count(rand(0, 3))
+                ->for($ticket)
+                ->for($admin, "user")
+                ->create();
+
+            Note::factory()
+                ->count(rand(0, 2))
+                ->for($ticket)
+                ->for($admin, "user")
+                ->create();
         }
     }
 }

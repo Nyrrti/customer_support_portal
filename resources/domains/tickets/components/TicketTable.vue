@@ -51,7 +51,7 @@
                                 params: { id: ticket.id },
                             }"
                         >
-                            {{ ticket.subject }}
+                            {{ ticket.title }}
                         </RouterLink>
                     </td>
 

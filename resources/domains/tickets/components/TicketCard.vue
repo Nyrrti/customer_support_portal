@@ -33,7 +33,7 @@ import type { Ticket } from '../types';
                         params: { id: ticket.id },
                     }"
                 >
-                    {{ ticket.subject }}
+                    {{ ticket.title }}
                 </RouterLink>
                 <div class="ticket-update-section content-border pb-1">
                     <span class="ticket-status">

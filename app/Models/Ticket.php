@@ -48,7 +48,7 @@ class Ticket extends Model
      */
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class, "replies");
+        return $this->hasMany(Reply::class);
     }
 
      /**
@@ -56,6 +56,6 @@ class Ticket extends Model
      */
     public function notes(): HasMany
     {
-        return $this->hasMany(Note::class, "notes");
+        return $this->hasMany(Note::class);
     }
 }

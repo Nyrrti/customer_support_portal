@@ -23,7 +23,7 @@ class StoreTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "subject" => "required|string|max:255",
+            "title" => "required|string|max:255",
             "description" => "required|string",
             "category_id" => "required|integer|exists:categories,id",
         ];

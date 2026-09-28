@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="ticket-summary-subject">
-                    <h1>{{ ticket.subject }}</h1>
+                    <h1>{{ ticket.title }}</h1>
 
                     <span class="badge status">
                         {{ ticket.status }}

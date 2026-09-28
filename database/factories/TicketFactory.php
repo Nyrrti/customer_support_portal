@@ -19,7 +19,7 @@ class TicketFactory extends Factory
         return [
             "title" => fake()->sentence(),
             "description" => fake()->paragraph(),
-            "status" => fake()->randomElement(['Open', 'In Progress', 'Closed']),
+            "status" => fake()->randomElement(['pending', 'in progress', 'closed']),
 
             // "category_id" => Category::factory(),
             // "created_by_id" => User::factory(),

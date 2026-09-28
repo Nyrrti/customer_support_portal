@@ -3,7 +3,7 @@
 
     export interface Ticket {
         id: number
-        subject: string
+        title: string
         description: string
         status: string
         updated_at: string
@@ -17,15 +17,15 @@
     }
 
     export interface CreateTicket {
-        subject: string
+        title: string
         description: string
         category_id: number | null;
     }
 
     export interface UpdateTicket {
-        subject?: string
+        title: string
         description?: string
-        status?: string
+        status: string
         assigned_to_id?: number | null
         category_id?: number
     }

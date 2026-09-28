@@ -80,12 +80,12 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         </div>
         <div class="ticket-form-input-field">
             <div class="field">
-                <label for="subject">
-                    Subject
+                <label for="title">
+                    Title
                 </label>
                 <input 
-                    id="subject"
-                    v-model="ticket.subject"
+                    id="title"
+                    v-model="ticket.title"
                     type="text"
                 >
             </div>
