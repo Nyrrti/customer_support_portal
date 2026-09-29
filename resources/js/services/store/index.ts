@@ -27,15 +27,17 @@ export const storeModuleFactory = (moduleName: string) => {
     };
 
     const setters = {
-        // Put multiple items into the store.
-        // Each item is stored using its id as the key.
         setAll: (items) => {
             for (const item of items) {
                 state.value[item.id] = Object.freeze(item);
             }
         },
-        // Remove the item stored under this key/id.
-        deleteByItem: (id) => {
+
+        setOne: (item) => {
+            state.value[item.id] = Object.freeze(item);
+        },
+
+        deleteById: (id) => {
             delete state.value[id];
         }
     };
@@ -45,22 +47,23 @@ export const storeModuleFactory = (moduleName: string) => {
         // Example: moduleName "tickets" results in a GET request for "tickets".
         getAll: async () => {
             const { data } = await getRequest(moduleName);
+
             if (!data) return;
             setters.setAll(data);
         },
         create: async (item) => {
             const { data } = await postRequest(moduleName, item);
             if (!data) return;
-            setters.setAll(data);
+            setters.setOne(data);
         },
         update: async (id, item) => {
             const { data } = await putRequest(`${moduleName}/${id}`, item);
             if (!data) return;
-            setters.setAll(data);
+            setters.setOne(data);
         },
         delete: async (id) => {
             await deleteRequest(`${moduleName}/${id}`);
-            setters.deleteByItem(id);
+            setters.deleteById(id);
         }
     };
 

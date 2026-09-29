@@ -4,7 +4,7 @@
     import Form from "../components/Form.vue";
     import { categoryStore } from "../../categories/store.js"
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
-     import type { Category, CreateCategory } from "../../categories/types.js";
+    import type { Category, CreateCategory } from "../../categories/types.js";
 
     const router = useRouter();
     

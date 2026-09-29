@@ -28,34 +28,28 @@ class TicketController extends Controller
     // CREATE
     public function store(StoreTicketRequest $request)
     {
-        $this->authorize('create', Ticket::class);
+        $this->authorize("create", Ticket::class);
 
         $data = $request->validated();
 
         $data["created_by_id"] = $request->user()->id;
         $data["status"] = "Open";
 
-        Ticket::create($data);
+        $ticket = Ticket::create($data);
 
-        $user = $request->user();
-
-        $query = Ticket::with([
-            "createdBy",
-            "assignedTo",
-            "category",
-        ]);
-
-        if (!$user->is_admin) {
-            $query->where("created_by_id", $user->id);
-        }
-
-        return TicketResource::collection($query->get());
+        return new TicketResource(
+            $ticket->load([
+                "createdBy",
+                "assignedTo",
+                "category",
+            ])
+        );
     }
 
     // VIEW
     public function show(Ticket $ticket)
     {
-        $this->authorize('view', $ticket);
+        $this->authorize("view", $ticket);
             return new TicketResource($ticket->load([
             "createdBy",
             "assignedTo",
@@ -66,22 +60,26 @@ class TicketController extends Controller
     // EDIT
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
-        $this->authorize('update', $ticket);
+        $this->authorize("update", $ticket);
 
         $ticket->update($request->validated());
 
-        $user = $request->user();
+        return new TicketResource(
+            $ticket->load([
+                "createdBy",
+                "assignedTo",
+                "category",
+            ])
+        ); 
+    }
 
-        $query = Ticket::with([
-            "createdBy",
-            "assignedTo",
-            "category",
-        ]);
+    // DELETE
+    public function destroy(Ticket $ticket)
+    {
+        $this->authorize("delete", $ticket);
 
-        if (!$user->is_admin) {
-            $query->where("created_by_id", $user->id);
-        }
+        $ticket->delete();
 
-        return TicketResource::collection($query->get());
+        return response()->noContent();
     }
 }

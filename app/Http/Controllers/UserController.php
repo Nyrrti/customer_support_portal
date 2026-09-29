@@ -4,39 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 
 class UserController extends Controller
 {
     public function index(Request $request) {
 
-        return UserResource::collection(User::orderBy('first_name')->get());
+        return UserResource::collection(User::orderBy("first_name")->get());
     }
 
     // CREATE
-    public function store(StoreUserRequest $request)
+    public function store(UserRequest $request)
     {
-        $this->authorize('create', User::class);
+        $user = User::create($request->validated());
 
-        $data = $request->validated();
-
-        $data["created_by_id"] = $request->user()->id;
-        $data["status"] = "Pending";
-
-        User::create($data);
-
-        $user = $request->user();
-
-        $query = Ticket::with([
-            "createdBy",
-            "assignedTo",
-            "category",
-        ]);
-
-        if (!$user->is_admin) {
-            $query->where("created_by_id", $user->id);
-        }
-
-        return TicketResource::collection($query->get());
+        return new UserResource($user);
     }
 }
