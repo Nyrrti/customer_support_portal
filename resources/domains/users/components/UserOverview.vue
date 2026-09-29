@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type { User } from '../types';
+    import UserTable from "../components/UserTable.vue"
    
     const props = defineProps<{
         users: User[];
@@ -8,7 +9,7 @@
 </script>
 
 <template>
-
+    <UserTable :users="users" />
     <div class="user-section">
         <table class="user-table">
             <colgroup>

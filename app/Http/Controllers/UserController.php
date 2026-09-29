@@ -14,11 +14,23 @@ class UserController extends Controller
         return UserResource::collection(User::orderBy("first_name")->get());
     }
 
-    // CREATE
-    public function store(UserRequest $request)
+    // EDIT
+    public function update(UserRequest $request, User $user)
     {
-        $user = User::create($request->validated());
+        $this->authorize("update", $user);
+
+        $user->update($request->validated());
 
         return new UserResource($user);
+    }
+
+    // DELETE
+    public function destroy(User $user)
+    {
+        $this->authorize("delete", $user);
+
+        $user->delete();
+
+        return response()->noContent();
     }
 }
