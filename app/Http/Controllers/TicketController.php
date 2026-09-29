@@ -63,6 +63,7 @@ class TicketController extends Controller
         ]));
     }
 
+    // EDIT
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
         $this->authorize('update', $ticket);

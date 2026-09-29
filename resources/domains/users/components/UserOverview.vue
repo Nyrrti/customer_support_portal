@@ -1,16 +1,16 @@
 <script setup lang="ts">
-    import type { Category } from '../types';
-
+    import type { User } from '../types';
+   
     const props = defineProps<{
-        categories: Category[];
+        users: User[];
     }>();
 
 </script>
 
 <template>
 
-    <div class="category-section">
-        <table class="category-table">
+    <div class="user-section">
+        <table class="user-table">
             <colgroup>
                 <col>
                 <col>
@@ -18,37 +18,50 @@
                 <col class="table-w-15">
             </colgroup>
             <thead>
-                <tr class="category-table-header">
+                <tr class="user-table-header">
                     <th class="p-3 py-4">
                         <h4 class="table-title">
-                            Categories
+                            Users
                         </h4>
                     </th>
                     <th class="text-end p-3" colspan="3">
-                        <RouterLink :to="{name: 'create-category'}" class="btn category">
-                            + New Category
+                        <RouterLink :to="{name: 'create-user'}" class="btn user">
+                            + New user
                         </RouterLink>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="category in categories" :key="category.id" class="border-bottom">
-                    <td class="category-card" colspan="2">
-                        {{ category.title }}
-                    </td>
-                    <td class="text-end">
-                        <RouterLink :to="{ name: 'edit-category', params: { id: category.id } }" class="btn edit">
-                            Edit
-                        </RouterLink>
-                    </td>
-                    <td class="text-end">
-                        <button class="btn delete">
-                            Delete
-                        </button>
+                <template v-if="users.length">
+                    <tr
+                        v-for="user in users"
+                        :key="user.id"
+                        class="border-bottom"
+                    >
+                        <td class="user-card" colspan="2">
+                            {{ user.name }}
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn edit">
+                                Edit
+                            </button>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn delete">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </template>
+                <tr v-else>
+                    <td colspan="4">
+                        No users yet.
                     </td>
                 </tr>
-                
             </tbody>
+
         </table>
     </div>
 
@@ -56,7 +69,7 @@
 
 <style scoped>
 
-    .category-section {
+    .user-section {
         min-height: 100%;
         background-color: var(--bg-color-blue);
         border: 1px solid var(--border-color-blue);
@@ -66,7 +79,7 @@
         overflow: hidden;
     }
 
-    .category-table {
+    .user-table {
         background-color: var(--bg-color-card);  
     }
 
@@ -74,12 +87,12 @@
         color: var(--font-color-medium-light);
     }
 
-    .category-table-header {
+    .user-table-header {
         background-color: var(--table-header);
         border-radius: 0.6rem;
     }
 
-    .category-card {
+    .user-card {
         padding: 0.75rem 1.25rem;
     }
 
@@ -87,7 +100,7 @@
         border-bottom: 1px solid var(--border-color-darker);
     }
 
-    .btn.category {
+    .btn.user {
         background-color: var(--color-yellow);
         color: var(--font-color-dark);
         padding: 0.8rem 2rem;
@@ -99,7 +112,7 @@
 
      @media (min-width: 1200px) {
 
-        .category-card {
+        .user-card {
             padding: 1.5rem 2rem;
         }
     }

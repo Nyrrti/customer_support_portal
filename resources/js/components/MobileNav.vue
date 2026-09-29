@@ -31,6 +31,13 @@
             >
                 Categories
             </RouterLink>
+             <RouterLink
+                to="/users"
+                class="nav-item"
+                active-class="active"
+            >
+                Users
+            </RouterLink>
         </div>
     </nav>
 
