@@ -22,7 +22,7 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
      * Describes what data that event carries
      * Send out
      *
-     * The "submit" event must include one CreateTicket object.
+     * The "submit" event must include one CreateTicket or UpdateTicket object.
      */
     const emit = defineEmits<{
         submit: [ticket: CreateTicket | UpdateTicket]
@@ -205,7 +205,7 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
         border-radius: 0.4rem;
     }
 
-    .tick-form-footer {
+    .ticket-form-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;

@@ -1,182 +1,166 @@
 <script setup lang="ts">
-    import { onMounted, ref } from "vue"
-    import { useRoute } from "vue-router"
-    import axios from "axios"
+    import { onMounted } from "vue";
+    import { ticketStore } from "../store";
+    import { useRoute } from "vue-router";
     import CheckTime from "../../../js/components/CheckTime.vue";
 
     const route = useRoute();
-    const loading = ref(true);
-    const error = ref(null);
+   
+    // Read the state
+    const ticket = ticketStore.getters.getById(Number(route.params.id));
 
-    const ticket = ref(null);
-    
-    async function fetchTicket() {
-        loading.value = true
-
-        try {
-            const response = await axios.get(`/api/tickets/${route.params.id}`)
-
-            ticket.value = response.data
-        } catch (error) {
-            error.value = "Could not load the ticket."
-        } finally {
-            loading.value = false
-        }
-    }
-    
-    onMounted(fetchTicket);
-
+    onMounted(async () => {
+        // Fetch tickets and put them into state
+        await ticketStore.actions.getAll();
+    }); 
 </script>
 
 <template>
-    <div v-if="loading">
-        Loading ticket...
-    </div>
-    <div v-else-if="error">
-        {{ error }}
-    </div>
-    <div v-else-if="ticket">
-        <div class="ticket-nav">
-            <RouterLink :to="{ name: 'dashboard' }">
-                Tickets
-            </RouterLink>
-            > #{{ String(ticket.id).padStart(4, '0') }}
-        </div>
-        <section class="ticket-summary"> 
-            <header class="ticket-summary-header">
-                <div class="ticket-summary-number">
-                    <div class="ticket-number">
-                        <span>Ticket</span>
-                        <strong>#{{ ticket.id }}</strong>
-                    </div>
-                </div>
-
-                <div class="ticket-summary-subject">
-                    <h1>{{ ticket.title }}</h1>
-
-                    <span class="badge status">
-                        {{ ticket.status }}
-                    </span>
-                </div>
-
-                <RouterLink :to="{ name: 'edit-ticket', params: { id: ticket.id } }" class="btn edit">
-                   > Edit Ticket
+    <div class="ticketdetail-section">
+        <div v-if="ticket" :key="ticket.id">
+            <div class="ticket-nav">
+                <RouterLink :to="{ name: 'tickets-overview' }">
+                    Tickets
                 </RouterLink>
-            </header>
-
-            <dl class="ticket-summary-meta">
-
-                <div class="meta-item">
-                    <dt>Category</dt>
-                    <dd>{{ ticket.category?.title }}</dd>
+                > #{{ String(ticket.id).padStart(4, '0') }}
+            </div>
+            <section class="ticket-summary"> 
+                <header class="ticket-summary-header">
+                    <div class="ticket-summary-number">
+                        <div class="ticket-number">
+                            <span>Ticket</span>
+                            <strong>#{{ String(ticket.id).padStart(3, '0') }}</strong>
+                        </div>
+                    </div>
+                    <RouterLink :to="{ name: 'edit-ticket', params: { id: ticket.id } }" class="btn edit">
+                        > Edit Ticket
+                    </RouterLink>
+                </header>
+                <div class="ticket-subject">
+                    <h3>{{ ticket.title }}</h3>
                 </div>
+                <dl class="ticket-summary-meta">
+                    
+                    <div class="meta-item">
+                        <dt>Category</dt>
+                        <dd>{{ ticket.category?.title }}</dd>
+                    </div>
 
-                <div class="meta-item">
-                    <dt>Created by</dt>
-                    <dd>{{ ticket.created_by.name }}</dd>
-                </div>
+                    <div class="meta-item">
+                        <dt>Created by</dt>
+                        <dd>{{ ticket.created_by.name }}</dd>
+                    </div>
 
-                <div class="meta-item">
-                    <dt>Created</dt>
-                    <dd>
-                        <CheckTime :date="ticket.created_at" />
-                    </dd>
-                </div>
+                    <div class="meta-item">
+                        <dt>Created</dt>
+                        <dd>
+                            <CheckTime :date="ticket.created_at" />
+                        </dd>
+                    </div>
 
-                <div class="meta-item">
-                    <dt>Last updated</dt>
-                    <dd>
-                        <CheckTime :date="ticket.updated_at" />
-                    </dd>
-                </div>
+                    <div class="meta-item">
+                        <dt>Last updated</dt>
+                        <dd>
+                            <CheckTime :date="ticket.updated_at" />
+                        </dd>
+                    </div>
 
-                <div class="meta-item">
-                    <dt>Assigned to</dt>
-                    <dd>{{ ticket.assigned_to?.name ?? "Not assigned yet" }}</dd>
-                </div>
-            </dl>
+                    <div class="meta-item">
+                        <dt>Assigned to</dt>
+                        <dd>{{ ticket.assigned_to?.name ?? "Not assigned yet" }}</dd>
+                    </div>
 
-            <div class="ticket-summary-description">
-                <h2>Description</h2>
-                <p>{{ ticket.description }}</p>
-            </div>  
-        </section>
+                    <div class="meta-item">
+                        <dt>Status</dt>
+                        <dd>
+                            {{ ticket.status }} 
+                        </dd>
+                    </div>
+                </dl>
+
+                <div class="ticket-summary-description">
+                    <h4>Description</h4>
+                    <p>{{ ticket.description }}</p>
+                </div>  
+            </section>
+        </div>
+        <p v-else>Loading ticket…</p>
     </div>
 </template>
 
 <style scoped>
 
+    .ticketdetail-section {
+        --card-border: #3b68a5;
+        --ticket-card-border-dark: #597db1;
+        --bg-ticket-card: #2d5690;
+
+        min-height: 100%;
+        background-color: var(--bg-color-dark-blue);
+        padding: 0.5rem;
+    }
+
     .ticket-nav {
         padding: 0.75rem 0.5rem;
-        color: var(--font-color-medium-dark);
+        color: var(--font-color-medium-light);
+    }
+
+    .ticket-nav a {
+        color: var(--font-color-title-light);
     }
 
     .ticket-nav:hover a {
-        color: var(--color-purple);
+        color: var(--color-yellow);
     }
 
     .ticket-summary {
-        --gap: 1.5rem;
+        --gap: 1.35rem;
         --border-color-inside: #c7cbd4;
         --border-color-outside: #c0c2d2;
 
         overflow: hidden;
         border-radius: 0.6rem;
         background-color: var(--bg-color-card-dark);
-        border: 1px solid var(--border-color-outside);
+        border: 1px solid var(--card-border);
         box-shadow: 0 0.25rem 0.5rem rgba(15, 29, 51, 0.05);
     }
 
     .ticket-summary-header {
-        display: grid;
-        grid-template-columns:
-            auto
-            minmax(12rem, 1fr)
-            auto;
-
+        background-color: var(--bg-ticket-card);
+        background: linear-gradient(
+            110deg,
+            #1b4682,
+            #244e88 50%,
+            #2d5690 100%
+        );
+        display: flex;
+        justify-content: space-between;
         align-items: center;
         gap: var(--gap);
         padding-inline: 1.5rem;
     }
 
-    .ticket-summary-subject {
-        display: flex;
-        align-items: center;
-        gap: var(--gap);
-        flex-wrap: wrap;
-    }
-
-    .ticket-summary-subject h1 {
-        margin: 0;
-    }
-
-    .ticket-summary-header h1 {
-        margin: 0;
-        font-size: 1.25rem;
-    }
-
     .ticket-summary-number {
         position: relative;
         z-index: 1;
-        padding: 1.25rem 1.5rem;
-        background: var(--bg-color-card);
+        padding: 1.1rem 1.5rem;
+        background: var(--bg-ticket-card);
         font-size: 1.35rem;
         font-weight: 700;
         transform: translateY(1rem);
-        border: 1px solid var(--border-color-outside) ;
     }
 
      .ticket-number {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 0.15rem;
+        gap: 0.1rem;
         padding: 0.25rem 1rem;
         border-left: 0.25rem solid var(--color-blue);
     }
     
     .ticket-number span {
-        color: var(--font-color-medium-dark);
+        color: var(--font-color-medium-light);
         font-size: 0.75rem;
         font-weight: 500;
         text-transform: uppercase;
@@ -184,31 +168,39 @@
     }
 
     .ticket-number strong {
-        color: var(--font-color-dark);
+        color: var(--font-color-medium-light);
         font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .ticket-subject {
+        background: var(--bg-ticket-card);
+        display: flex;
+        align-items: center;
+        gap: var(--gap);
+        flex-wrap: wrap;
+        padding: 1.25rem;
+        padding-top: 1.5rem;
+    }
+
+    .ticket-subject h3 {
+        color: var(--color-yellow);
+        font-size: 1.4rem;
     }
 
     .ticket-summary-meta {
-        display: flex;
-        align-items: center;
-        gap: 0;
-        margin: 0;
-        padding: 2rem 1.75rem 1.25rem;
-        background: var(--bg-color-card-medium);
-        border-bottom: 1px solid var(--border-color-outside);
+        display: grid;
+        justify-content: center;
+        grid-template-columns:
+            auto
+            auto;
+        column-gap: 2rem;
+        row-gap: 0.75rem;
+        padding: 1rem;
     }
 
     .meta-item {
-        padding-inline: 2rem;
-        border-right: 1px solid var(--border-color-inside);
-    }
-
-    .meta-item:first-child {
-        padding-left: 0;
-    }
-
-    .meta-item:last-child {
-        border-right: 0;
+        padding: 0.25rem;
     }
 
     .meta-item dt {
@@ -228,34 +220,16 @@
         background: var(--bg-color-card);
     }
 
-    .ticket-summary-description h2 {
-        margin: 0 0 0.75rem;
-        font-size: 1rem;
-    }
-
     .ticket-summary-description p {
-        margin: 0;
+        margin-block: 0.3rem;
         line-height: 1.6;
     }
 
-    .badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.5rem 0.65rem;
-        border-radius: 0.45rem;
-        font-size: var(--font-size-caption);
-        font-weight: 500;
-    }
 
-    .badge.status {
-        background-color: color-mix(
-            in srgb,
-            var(--bg-color-card-dark) 80%,
-            #6ccf8d
-        );
-        color: #4d7f5f;
-        border: 1px solid #259343;
-    }
+     @media (min-width: 1200px) {
 
+        .ticketdetail-section {
+            padding: 1.5rem;
+        }
+    }
 </style>

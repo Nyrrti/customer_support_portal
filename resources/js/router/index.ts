@@ -19,11 +19,6 @@ export const router = createRouter({
             component: DashboardPage,
             name: 'dashboard',
         },
-        {
-            path: '/tickets',
-            component: DashboardPage,
-            name: 'tickets',
-        },
         ...ticketRoutes,
         ...categoryRoutes,
         ...userRoutes,

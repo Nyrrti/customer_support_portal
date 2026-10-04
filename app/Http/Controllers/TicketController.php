@@ -33,7 +33,7 @@ class TicketController extends Controller
         $data = $request->validated();
 
         $data["created_by_id"] = $request->user()->id;
-        $data["status"] = "Open";
+        $data["status"] = "pending";
 
         $ticket = Ticket::create($data);
 

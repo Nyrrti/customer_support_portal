@@ -1,11 +1,16 @@
 import type { RouteRecordRaw } from "vue-router";
 import TicketDetailPage from "./pages/TicketDetailPage.vue";
+import TicketsPage from "./pages/TicketsPage.vue";
 import Create from "./pages/Create.vue"
 import Edit from "./pages/Edit.vue"
 
 
 export const ticketRoutes: RouteRecordRaw[] = [
-    
+    {
+        path: '/tickets',
+        component: TicketsPage,
+        name: 'tickets-overview',
+    },
     {
         path: "/tickets/:id",
         component: TicketDetailPage,
