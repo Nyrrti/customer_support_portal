@@ -9,7 +9,7 @@ class CategoryPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     public function view(User $user, Category $category): bool

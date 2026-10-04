@@ -19,6 +19,8 @@ class CategoryController extends Controller
     // CREATE
     public function store(CategoryRequest $request)
     {
+        $this->authorize("create", Category::class);
+        
         $category = Category::create($request->validated());
 
         return new CategoryResource($category);
@@ -43,5 +45,12 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->noContent();
+    }
+
+    public function options()
+    {
+        return CategoryResource::collection(
+            Category::orderBy('title')->get()
+        );
     }
 }
