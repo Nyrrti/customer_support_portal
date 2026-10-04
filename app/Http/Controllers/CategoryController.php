@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Resources\CategoryResource;
 use App\Http\Requests\CategoryRequest;
-use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -13,14 +13,16 @@ class CategoryController extends Controller
     {
         $this->authorize("viewAny", Category::class);
 
-        return CategoryResource::collection(Category::all());
+        return CategoryResource::collection(
+            Category::orderBy("title")->get()
+        );
     }
 
     // CREATE
     public function store(CategoryRequest $request)
     {
         $this->authorize("create", Category::class);
-        
+
         $category = Category::create($request->validated());
 
         return new CategoryResource($category);
@@ -41,6 +43,12 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $this->authorize("delete", $category);
+
+        if ($category->tickets()->exists()) {
+            throw ValidationException::withMessages([
+                "category" => "This category cannot be deleted because tickets are linked to it.",
+            ]);
+        }
 
         $category->delete();
 

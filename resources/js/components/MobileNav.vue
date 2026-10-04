@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref } from "vue";
+    import { authStore } from "../../domains/auth/store";
 
     const isOpen = ref(false)
     const toggleMenu = () => {
@@ -25,6 +26,7 @@
                 Tickets
             </RouterLink>
             <RouterLink
+                v-if="authStore.user?.is_admin"
                 to="/categories"
                 class="nav-item"
                 active-class="active"

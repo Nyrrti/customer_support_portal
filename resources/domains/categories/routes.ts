@@ -10,15 +10,18 @@ export const categoryRoutes: RouteRecordRaw[] = [
         path: "/categories",
         component: CategoryPage,
         name: "category-overview",
+        meta: { requiresAdmin: true },
     },
     {
         path: "/categories/create",
         component: Create,
         name: "create-category",
+        meta: { requiresAdmin: true },
     },
     {
         path: "/categories/:id/edit",
         component: Edit,
         name: "edit-category",
+        meta: { requiresAdmin: true },
     },
 ]

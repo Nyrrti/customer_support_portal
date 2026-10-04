@@ -3,8 +3,12 @@
 
     const props = defineProps<{
         categories: Category[];
+        deleting: boolean;
     }>();
 
+    const emit = defineEmits<{
+        (event: "delete", category: Category): void;
+    }>();
 </script>
 
 <template>
@@ -42,7 +46,12 @@
                         </RouterLink>
                     </td>
                     <td class="text-end">
-                        <button class="btn delete">
+                        <button
+                            class="btn delete"
+                            type="button"
+                            :disabled="deleting"
+                            @click="emit('delete', category)"
+                        >
                             Delete
                         </button>
                     </td>

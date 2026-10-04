@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+    import { authStore } from "../../domains/auth/store";
+
+</script>
 
 <template>
     <aside class="portal-nav">
@@ -49,7 +53,8 @@
                 <span>Users</span>
             </RouterLink>
 
-            <RouterLink
+           <RouterLink
+                v-if="authStore.user?.is_admin"
                 to="/categories"
                 class="nav-item"
                 active-class="active"
