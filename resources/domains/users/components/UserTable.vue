@@ -5,8 +5,12 @@
 
     defineProps<{
         users: User[];
+        deleting: boolean;
     }>();
 
+    const emit = defineEmits<{
+        (event: "delete", user: User): void;
+    }>();
 </script>
 
 <template>

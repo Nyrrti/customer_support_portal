@@ -4,6 +4,7 @@
    
     const props = defineProps<{
         users: User[];
+        deleting: boolean;
     }>();
 
 </script>

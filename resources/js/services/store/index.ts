@@ -1,4 +1,5 @@
 import { ref, computed } from 'vue';
+import type { Ref } from "vue";
 import {    
     getRequest,
     postRequest,
@@ -12,10 +13,14 @@ import {
  * @param moduleName - Name of the module, for example "tickets" or "categories".
  * @returns An object containing getters, setters, and actions for the store.
  */
-export const storeModuleFactory = (moduleName: string) => {
+export const storeModuleFactory = <
+        Item extends {id: number},
+        CreateData,
+        UpdateData
+    >(moduleName: string) => {
     // Reactive storage for this module.
     // Example: the ticket store will keep its tickets here.
-    const state = ref({});
+    const state: Ref<Record<number, Item>> = ref({});
 
     const getters = {
         // Read data from the store.
@@ -23,21 +28,22 @@ export const storeModuleFactory = (moduleName: string) => {
         all: computed(() => state.value),
         // Give me a reactive getter for the item stored under this id.
         // Example: ticketStore.getters.getById(5).value
-        getById: (id) => computed(() => state.value[id])
+        getById: (id: number) => 
+            computed<Item | undefined>(() => state.value[id])
     };
 
     const setters = {
-        setAll: (items) => {
+        setAll: (items: Item[]) => {
             for (const item of items) {
                 state.value[item.id] = Object.freeze(item);
             }
         },
 
-        setOne: (item) => {
+        setOne: (item: Item) => {
             state.value[item.id] = Object.freeze(item);
         },
 
-        deleteById: (id) => {
+        deleteById: (id: number) => {
             delete state.value[id];
         }
     };
@@ -46,22 +52,22 @@ export const storeModuleFactory = (moduleName: string) => {
         // Ask the backend for all items belonging to this module.
         // Example: moduleName "tickets" results in a GET request for "tickets".
         getAll: async () => {
-            const { data } = await getRequest(moduleName);
+            const { data } = await getRequest<Item[]>(moduleName);
 
             if (!data) return;
             setters.setAll(data);
         },
-        create: async (item) => {
-            const { data } = await postRequest(moduleName, item);
+        create: async (item: CreateData) => {
+            const { data } = await postRequest<Item>(moduleName, item);
             if (!data) return;
             setters.setOne(data);
         },
-        update: async (id, item) => {
-            const { data } = await putRequest(`${moduleName}/${id}`, item);
+        update: async (id: number, item: UpdateData) => {
+            const { data } = await putRequest<Item>(`${moduleName}/${id}`, item);
             if (!data) return;
             setters.setOne(data);
         },
-        delete: async (id) => {
+        delete: async (id: number) => {
             await deleteRequest(`${moduleName}/${id}`);
             setters.deleteById(id);
         }

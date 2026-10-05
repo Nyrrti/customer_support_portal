@@ -5,7 +5,7 @@
     import { categoryStore } from "../../categories/store.js"
     import { useRouter, useRoute } from 'vue-router';
     import type { Category } from '../../categories/types.js';
-    import type { Ticket } from '../types.js';
+    import type { Ticket, UpdateTicket } from '../types.js';
     import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
 
     const route = useRoute();
@@ -22,9 +22,9 @@
         Object.values(categoryStore.getters.all.value)
     );
 
-    const updateTicket = async (data: Ticket) => {
+    const updateTicket = async (data: UpdateTicket) => {
         await ticketStore.actions.update(ticketId, data);
-        router.push({ name: 'dashboard' });
+        router.push({ name: 'tickets-overview' });
     };
 
     onMounted(async () => {

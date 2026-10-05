@@ -23,7 +23,7 @@ const http = axios.create({
  * @param endpoint - The API endpoint to request.
  * @returns The Axios response promise.
  */
-export const getRequest = (endpoint: string) => http.get(endpoint);
+export const getRequest = <ResponseData>(endpoint: string) => http.get<ResponseData>(endpoint);
 
 /**
  * Sends a POST request to the given API endpoint.
@@ -34,7 +34,7 @@ export const getRequest = (endpoint: string) => http.get(endpoint);
  * @param data - The data that should be sent to the backend.
  * @returns The Axios response promise.
  */
-export const postRequest = (endpoint: string, data) => http.post(endpoint, data);
+export const postRequest = <ResponseData>(endpoint: string, data: unknown) => http.post<ResponseData>(endpoint, data);
 
 /**
  * Sends a PUT request to the given API endpoint.
@@ -45,7 +45,7 @@ export const postRequest = (endpoint: string, data) => http.post(endpoint, data)
  * @param data - The updated data that should be sent to the backend.
  * @returns The Axios response promise.
  */
-export const putRequest = (endpoint: string, data) => http.put(endpoint, data);
+export const putRequest = <ResponseData>(endpoint: string, data: unknown) => http.put<ResponseData>(endpoint, data);
 
 /**
  * Sends a DELETE request to the given API endpoint.
@@ -55,4 +55,4 @@ export const putRequest = (endpoint: string, data) => http.put(endpoint, data);
  * @param endpoint - The API endpoint to send the request to.
  * @returns The Axios response promise.
  */
-export const deleteRequest = (endpoint: string) => http.delete(endpoint);
+export const deleteRequest = (endpoint: string) => http.delete<void>(endpoint);

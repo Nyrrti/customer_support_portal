@@ -18,15 +18,9 @@
     }
 
     export interface CreateTicket {
-        title: string
-        description: string
+        title: string;
+        description: string;
         category_id: number | null;
     }
 
-    export interface UpdateTicket {
-        title: string
-        description?: string
-        status: string
-        assigned_to_id?: number | null
-        category_id?: number
-    }
+    export type UpdateTicket = CreateTicket;

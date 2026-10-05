@@ -12,7 +12,7 @@
     
     const createTicket = async (data: CreateTicket) => {
         await ticketStore.actions.create(data);
-        router.push({name: "dashboard"});
+        router.push({name: "tickets-overview"});
     };
 
     // Read the state
