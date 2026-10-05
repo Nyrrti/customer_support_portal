@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type { Category } from '../types';
+    import ActionButtons from '../../../js/components/ActionButtons.vue';
 
     const props = defineProps<{
         categories: Category[];
@@ -14,49 +15,35 @@
 <template>
 
     <div class="category-section">
+        <div class="category-header">
+            <h4 class="table-title">
+                Categories
+            </h4> 
+            <RouterLink :to="{name: 'create-category'}" class="btn category">
+                + New Category
+            </RouterLink>
+        </div>
         <table class="category-table">
             <colgroup>
                 <col>
-                <col>
-                <col class="table-w-12">
-                <col class="table-w-15">
+                <col class="table-w-30">
             </colgroup>
-            <thead>
-                <tr class="category-table-header">
-                    <th class="p-3 py-4">
-                        <h4 class="table-title">
-                            Categories
-                        </h4>
-                    </th>
-                    <th class="text-end p-3" colspan="3">
-                        <RouterLink :to="{name: 'create-category'}" class="btn category">
-                            + New Category
-                        </RouterLink>
-                    </th>
-                </tr>
-            </thead>
+           
             <tbody>
                 <tr v-for="category in categories" :key="category.id" class="border-bottom">
-                    <td class="category-card" colspan="2">
+                    <td class="category-card">
                         {{ category.title }}
                     </td>
-                    <td class="text-end">
-                        <RouterLink :to="{ name: 'edit-category', params: { id: category.id } }" class="btn edit">
-                            Edit
-                        </RouterLink>
+                    <td>
+                        <ActionButtons
+                            :edit-to="{ name: 'edit-category', params: { id: category.id } }"
+                            label="category"
+                            align="end"
+                            :deleting="deleting"
+                            @delete="emit('delete', category)"
+                        />
                     </td>
-                    <td class="text-end">
-                        <button
-                            class="btn delete"
-                            type="button"
-                            :disabled="deleting"
-                            @click="emit('delete', category)"
-                        >
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                
+                </tr>  
             </tbody>
         </table>
     </div>
@@ -83,9 +70,12 @@
         color: var(--font-color-medium-light);
     }
 
-    .category-table-header {
+    .category-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         background-color: var(--table-header);
-        border-radius: 0.6rem;
+        padding: 1.25rem;
     }
 
     .category-card {
@@ -110,6 +100,10 @@
 
         .category-card {
             padding: 1.5rem 2rem;
+        }
+
+        .category-header {
+            padding: 1.5rem;
         }
     }
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-    import { onMounted, computed } from "vue";
+    import { onMounted, computed, ref } from "vue";
+    import { isAxiosError } from "axios";
     import { useRouter } from "vue-router";
     import Form from "../components/Form.vue";
     import { categoryStore } from "../../categories/store.js"
@@ -7,10 +8,23 @@
     import type { Category, CreateCategory } from "../../categories/types.js";
 
     const router = useRouter();
-    
-    const createCategory = async (data: CreateCategory) => {
-        await categoryStore.actions.create(data);
-        router.push({name: "category-overview"});
+    const errors = ref<Record<string, string[]>>({});
+    const message = ref("");
+
+   const createCategory = async (data: CreateCategory) => {
+        errors.value = {};
+        message.value = "";
+
+        try {
+            await categoryStore.actions.create(data);
+            await router.push({ name: "category-overview" });
+        } catch (error) {
+            if (isAxiosError(error) && error.response?.status === 422) {
+                errors.value = error.response.data.errors ?? {};
+            } else {
+                message.value = "Could not create the category. Please try again.";
+            }
+        }
     };
 
     // Read the state

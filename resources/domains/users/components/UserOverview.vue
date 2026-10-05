@@ -9,61 +9,9 @@
 </script>
 
 <template>
-    <UserTable :users="users" />
+    
     <div class="user-section">
-        <table class="user-table">
-            <colgroup>
-                <col>
-                <col>
-                <col class="table-w-12">
-                <col class="table-w-15">
-            </colgroup>
-            <thead>
-                <tr class="user-table-header">
-                    <th class="p-3 py-4">
-                        <h4 class="table-title">
-                            Users
-                        </h4>
-                    </th>
-                    <th class="text-end p-3" colspan="3">
-                        <RouterLink :to="{name: 'create-user'}" class="btn user">
-                            + New user
-                        </RouterLink>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <template v-if="users.length">
-                    <tr
-                        v-for="user in users"
-                        :key="user.id"
-                        class="border-bottom"
-                    >
-                        <td class="user-card" colspan="2">
-                            {{ user.name }}
-                        </td>
-
-                        <td class="text-end">
-                            <button class="btn edit">
-                                Edit
-                            </button>
-                        </td>
-
-                        <td class="text-end">
-                            <button class="btn delete">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                </template>
-                <tr v-else>
-                    <td colspan="4">
-                        No users yet.
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
+        <UserTable :users="users" />
     </div>
 
 </template>

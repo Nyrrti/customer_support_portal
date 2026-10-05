@@ -21,6 +21,12 @@
     <LoggedInLayout>
         <div class="user-page-background">
             <UserOverview :users="users" />
+            <UserOverview 
+                :users="users"
+                :deleting="deleting"
+                @delete="deleteUser" 
+            />
+            
         </div> 
     </LoggedInLayout>
 

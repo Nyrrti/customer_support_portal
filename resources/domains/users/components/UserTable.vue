@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type { User } from "../types"
+    import ActionButtons from "../../../js/components/ActionButtons.vue";
 
 
     defineProps<{
@@ -54,7 +55,13 @@
                         {{ user.phone_number }}
                     </td>  
                     <td>
-                        ...
+                        <ActionButtons
+                            :edit-to="{ name: 'edit-user', params: { id: user.id } }"
+                            label="user"
+                            align="end"
+                            :deleting="deleting"
+                            @delete="emit('delete', user)"
+                        />   
                     </td> 
                 </tr>
                 </template>
