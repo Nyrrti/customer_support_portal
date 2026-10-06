@@ -24,8 +24,6 @@
             await router.push({ name: "category-overview" });
         } catch (error) {
             if (isAxiosError(error) && error.response?.status === 422) {
-                console.log(error.response.data);
-                console.log(error.response.data.errors);
                 errors.value = error.response.data.errors ?? {};
             } else {
                 message.value = "Could not create the category. Please try again.";
@@ -49,10 +47,12 @@
         <div class="category-page-background">
             <div class="form-wrapper py-3">
                 <Form 
-                    :categories="categories" 
+                    mode="create"
+                    :categories="categories"
                     :errors="errors" 
-                    @clear-error="clearError"
-                    @submit="createCategory" mode="create"/>
+                    @submit="createCategory"
+                    @clear-error="clearError" 
+                />
             </div>
         </div>
     </LoggedInLayout>

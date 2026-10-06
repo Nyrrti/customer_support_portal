@@ -1,7 +1,14 @@
 <script setup lang="ts">
+    import { useRouter } from 'vue-router';
 
+    const router = useRouter();
     import { authStore } from "../../domains/auth/store";
 
+    async function handleLogout() {
+        await authStore.logout();
+
+        router.push("/");
+    }
 </script>
 
 <template>
@@ -62,20 +69,10 @@
                 <span class="nav-icon">□</span>
                 <span>Categories</span>
             </RouterLink>
-
-            <RouterLink
-                to="/settings"
-                class="nav-item"
-                active-class="active"
-            >
-                <span class="nav-icon">⚙</span>
-                <span>Settings</span>
-            </RouterLink>
-
         </nav>
 
         <div class="logout-section">
-            <button class="logout-button">
+            <button class="logout-button" @click="handleLogout">
                 <span class="nav-icon">↪</span>
                 <span>Logout</span>
             </button>

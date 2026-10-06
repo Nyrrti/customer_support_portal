@@ -1,30 +1,38 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from 'vue';
-    import Form from '../components/Form.vue';
-    import { categoryStore } from '../store.js';
-    import { useRouter, useRoute } from 'vue-router';
-    import type { Category } from '../types.js';
-    import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
+    import { ref, onMounted, computed } from "vue";
+    import Form from "../components/Form.vue";
+    import { categoryStore } from "../store.js";
+    import { useRouter, useRoute } from "vue-router";
+    import type { Category, UpdateCategory } from "../types.js";
+    import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
 
     const route = useRoute();
     const router = useRouter();
    
+    const errors = ref<ValidationErrors>({});
+    
+    const clearError = (field: string) => {
+        delete errors.value[field];
+    };
     const categoryId = Number(route.params.id);
+
+    const categories = computed<Category[]>(() =>
+        Object.values(categoryStore.getters.all.value)
+    );
 
     const category = computed<Category | undefined>(() =>
         categoryStore.getters.getById(categoryId).value
     );
 
-    const updateCategory = async (data: Category) => {
+    const updateCategory = async (data: UpdateCategory) => {
         await categoryStore.actions.update(categoryId, data);
-        router.push({ name: 'category-overview' });
+        await router.push({
+            name: "category-overview"
+        });
     };
 
     onMounted(async () => {
-        await Promise.all([
-            categoryStore.actions.getAll(),
-        ]);
-        console.log(category.value);
+        await categoryStore.actions.getAll();
     });
 
 </script>
@@ -33,10 +41,13 @@
     <LoggedInLayout>
         <div class="category-page-background">
             <div class="form-wrapper py-3">
-                <Form v-if="category" 
-                    :category="category" 
+                <Form 
                     mode="edit"
+                    :categories="categories"
+                    :category="category" 
+                    :errors="errors" 
                     @submit="updateCategory" 
+                    @clear-error="clearError"
                 />
             </div>
         </div>

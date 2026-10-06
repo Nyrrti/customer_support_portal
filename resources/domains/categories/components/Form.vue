@@ -6,14 +6,16 @@
 
     const props = defineProps<{
         mode: "create" | "edit"
+        categories: Category[];
         category?: Category;
         errors: Record<string, string[]>;
     }>();
     
-    const category = ref<CreateCategory>({
+    const form = ref<CreateCategory>({
         title: props.category?.title ?? "",
         category_id: props.category?.category_id ?? null,
     });
+
 
     /**
      * Defines the custom events this component can emit.
@@ -24,7 +26,7 @@
      * The "submit" event must include one CreateCategory object.
      */
     const emit = defineEmits<{
-        submit: [category: CreateCategory | UpdateCategory]
+        submit: [category: CreateCategory];
         'clear-error': [field: string];
     }>();
 
@@ -37,7 +39,7 @@
      * @returns void
      */
     const submitForm = () => {
-        emit("submit", category.value);
+        emit("submit", form.value);
     };
 </script>
 
@@ -85,7 +87,7 @@
                 </label>
                 <input 
                     id="title"
-                    v-model="category.title"
+                    v-model="form.title"
                     type="text"
                     @input="emit('clear-error', 'title')"
                 >
