@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import type { Category } from '../types';
     import ActionButtons from '../../../js/components/ActionButtons.vue';
+   
 
     const props = defineProps<{
         categories: Category[];
@@ -10,10 +11,11 @@
     const emit = defineEmits<{
         (event: "delete", category: Category): void;
     }>();
+
 </script>
 
 <template>
-
+    
     <div class="category-section">
         <div class="category-header">
             <h4 class="table-title">

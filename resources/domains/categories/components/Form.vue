@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Category, CreateCategory, UpdateCategory } from '../types';
+    import { ref } from 'vue';
+    import type { Category, CreateCategory, UpdateCategory } from '../types';
+    import FieldError from '../../../js/components/FieldError.vue';
 
 
     const props = defineProps<{
         mode: "create" | "edit"
         category?: Category;
+        errors: Record<string, string[]>;
     }>();
     
     const category = ref<CreateCategory>({
@@ -23,6 +25,7 @@ import type { Category, CreateCategory, UpdateCategory } from '../types';
      */
     const emit = defineEmits<{
         submit: [category: CreateCategory | UpdateCategory]
+        'clear-error': [field: string];
     }>();
 
     /**
@@ -84,7 +87,12 @@ import type { Category, CreateCategory, UpdateCategory } from '../types';
                     id="title"
                     v-model="category.title"
                     type="text"
+                    @input="emit('clear-error', 'title')"
                 >
+                <FieldError 
+                    :errors="errors.title" 
+                    @remove="emit('clear-error', 'title')"
+                />
             </div>
         </div>
         <div class="category-form-footer p-4">

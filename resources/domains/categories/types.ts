@@ -9,7 +9,9 @@
         category_id: number | null;
     }
 
-    export interface UpdateCategory {
-        title: string
-        category_id?: number
-    }
+    // export interface UpdateCategory {
+    //     title: string
+    //     category_id?: number
+    // }
+
+    export type UpdateCategory = CreateCategory;

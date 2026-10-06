@@ -1,0 +1,1 @@
+type ValidationErrors = Record<string, string[]>;

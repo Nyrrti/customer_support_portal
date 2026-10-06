@@ -58,6 +58,7 @@
             <CategoryOverview
                 :categories="categories"
                 :deleting="deleting"
+                :error="error"
                 @delete="deleteCategory"
             />
         </div> 

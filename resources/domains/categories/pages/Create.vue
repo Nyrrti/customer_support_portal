@@ -8,8 +8,12 @@
     import type { Category, CreateCategory } from "../../categories/types.js";
 
     const router = useRouter();
-    const errors = ref<Record<string, string[]>>({});
+    const errors = ref<ValidationErrors>({});
     const message = ref("");
+
+    const clearError = (field: string) => {
+        delete errors.value[field];
+    };
 
    const createCategory = async (data: CreateCategory) => {
         errors.value = {};
@@ -20,6 +24,8 @@
             await router.push({ name: "category-overview" });
         } catch (error) {
             if (isAxiosError(error) && error.response?.status === 422) {
+                console.log(error.response.data);
+                console.log(error.response.data.errors);
                 errors.value = error.response.data.errors ?? {};
             } else {
                 message.value = "Could not create the category. Please try again.";
@@ -42,7 +48,11 @@
     <LoggedInLayout>
         <div class="category-page-background">
             <div class="form-wrapper py-3">
-                <Form :categories="categories" @submit="createCategory" mode="create"/>
+                <Form 
+                    :categories="categories" 
+                    :errors="errors" 
+                    @clear-error="clearError"
+                    @submit="createCategory" mode="create"/>
             </div>
         </div>
     </LoggedInLayout>
