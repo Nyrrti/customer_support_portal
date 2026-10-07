@@ -20,7 +20,7 @@
     --color-blue: #3368da;
     --color-purple: #6d52da;
     --color-grey: #6e6f72;
-    --color-red: #ec807a;
+    --color-red: #de4646;
 
     --sidebar-glow: rgb(39, 108, 212);
     --sidebar-glow-purple: rgb(78, 56, 221);
@@ -249,7 +249,7 @@ a:hover {
 
 .btn.delete {
     background-color: var(--color-red);
-    color: var(--font-color-dark);
+    color: var(--font-color-light);
 }
 
 .btn.delete:hover {

@@ -5,6 +5,7 @@
     import CategoryOverview from "../components/CategoryOverview.vue";
     import { categoryStore } from "../store.js";
     import type { Category } from "../types.js";
+    import ErrorState from "../../../js/components/ErrorState.vue";
 
     const error = ref("");
     const deleting = ref(false);
@@ -61,6 +62,8 @@
                 :error="error"
                 @delete="deleteCategory"
             />
+            <ErrorState />
+            <ErrorState />
         </div> 
     </LoggedInLayout>
 

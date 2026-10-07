@@ -43,15 +43,6 @@
             </RouterLink>
 
             <RouterLink
-                to="/notes"
-                class="nav-item"
-                active-class="active"
-            >
-                <span class="nav-icon">≡</span>
-                <span>Notes</span>
-            </RouterLink>
-
-            <RouterLink
                 to="/users"
                 class="nav-item"
                 active-class="active"
@@ -69,6 +60,7 @@
                 <span class="nav-icon">□</span>
                 <span>Categories</span>
             </RouterLink>
+
         </nav>
 
         <div class="logout-section">
