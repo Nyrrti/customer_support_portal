@@ -58,7 +58,9 @@ export const storeModuleFactory = <
             setters.setAll(data);
         },
         create: async (item: CreateData) => {
+            console.log("Store received:", item);
             const { data } = await postRequest<Item>(moduleName, item);
+            console.log("Laravel returned:", data);
             if (!data) return;
             setters.setOne(data);
         },

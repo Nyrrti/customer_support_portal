@@ -14,6 +14,13 @@
         setErrors(exampleErrors);
     }
 
+    const response = {
+        errors: {
+            name: ["Name is required"],
+            email: ["Email is required"],
+            password: ["Password is too short"]
+        }
+    };
 </script>
 
 <template>
@@ -66,7 +73,7 @@
         row-gap: var(--horizontal-gap);
     }
 
-    .button-section, form-section {
+    .button-section, .form-section {
         display: flex;
         row-gap: var(--horizontal-gap);
         column-gap: var(--vertical-gap);

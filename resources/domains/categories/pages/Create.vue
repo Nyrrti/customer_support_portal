@@ -20,9 +20,10 @@
         message.value = "";
 
         try {
-            await categoryStore.actions.create(data);
+        await categoryStore.actions.create(data);
             await router.push({ name: "category-overview" });
         } catch (error) {
+            console.log("Laravel error response:", error);
             if (isAxiosError(error) && error.response?.status === 422) {
                 errors.value = error.response.data.errors ?? {};
             } else {
