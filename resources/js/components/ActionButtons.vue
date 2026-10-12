@@ -1,14 +1,32 @@
-<script setup>
-    import { RouterLink } from 'vue-router'
+<script setup lang="ts">
+    import { RouterLink } from "vue-router";
+    import type { RouteLocationRaw } from "vue-router";
 
-    defineProps({
-        editTo: { type: [Object, String], required: true }, // Route location for the edit button, example: { name: "edit-category", params: { id: 1 } }
-        label: { type: String, default: "item" }, // Used in aria-labels, example "category" -> "Edit category"
-        deleting: { type: Boolean, default: false },
-        align: { type: String, default: "end" }, 
-    })
+    withDefaults(defineProps<{
+        /** Destination of the edit link. */
+        editTo: RouteLocationRaw;
 
-    const emit = defineEmits(['delete'])
+        /** Item description used in accessible labels. */
+        label?: string;
+
+        /** Disables deletion while the parent processes a request. */
+        deleting?: boolean;
+
+        /** Horizontal alignment of the buttons. */
+        align?: "start" | "end";
+    }>(), {
+        label: "item",
+        deleting: false,
+        align: "end",
+    });
+
+    /**
+     * Notifies the parent that deletion was requested.
+     * The parent decides which item to delete.
+     */
+    const emit = defineEmits<{
+        delete: [];
+    }>();
 </script>
 
 <template>

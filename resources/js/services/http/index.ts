@@ -1,15 +1,53 @@
-import axios from 'axios';
+import axios from "axios";
+import { setMessage } from "../error";
 
 // Create one reuseable Axios instance
 const http = axios.create({
     // Every request made with this instance starts with "/api".
     // Adds "/api" to line
-    baseURL: '/api',
+    baseURL: "/api",
     headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
+        "Accept": "application/json",
     }
 });
 
+/**
+ * Handles general request errors centrally.
+ *
+ * Validation errors (422) continue to the calling form,
+ * where their field messages can be stored.
+ *
+ * Failed requests remain rejected so the caller knows they failed.
+ */
+http.interceptors.response.use(
+    (response) => response,
+    (error: unknown) => {
+        // Cancelling a request should not show an error message.
+        if (axios.isCancel(error)) {
+            return Promise.reject(error);
+        }
+
+        if (axios.isAxiosError(error)) {
+            // The form will handle field validation errors.
+            if (error.response?.status === 422) {
+                return Promise.reject(error);
+            }
+
+            if (error.response) {
+                setMessage("The request failed. Please try again.");
+            } else {
+                setMessage(
+                    "Could not reach the server. Please try again."
+                );
+            }
+        } else {
+            setMessage("An unexpected error occurred.");
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 /**
  * Sends a GET request to the given API endpoint.

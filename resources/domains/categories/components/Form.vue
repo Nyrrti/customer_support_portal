@@ -9,6 +9,8 @@
         categories: Category[];
         category?: Category;
         errors: Record<string, string[]>;
+        /** Whether the parent is currently saving the form. */
+        saving: boolean;
     }>();
     
     const form = ref<CreateCategory>({
@@ -27,7 +29,6 @@
      */
     const emit = defineEmits<{
         submit: [category: CreateCategory];
-        'clear-error': [field: string];
     }>();
 
     /**
@@ -89,17 +90,21 @@
                     id="title"
                     v-model="form.title"
                     type="text"
-                    @input="emit('clear-error', 'title')"
                 >
                 <FieldError 
                     :errors="errors.title" 
-                    @remove="emit('clear-error', 'title')"
                 />
             </div>
         </div>
         <div class="category-form-footer p-4">
-            <button class="btn create" type="submit">
-                {{ mode === "create" ? "Create Category" : "Edit Category" }}
+            <button class="btn create" type="submit" :disabled="saving">
+                {{
+                    saving
+                        ? "Saving..."
+                        : mode === "create"
+                            ? "Create Category"
+                            : "Edit Category"
+                }}
             </button>
         </div>
     </form>

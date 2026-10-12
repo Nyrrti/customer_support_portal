@@ -1,15 +1,19 @@
 <script setup lang="ts">
     import type { Category } from '../types';
     import ActionButtons from '../../../js/components/ActionButtons.vue';
+    import FieldError from '../../../js/components/FieldError.vue';
    
 
     const props = defineProps<{
         categories: Category[];
+        errors: Record<string, string[]>;
         deleting: boolean;
     }>();
 
     const emit = defineEmits<{
-        (event: "delete", category: Category): void;
+        delete: [category: Category];
+        /** Requests that the parent clears the category error. */
+        "dismiss-error": [];
     }>();
 
 </script>
@@ -32,15 +36,25 @@
             </colgroup>
            
             <tbody>
+                <tr v-if="errors.category?.length">
+                    <td colspan="2" class="table-error">
+                        <FieldError 
+                            :errors="errors.category" 
+                            @dismiss="emit('dismiss-error')"
+                        />
+                    </td>
+                </tr>
                 <tr v-for="category in categories" :key="category.id" class="border-bottom">
                     <td class="category-card">
                         {{ category.title }}
                     </td>
                     <td>
                         <ActionButtons
-                            :edit-to="{ name: 'edit-category', params: { id: category.id } }"
-                            label="category"
-                            align="end"
+                            :edit-to="{ 
+                                name: 'edit-category', 
+                                params: { id: category.id }, 
+                            }"
+                            :label="category.title"
                             :deleting="deleting"
                             @delete="emit('delete', category)"
                         />

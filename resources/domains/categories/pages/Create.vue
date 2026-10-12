@@ -1,34 +1,27 @@
 <script setup lang="ts">
     import { onMounted, computed, ref } from "vue";
-    import { isAxiosError } from "axios";
     import { useRouter } from "vue-router";
     import Form from "../components/Form.vue";
     import { categoryStore } from "../../categories/store.js"
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import type { Category, CreateCategory } from "../../categories/types.js";
+    import { useForm } from "../../../js/composables/useForm.js";
 
     const router = useRouter();
-    const errors = ref<ValidationErrors>({});
-    const message = ref("");
+    const { errors, saving, submit } = useForm();
+    
+    /**
+     * Creates a category and opens the overview after a successful save.
+     *
+     * @param data - The category values submitted by the child form.
+     */
+    const createCategory = async (data: CreateCategory) => {
+        const saved = await submit(
+            () => categoryStore.actions.create(data)
+        );
 
-    const clearError = (field: string) => {
-        delete errors.value[field];
-    };
-
-   const createCategory = async (data: CreateCategory) => {
-        errors.value = {};
-        message.value = "";
-
-        try {
-        await categoryStore.actions.create(data);
+        if (saved) {
             await router.push({ name: "category-overview" });
-        } catch (error) {
-            console.log("Laravel error response:", error);
-            if (isAxiosError(error) && error.response?.status === 422) {
-                errors.value = error.response.data.errors ?? {};
-            } else {
-                message.value = "Could not create the category. Please try again.";
-            }
         }
     };
 
@@ -51,8 +44,8 @@
                     mode="create"
                     :categories="categories"
                     :errors="errors" 
+                    :saving="saving"
                     @submit="createCategory"
-                    @clear-error="clearError" 
                 />
             </div>
         </div>

@@ -1,16 +1,23 @@
 <script setup lang="ts">
     import { computed, onMounted, ref } from "vue";
-    import { isAxiosError } from "axios";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import CategoryOverview from "../components/CategoryOverview.vue";
     import { categoryStore } from "../store.js";
     import type { Category } from "../types.js";
-    import ErrorState from "../../../js/components/ErrorState.vue";
+    import { useForm } from "../../../js/composables/useForm.js";
 
-    const error = ref("");
-    const deleting = ref(false);
+    // saving: deleting means, take saving from the returned object, but call it deleting on this page.
+    const { errors, saving: deleting, submit, clearError } = useForm();
 
-    async function deleteCategory(category: Category) {
+    /**
+     * Asks for confirmation and deletes the selected category.
+     *
+     * Validation errors are handled by submit().
+     * General request messages are handled by the Axios interceptor.
+     *
+     * @param category - The category selected for deletion.
+     */
+    async function deleteCategory(category: Category): Promise<void> {
         if (deleting.value) return;
 
         const confirmed = window.confirm(
@@ -19,32 +26,19 @@
 
         if (!confirmed) return;
 
-        error.value = "";
-        deleting.value = true;
-
-        try {
-            await categoryStore.actions.delete(category.id);
-        } catch (failure) {
-            error.value = "Could not delete the category. Please try again.";
-
-            if (isAxiosError(failure)) {
-                error.value =
-                    failure.response?.data?.errors?.category?.[0]
-                    ?? error.value;
-            }
-        } finally {
-            deleting.value = false;
-        }
+        await submit(() => categoryStore.actions.delete(category.id));
     }
 
-    // Read the state
+    /**
+     * Reads the stored categories in alphabetical order.
+     */
     const categories = computed<Category[]>(() =>
         Object.values(categoryStore.getters.all.value)
             .sort((a, b) => a.title.localeCompare(b.title))
     );
 
     onMounted(async () => {
-        // Fetch tickets and put them into state
+        // Fetch tickets and put them into the store.
         await categoryStore.actions.getAll();
     }); 
 </script>
@@ -53,17 +47,13 @@
 
     <LoggedInLayout>
         <div class="category-page-background">
-            <p v-if="error" role="alert" class="category-error">
-                {{ error }}
-            </p>
             <CategoryOverview
                 :categories="categories"
                 :deleting="deleting"
-                :error="error"
+                :errors="errors"
                 @delete="deleteCategory"
+                @dismiss-error="clearError('category')"
             />
-            <ErrorState />
-            <ErrorState />
         </div> 
     </LoggedInLayout>
 

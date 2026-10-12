@@ -5,15 +5,14 @@
     import { useRouter, useRoute } from "vue-router";
     import type { Category, UpdateCategory } from "../types.js";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
+    import { useForm } from "../../../js/composables/useForm.js";
+   
 
     const route = useRoute();
     const router = useRouter();
    
-    const errors = ref<ValidationErrors>({});
+    const { errors, saving, submit } = useForm();
     
-    const clearError = (field: string) => {
-        delete errors.value[field];
-    };
     const categoryId = Number(route.params.id);
 
     const categories = computed<Category[]>(() =>
@@ -24,11 +23,19 @@
         categoryStore.getters.getById(categoryId).value
     );
 
+    /**
+     * Updates the category and opens the overview after a successful save.
+     *
+     * @param data - The updated values submitted by the child form.
+     */
     const updateCategory = async (data: UpdateCategory) => {
-        await categoryStore.actions.update(categoryId, data);
-        await router.push({
-            name: "category-overview"
-        });
+        const saved = await submit(
+            () => categoryStore.actions.update(categoryId, data)
+        );
+
+        if (saved) {
+            await router.push({ name: "category-overview" });
+        }
     };
 
     onMounted(async () => {
@@ -46,8 +53,8 @@
                     :categories="categories"
                     :category="category" 
                     :errors="errors" 
+                    :saving="saving"
                     @submit="updateCategory" 
-                    @clear-error="clearError"
                 />
             </div>
         </div>
