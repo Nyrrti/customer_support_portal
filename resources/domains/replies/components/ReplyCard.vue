@@ -1,5 +1,7 @@
 <script setup lang="ts">
     import type { Reply } from "../types.js";
+    import CheckTime from "../../../js/components/CheckTime.vue";
+    import ActionButtons from "../../../js/components/ActionButtons.vue";
 
     defineProps<{
         reply: Reply;
@@ -13,17 +15,31 @@
 
 <template>
 
-    <div class="reply-section">
+    <div class="reply-card">
         <div class="reply-header">
-             <h4 class="yellow">
-                Replies
-            </h4>
+            <div class="header-text">
+                 <p class="reply-time">
+                <CheckTime :date="reply.created_at" />
+                </p>
+                <p class="reply-time">|</p>
+                <p class="reply-time">
+                    Reply id: {{ reply.id }}
+                </p>
+                <h5>
+                    {{ reply.user.name }}
+                </h5>
+            </div>
+           
+             <div class="actions yellow">
+                Actions
+             </div>
         </div>
         <div 
             class="reply-content"
         >
-            {{ reply.content }}
-            Test
+        <p>
+             {{ reply.content }}
+        </p>
         </div>
     </div>
 
@@ -31,26 +47,40 @@
 
 <style scoped>
 
-    .reply-section {
+    .reply-card {
+        --bg-ticket-card: #2d5690;
+        --reply-card-border: #4d86d7;
+
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border: 1px solid var(--card-border);
-        border-radius: 0.6rem 0.6rem 0 0;
+        border: 1px solid var(--reply-card-border);
+        border-radius: 0.6rem;
+        background-color: var(--bg-color-card-dark);
+        overflow: hidden;
     }
 
     .reply-header {
         display: flex;
-        flex: 1;
+        justify-content: space-between;
         align-items: center;
-        background-color: var(--bg-color-blue);
-        padding: 1rem;
-        border-radius: 0.6rem 0.6rem 0 0;
+        padding: 0.5rem 1.25rem;
+        background-color: var(--bg-ticket-card);
+    }
+
+    .header-text {
+        display: flex;
+        gap: 0.7rem;
     }
 
     .reply-content {
-        background-color: var(--bg-color-card);
-        padding: 1rem;
+        padding: 1.25rem;
     }
 
+    .reply-time {
+        font-size: var(--text-label);
+        color: var(--font-color-medium-light);
+    }
+
+    
 </style>

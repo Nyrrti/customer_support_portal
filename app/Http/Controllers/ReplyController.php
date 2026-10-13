@@ -14,7 +14,8 @@ class ReplyController extends Controller
     public function index(Ticket $ticket): JsonResponse
     {
         $replies = $ticket->replies()
-            ->orderBy('created_at', 'asc')
+            ->with("user")
+            ->orderBy("created_at", "asc")
             ->get();
 
         return response()->json($replies);

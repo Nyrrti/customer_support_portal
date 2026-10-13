@@ -28,15 +28,48 @@
 </script>
 
 <template>
-    <div v-if="replies.length">
-        <ReplyCard
-            v-for="reply in replies"
-            :key="reply.id"
-            :reply="reply"
-            :errors="errors"
-            :deleting="deleting"
-        />
-    </div>
+    <div class="reply-section">
+        <div class="reply-header">
+            <h4>
+                Replies
+            </h4>
+        </div>
+        <div v-if="replies.length" class="reply-cards">
+            <ReplyCard
+                v-for="reply in replies"
+                :key="reply.id"
+                :reply="reply"
+                :errors="errors"
+                :deleting="deleting"
+            />
+        </div>
 
     <p v-else>No replies for this ticket yet.</p>
+    </div>
 </template>
+
+<style scoped>
+
+    .reply-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background-color: var(--bg-color-card);
+        padding: 1rem;
+        border: 1px solid var(--card-border);
+        border-radius: 0.6rem;
+    }
+
+    .reply-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    @media (min-width: 1200px) {
+
+        .reply-cards {
+            gap: 1rem;
+        }
+    }
+</style>
