@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import CheckTime from '../../../js/components/CheckTime.vue';
-import type { Ticket } from '../types';
+    import type { Ticket } from '../types';
 
     defineProps<{
         tickets: Ticket[];

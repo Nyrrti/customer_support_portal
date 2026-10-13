@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReplyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,6 +28,9 @@ Route::middleware("auth:sanctum")->group(function () {
     
     // Category
     Route::get("/categories", [CategoryController::class, "index"]);
+
+    // Replies
+    Route::get('/tickets/{ticket}/replies', [ReplyController::class, 'index']);
     
     // ADMINS ONLY   
     Route::middleware("admin")->group(function () {

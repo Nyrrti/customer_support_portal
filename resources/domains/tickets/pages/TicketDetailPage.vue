@@ -2,7 +2,7 @@
     
     import TicketDetails from '../components/TicketDetails.vue';
     import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
-    import ReplyCard from "../../replies/components/ReplyCard.vue"
+    import RepliesOverview from "../../replies/components/RepliesOverview.vue"
     
 </script>
 
@@ -10,7 +10,7 @@
     <LoggedInLayout>
         <div class="ticket-detail-background">
             <TicketDetails />
-            <ReplyCard />
+            <RepliesOverview />
         </div>
         
     </LoggedInLayout>
@@ -20,10 +20,21 @@
 <style scoped>
 
     .ticket-detail-background {
+        display: flex;
+        flex-direction: column;
         background-color: var(--bg-color-dark-blue);
         min-height: 100%;
+        padding: 0.5rem;
+        gap: 1rem;
     }
 
+    @media (min-width: 1200px) {
+
+        .ticket-detail-background {
+            padding: 1.5rem;
+            gap: 1.25rem;
+        }
+    }
 </style>
 
 

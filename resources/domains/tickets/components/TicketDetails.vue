@@ -222,11 +222,4 @@
         line-height: 1.6;
     }
 
-
-     @media (min-width: 1200px) {
-
-        .ticketdetail-section {
-            padding: 1.5rem;
-        }
-    }
 </style>

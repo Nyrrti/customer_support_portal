@@ -72,7 +72,20 @@ export const storeModuleFactory = <
         delete: async (id: number) => {
             await deleteRequest(`${moduleName}/${id}`);
             setters.deleteById(id);
-        }
+        },
+        getByTicket: async (ticketId: number) => {
+            const { data } = await getRequest<Item[]>(
+                `tickets/${ticketId}/replies`
+            );
+
+            if (!data) return;
+
+            // Replace the current collection with this ticket's replies.
+            state.value = Object.fromEntries(
+                data.map(item => [item.id, Object.freeze(item)])
+            );
+        },
+        
     };
 
     return { getters, setters, actions };
