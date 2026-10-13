@@ -7,12 +7,25 @@
     import type { CreateTicket } from "../types.js";
     import type { Category } from "../../categories/types.js";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
+    import { useForm } from "../../../js/composables/useForm.js";
 
     const router = useRouter();
     
+    const { errors, saving, submit } = useForm();
+    
+    /**
+     * Creates a ticket and opens the overview after a successful save.
+     *
+     * @param data - The ticket values submitted by the child form.
+     */
     const createTicket = async (data: CreateTicket) => {
-        await ticketStore.actions.create(data);
-        router.push({name: "tickets-overview"});
+        const saved = await submit(
+            () => ticketStore.actions.create(data)
+        );
+
+        if (saved) {
+            await router.push({ name: "tickets-overview" });
+        }
     };
 
     // Read the state
@@ -30,7 +43,13 @@
     <LoggedInLayout>
         <div class="ticket-page-background">
             <div class="form-wrapper py-3">
-                <Form :categories="categories" @submit="createTicket" mode="create"/>
+                <Form 
+                    mode="create"
+                    :categories="categories" 
+                    :errors="errors" 
+                    :saving="saving"
+                    @submit="createTicket" 
+                />
             </div>
         </div>
     </LoggedInLayout>

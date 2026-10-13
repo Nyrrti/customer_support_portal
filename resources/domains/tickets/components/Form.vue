@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Category } from '../../categories/types';
-import type { CreateTicket, Ticket, UpdateTicket } from '../types';
-
+    import { ref } from 'vue';
+    import type { Category } from '../../categories/types';
+    import type { CreateTicket, Ticket, UpdateTicket } from '../types';
+    import FieldError from '../../../js/components/FieldError.vue';
 
     const props = defineProps<{
         categories: Category[];
         mode: "create" | "edit"
         ticket?: Ticket;
+        errors: Record<string, string[]>;
+        saving: boolean;
     }>();
     
     const ticket = ref<CreateTicket>({
@@ -88,6 +90,9 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
                     v-model="ticket.title"
                     type="text"
                 >
+                <FieldError 
+                    :errors="errors.title" 
+                />
             </div>
             <div class="field">
                 <label for="category">
@@ -110,6 +115,9 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
                         {{ category.title }}
                     </option>
                 </select>
+                <FieldError 
+                    :errors="errors.category_id" 
+                />
             </div>
             <div class="field">
                 <label for="description">
@@ -120,6 +128,9 @@ import type { CreateTicket, Ticket, UpdateTicket } from '../types';
                     v-model="ticket.description"
                 >
                 </textarea>
+                <FieldError 
+                    :errors="errors.description" 
+                />
             </div>
         </div>
         <div class="ticket-form-footer p-4">

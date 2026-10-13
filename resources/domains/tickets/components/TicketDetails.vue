@@ -95,9 +95,6 @@
         --ticket-card-border-dark: #597db1;
         --bg-ticket-card: #2d5690;
 
-        min-height: 100%;
-        background-color: var(--bg-color-dark-blue);
-        padding: 0.5rem;
     }
 
     .ticket-nav {

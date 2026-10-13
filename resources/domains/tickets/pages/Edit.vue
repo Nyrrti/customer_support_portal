@@ -7,9 +7,11 @@
     import type { Category } from '../../categories/types.js';
     import type { Ticket, UpdateTicket } from '../types.js';
     import LoggedInLayout from '../../../js/layouts/LoggedInLayout.vue';
+    import { useForm } from '../../../js/composables/useForm.js';
 
     const route = useRoute();
     const router = useRouter();
+    const { errors, saving, submit } = useForm();
    
     const ticketId = Number(route.params.id);
 
@@ -17,15 +19,26 @@
         ticketStore.getters.getById(ticketId).value
     );
 
+    
+    /**
+     * Updates the ticket and opens the overview after a successful save.
+     *
+     * @param data - The updated values submitted by the child form.
+     */
+    const updateTicket = async (data: UpdateTicket) => {
+        const saved = await submit(
+            () => ticketStore.actions.update(ticketId, data)
+        );
+
+        if (saved) {
+            await router.push({ name: "tickets-overview" });
+        }
+    };
+
     // Read the state
     const categories = computed<Category[]>(() =>
         Object.values(categoryStore.getters.all.value)
     );
-
-    const updateTicket = async (data: UpdateTicket) => {
-        await ticketStore.actions.update(ticketId, data);
-        router.push({ name: 'tickets-overview' });
-    };
 
     onMounted(async () => {
         await Promise.all([
@@ -43,9 +56,11 @@
         <div class="ticket-page-background">
             <div class="form-wrapper py-3">
                 <Form v-if="ticket" 
+                    mode="edit"
                     :ticket="ticket" 
                     :categories="categories"  
-                    mode="edit"
+                    :errors="errors" 
+                    :saving="saving"
                     @submit="updateTicket" 
                 />
             </div>
