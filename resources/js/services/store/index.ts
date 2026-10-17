@@ -34,6 +34,7 @@ export const storeModuleFactory = <
 
     const setters = {
         setAll: (items: Item[]) => {
+            state.value = {};
             for (const item of items) {
                 state.value[item.id] = Object.freeze(item);
             }
@@ -45,7 +46,15 @@ export const storeModuleFactory = <
 
         deleteById: (id: number) => {
             delete state.value[id];
-        }
+        },
+
+        /**
+         * Removes every item from this store.
+         * Used when the current account changes or logs out.
+         */
+        clearAll: () => {
+            state.value = {};
+        },
     };
 
     const actions = {

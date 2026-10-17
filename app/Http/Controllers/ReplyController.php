@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Resources\ReplyResource;
 use App\Models\Ticket;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ReplyController extends Controller
 {
     /**
-     * Get all replies belonging to a ticket.
+     * Return replies for a ticket the current user may view.
      */
-    public function index(Ticket $ticket): JsonResponse
+    public function index(Ticket $ticket): AnonymousResourceCollection
     {
+        $this->authorize("view", $ticket);
+
         $replies = $ticket->replies()
             ->with("user")
             ->orderBy("created_at", "asc")
             ->get();
 
-        return response()->json($replies);
+        return ReplyResource::collection($replies);
     }
 }
