@@ -1,20 +1,15 @@
 <script setup lang="ts">
-    import { onMounted, computed } from "vue";
-    import { ticketStore } from "../store";
     import TicketTable from "../components/TicketTable.vue";
     import TicketCard from "./TicketCard.vue";
     import type { Ticket } from "../types";
     import SearchFilter from "../../../js/components/SearchFilter.vue";
 
-    // Read the state
-    const tickets = computed<Ticket[]>(() =>
-        Object.values(ticketStore.getters.all.value)
-    );
-
-    onMounted(async () => {
-        // Fetch tickets and put them into state
-        await ticketStore.actions.getAll();
-    }); 
+    /** Data and request state given by the parent page. */
+    defineProps<{
+        tickets: Ticket[];
+        loading: boolean;
+        loadFailed: boolean;
+    }>();
 </script>
 
 <template>
@@ -23,33 +18,58 @@
             <div class="overview-header py-3">
                 <div class="title-section pt-1 pb-4">
                     <div class="overview-title">
-                        <div class="overview-icon">
-                            T
-                        </div>
-                        <h3 class="light">
-                            All Tickets
-                        </h3>
+                        <div class="overview-icon">T</div>
+                        <h3 class="light">All Tickets</h3>
                     </div>
+
                     <div class="overview-ticket-button">
-                        <RouterLink :to="{name: 'create-ticket'}" class="btn ticket">
+                        <RouterLink
+                            :to="{ name: 'create-ticket' }"
+                            class="btn ticket"
+                        >
                             + New Ticket
                         </RouterLink>
                     </div>
                 </div>
+
                 <SearchFilter />
             </div>
-            <div class="mobile">
-                <TicketCard :tickets="tickets" />
-            </div>
-            <div class="desktop">
-                <TicketTable :tickets="tickets" />
-            </div>
-            
-            <div class="overview-footer">
-                <p>
-                    Showing {{ tickets.length }} tickets
-                </p>
-            </div>
+
+            <section
+                v-if="loading"
+                class="ticket-state"
+                role="status"
+            >
+                <h2>Loading tickets</h2>
+                <p>Please wait while we load your tickets.</p>
+            </section>
+
+            <section v-else-if="loadFailed" class="ticket-state">
+                <h2>Could not load tickets</h2>
+                <p>Please refresh the page to try again.</p>
+            </section>
+
+            <section
+                v-else-if="tickets.length === 0"
+                class="ticket-state"
+            >
+                <h2>No tickets yet</h2>
+                <p>Use “New Ticket” to create your first ticket.</p>
+            </section>
+
+            <template v-else>
+                <div class="mobile">
+                    <TicketCard :tickets="tickets" />
+                </div>
+
+                <div class="desktop">
+                    <TicketTable :tickets="tickets" />
+                </div>
+
+                <div class="overview-footer">
+                    <p>Showing {{ tickets.length }} tickets</p>
+                </div>
+            </template>
         </div>
     </section>
 </template>
@@ -65,6 +85,7 @@
     }
 
     .overview-header {
+        display: flex;
         flex-direction: column;
         align-items: stretch;
     }

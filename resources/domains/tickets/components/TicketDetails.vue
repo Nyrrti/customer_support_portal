@@ -1,23 +1,16 @@
 <script setup lang="ts">
-    import { onMounted } from "vue";
-    import { ticketStore } from "../store";
-    import { useRoute } from "vue-router";
     import CheckTime from "../../../js/components/CheckTime.vue";
+    import type { Ticket } from "../types";
 
-    const route = useRoute();
-   
-    // Read the state
-    const ticket = ticketStore.getters.getById(Number(route.params.id));
-
-    onMounted(async () => {
-        // Fetch tickets and put them into state
-        await ticketStore.actions.getAll();
-    }); 
+    /** The ticket loaded by the parent page. */
+    defineProps<{
+        ticket: Ticket;
+    }>();
 </script>
 
 <template>
     <div class="ticketdetail-section">
-        <div v-if="ticket" :key="ticket.id">
+        <div :key="ticket.id">
             <div class="ticket-nav">
                 <RouterLink :to="{ name: 'tickets-overview' }">
                     Tickets
@@ -84,7 +77,6 @@
                 </div>  
             </section>
         </div>
-        <p v-else>Loading ticket…</p>
     </div>
 </template>
 

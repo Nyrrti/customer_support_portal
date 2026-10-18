@@ -66,6 +66,18 @@ export const storeModuleFactory = <
             if (!data) return;
             setters.setAll(data);
         },
+        /**
+         * Fetches one item and stores it under its ID.
+         *
+         * @param id - The ID of the item to fetch.
+         */
+        getOne: async (id: number): Promise<void> => {
+            const { data } = await getRequest<Item>(
+                `${moduleName}/${id}`
+            );
+
+            setters.setOne(data);
+        },
         create: async (item: CreateData) => {
             console.log("Store received:", item);
             const { data } = await postRequest<Item>(moduleName, item);

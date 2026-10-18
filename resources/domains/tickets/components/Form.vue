@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import type { Category } from '../../categories/types';
-    import type { CreateTicket, Ticket, UpdateTicket } from '../types';
+    import type { CreateTicket, Ticket } from '../types';
     import FieldError from '../../../js/components/FieldError.vue';
 
     const props = defineProps<{
@@ -21,13 +21,12 @@
     /**
      * Defines the custom events this component can emit.
      * Describes which event can leave the component
-     * Describes what data that event carries
-     * Send out
-     *
+     * 
      * The "submit" event must include one CreateTicket or UpdateTicket object.
      */
     const emit = defineEmits<{
-        submit: [ticket: CreateTicket | UpdateTicket]
+        submit: [ticket: CreateTicket];
+        "dismiss-error": [field: string];
     }>();
 
     /**
@@ -91,7 +90,8 @@
                     type="text"
                 >
                 <FieldError 
-                    :errors="errors.title" 
+                    :errors="errors.title"
+                    @dismiss="emit('dismiss-error', 'title')" 
                 />
             </div>
             <div class="field">
@@ -117,6 +117,7 @@
                 </select>
                 <FieldError 
                     :errors="errors.category_id" 
+                    @dismiss="emit('dismiss-error', 'category_id')"
                 />
             </div>
             <div class="field">
@@ -129,13 +130,24 @@
                 >
                 </textarea>
                 <FieldError 
-                    :errors="errors.description" 
+                    :errors="errors.description"
+                    @dismiss="emit('dismiss-error', 'description')" 
                 />
             </div>
         </div>
         <div class="ticket-form-footer p-4">
-            <button class="btn create" type="submit">
-                {{ mode === "create" ? "Create Ticket" : "Edit Ticket" }}
+            <button 
+                class="btn create" 
+                type="submit"
+                :disabled="saving"
+            >
+                {{
+                    saving
+                        ? "Saving..."
+                        : mode === "create"
+                            ? "Create Ticket"
+                            : "Edit Ticket"
+                }}
             </button>
         </div>
     </form>

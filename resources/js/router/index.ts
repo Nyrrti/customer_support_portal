@@ -5,6 +5,7 @@ import { ticketRoutes } from "../../domains/tickets/routes";
 import { categoryRoutes } from "../../domains/categories/routes";
 import { userRoutes } from "../../domains/users/routes";
 import { authStore } from "../../domains/auth/store";
+import { destroyMessage } from "../services/error";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -44,4 +45,13 @@ router.beforeEach(async (to) => {
     }
 
     return true;
+});
+
+/**
+ * Clears the previous page's error message after navigation succeeds.
+ */
+router.afterEach((to, from, failure) => {
+    if (!failure) {
+        destroyMessage();
+    }
 });

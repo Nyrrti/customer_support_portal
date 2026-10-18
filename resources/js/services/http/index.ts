@@ -34,6 +34,20 @@ http.interceptors.response.use(
                 return Promise.reject(error);
             }
 
+            if (error.response?.status === 403) {
+                setMessage("You do not have permission to access this resource.");
+
+                return Promise.reject(error);
+            }
+
+            if (error.response?.status === 404) {
+                setMessage(
+                    "The requested item could not be found. It may have been deleted."
+                );
+
+                return Promise.reject(error);
+            }
+
             if (error.response) {
                 setMessage("The request failed. Please try again.");
             } else {

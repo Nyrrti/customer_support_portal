@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { onMounted, computed } from "vue";
+    import { ref, onMounted, computed } from "vue";
     import Form from "../components/Form.vue";
     import { ticketStore } from "../store.js";
     import { categoryStore } from "../../categories/store.js"
@@ -11,8 +11,10 @@
 
     const router = useRouter();
     
-    const { errors, saving, submit } = useForm();
-    
+    const { errors, saving, submit, clearError } = useForm();
+    const loading = ref(true);
+    const loadFailed = ref(false);
+
     /**
      * Creates a ticket and opens the overview after a successful save.
      *
@@ -33,9 +35,17 @@
         Object.values(categoryStore.getters.all.value)
     );
 
+    /**
+     * Loads the category options needed to create a ticket.
+     */
     onMounted(async () => {
-        // Fetch categories and put them into state
-        await categoryStore.actions.getAll();
+        try {
+            await categoryStore.actions.getAll();
+        } catch {
+            loadFailed.value = true;
+        } finally {
+            loading.value = false;
+        }
     });
 </script>
 
@@ -43,12 +53,45 @@
     <LoggedInLayout>
         <div class="ticket-page-background">
             <div class="form-wrapper py-3">
-                <Form 
+                <section
+                    v-if="loading || loadFailed || categories.length === 0"
+                    class="ticket-state"
+                    aria-live="polite"
+                    :aria-busy="loading"
+                >
+                    <template v-if="loading">
+                        <h2>Loading categories</h2>
+                        <p>Please wait while we prepare your ticket form.</p>
+                    </template>
+
+                    <template v-else-if="loadFailed">
+                        <h2>Could not load categories</h2>
+                        <p>Please refresh the page to try again.</p>
+                    </template>
+
+                    <template v-else>
+                        <h2>No categories available</h2>
+                        <p>
+                            An administrator needs to add a category
+                            before you can create a ticket.
+                        </p>
+                    </template>
+
+                    <RouterLink
+                        v-if="!loading"
+                        :to="{ name: 'tickets-overview' }"
+                    >
+                        Back to tickets
+                    </RouterLink>
+                </section>
+                <Form
+                    v-else 
                     mode="create"
                     :categories="categories" 
                     :errors="errors" 
                     :saving="saving"
-                    @submit="createTicket" 
+                    @submit="createTicket"
+                    @dismiss-error="clearError" 
                 />
             </div>
         </div>
@@ -66,5 +109,35 @@
     .form-wrapper {
         max-width: 34rem;
         margin: 0 auto;
+    }
+
+    .ticket-state {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        background-color: var(--bg-color-card);
+        border: 1px solid var(--border-input-light);
+        border-radius: 0.6rem;
+    }
+
+    .ticket-state h2 {
+        margin: 0;
+        color: var(--font-color-dark);
+        font-size: 1.25rem;
+    }
+
+    .ticket-state p {
+        margin: 0;
+        color: var(--font-color-medium-dark);
+        line-height: 1.6;
+    }
+
+    .ticket-state a {
+        color: var(--color-yellow);
+        background-color: var(--bg-color-blue);
+        padding: 1rem;
+        border-radius: 0.6rem;
     }
 </style>

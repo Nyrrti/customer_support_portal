@@ -141,14 +141,10 @@
     }
 
     .category-state-link {
-        display: inline-flex;
-        justify-content: center;
-        margin-top: 0.5rem;
-        padding: 0.75rem 1.25rem;
-        background-color: var(--color-yellow);
-        color: var(--font-color-dark);
-        border-radius: 0.4rem;
-        text-decoration: none;
+        color: var(--color-yellow);
+        background-color: var(--bg-color-blue);
+        padding: 1rem 1.25rem;
+        border-radius: 0.6rem;
     }
 
     .category-state-link:focus-visible {
