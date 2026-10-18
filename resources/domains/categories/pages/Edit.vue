@@ -11,8 +11,10 @@
     const route = useRoute();
     const router = useRouter();
    
-    const { errors, saving, submit } = useForm();
-    
+    const { errors, saving, submit, clearError } = useForm();
+    const loading = ref(true);
+    const loadFailed = ref(false);
+
     const categoryId = Number(route.params.id);
 
     const categories = computed<Category[]>(() =>
@@ -38,8 +40,18 @@
         }
     };
 
+    /**
+     * Loads categories before displaying the edit form.
+     * General request errors are displayed by the Axios interceptor.
+     */
     onMounted(async () => {
-        await categoryStore.actions.getAll();
+        try {
+            await categoryStore.actions.getAll();
+        } catch {
+            loadFailed.value = true;
+        } finally {
+            loading.value = false;
+        }
     });
 
 </script>
@@ -48,13 +60,44 @@
     <LoggedInLayout>
         <div class="category-page-background">
             <div class="form-wrapper py-3">
+                <section
+                    v-if="loading || loadFailed || !category"
+                    class="category-state"
+                    aria-live="polite"
+                    :aria-busy="loading"
+                >
+                    <template v-if="loading">
+                        <h2>Loading category</h2>
+                        <p>Please wait while we load the details.</p>
+                    </template>
+
+                    <template v-else-if="loadFailed">
+                        <h2>Could not load category</h2>
+                        <p>Please refresh the page to try again.</p>
+                    </template>
+
+                    <template v-else>
+                        <h2>Category not found</h2>
+                        <p>This category may have been deleted.</p>
+                    </template>
+
+                    <RouterLink
+                        v-if="!loading"
+                        :to="{ name: 'category-overview' }"
+                        class="category-state-link"
+                    >
+                        Back to categories
+                    </RouterLink>
+                </section>
+
                 <Form 
+                    v-else-if="category"
                     mode="edit"
-                    :categories="categories"
                     :category="category" 
                     :errors="errors" 
                     :saving="saving"
-                    @submit="updateCategory" 
+                    @submit="updateCategory"
+                    @dismiss-error="clearError" 
                 />
             </div>
         </div>
@@ -72,5 +115,44 @@
     .form-wrapper {
         max-width: 34rem;
         margin: 0 auto;
+    }
+
+    .category-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        background-color: var(--bg-color-card);
+        border: 1px solid var(--border-input-light);
+        border-radius: 0.6rem;
+        box-shadow: 0 0.45rem 1.25rem rgba(15, 29, 51, 0.08);
+    }
+
+    .category-state h2 {
+        color: var(--font-color-dark);
+        font-size: 1.25rem;
+    }
+
+    .category-state p {
+        color: var(--font-color-medium-dark);
+        line-height: 1.6;
+    }
+
+    .category-state-link {
+        display: inline-flex;
+        justify-content: center;
+        margin-top: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        background-color: var(--color-yellow);
+        color: var(--font-color-dark);
+        border-radius: 0.4rem;
+        text-decoration: none;
+    }
+
+    .category-state-link:focus-visible {
+        outline: 2px solid var(--color-yellow);
+        outline-offset: 3px;
     }
 </style>

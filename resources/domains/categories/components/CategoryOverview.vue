@@ -1,10 +1,11 @@
 <script setup lang="ts">
-    import type { Category } from '../types';
-    import ActionButtons from '../../../js/components/ActionButtons.vue';
-    import FieldError from '../../../js/components/FieldError.vue';
+    import type { Category } from "../types";
+    import ActionButtons from "../../../js/components/ActionButtons.vue";
+    import FieldError from "../../../js/components/FieldError.vue";
    
-
     const props = defineProps<{
+        loading: boolean;
+        loadFailed: boolean;
         categories: Category[];
         errors: Record<string, string[]>;
         deleting: boolean;
@@ -29,7 +30,18 @@
                 + New Category
             </RouterLink>
         </div>
-        <table class="category-table">
+        <p v-if="loading" class="category-status" role="status">
+            Loading categories…
+        </p>
+
+        <p v-else-if="loadFailed" class="category-status">
+            Could not load categories. Please refresh to try again.
+        </p>
+
+        <p v-else-if="categories.length === 0" class="category-status">
+            No categories yet. Use “New Category” to create the first one.
+        </p>
+        <table v-else class="category-table">
             <colgroup>
                 <col>
                 <col class="table-w-30">
@@ -92,6 +104,15 @@
         align-items: center;
         background-color: var(--table-header);
         padding: 1.25rem;
+    }
+
+    .category-status {
+        margin: 0;
+        padding: 2rem 1.25rem;
+        text-align: center;
+        line-height: 1.6;
+        color: var(--font-color-medium-dark);
+        background-color: var(--bg-color-card);
     }
 
     .category-card {

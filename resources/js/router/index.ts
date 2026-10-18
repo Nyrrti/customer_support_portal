@@ -40,7 +40,7 @@ router.beforeEach(async (to) => {
 
     // If no admin when required
     if (to.meta.requiresAdmin && !authStore.user.is_admin) {
-        return { name: "tickets" };
+        return { name: "tickets-overview" };
     }
 
     return true;

@@ -9,6 +9,9 @@
     // saving: deleting means, take saving from the returned object, but call it deleting on this page.
     const { errors, saving: deleting, submit, clearError } = useForm();
 
+    const loading = ref(true);
+    const loadFailed = ref(false);
+
     /**
      * Asks for confirmation and deletes the selected category.
      *
@@ -37,10 +40,19 @@
             .sort((a, b) => a.title.localeCompare(b.title))
     );
 
+    /**
+     * Loads the category overview.
+     * The Axios interceptor displays general request errors.
+     */
     onMounted(async () => {
-        // Fetch tickets and put them into the store.
-        await categoryStore.actions.getAll();
-    }); 
+        try {
+            await categoryStore.actions.getAll();
+        } catch {
+            loadFailed.value = true;
+        } finally {
+            loading.value = false;
+        }
+    });
 </script>
 
 <template>
@@ -48,6 +60,8 @@
     <LoggedInLayout>
         <div class="category-page-background">
             <CategoryOverview
+                :loading="loading"
+                :load-failed="loadFailed"
                 :categories="categories"
                 :deleting="deleting"
                 :errors="errors"

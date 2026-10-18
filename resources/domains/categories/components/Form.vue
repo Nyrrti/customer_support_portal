@@ -1,12 +1,11 @@
 <script setup lang="ts">
     import { ref } from 'vue';
-    import type { Category, CreateCategory, UpdateCategory } from '../types';
+    import type { Category, CreateCategory } from '../types';
     import FieldError from '../../../js/components/FieldError.vue';
 
 
     const props = defineProps<{
         mode: "create" | "edit"
-        categories: Category[];
         category?: Category;
         errors: Record<string, string[]>;
         /** Whether the parent is currently saving the form. */
@@ -15,20 +14,19 @@
     
     const form = ref<CreateCategory>({
         title: props.category?.title ?? "",
-        category_id: props.category?.category_id ?? null,
     });
 
 
     /**
      * Defines the custom events this component can emit.
      * Describes which event can leave the component
-     * Describes what data that event carries
-     * Send out
-     *
+     * 
      * The "submit" event must include one CreateCategory object.
      */
     const emit = defineEmits<{
         submit: [category: CreateCategory];
+        /** Requests that the parent clears errors for this field. */
+        "dismiss-error": [field: string];
     }>();
 
     /**
@@ -92,7 +90,8 @@
                     type="text"
                 >
                 <FieldError 
-                    :errors="errors.title" 
+                    :errors="errors.title"
+                    @dismiss="emit('dismiss-error', 'title')" 
                 />
             </div>
         </div>
