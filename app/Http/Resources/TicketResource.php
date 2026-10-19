@@ -25,6 +25,7 @@ class TicketResource extends JsonResource
             "created_by" => new UserResource($this->whenLoaded("createdBy")),
             "assigned_to" => new UserResource($this->whenLoaded("assignedTo")),
             "category" => new CategoryResource($this->whenLoaded("category")), 
+            "can_change_status" => $request->user()->can("updateStatus", $this->resource),
         ];
     }
 }

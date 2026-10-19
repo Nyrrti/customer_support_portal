@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\TicketResource;
 use App\Http\Requests\StoreTicketRequest;
 use App\Models\Ticket;
+use App\Enums\TicketStatus;
+use App\Http\Requests\UpdateTicketStatusRequest;
 
 class TicketController extends Controller
 {
@@ -33,7 +35,7 @@ class TicketController extends Controller
         $data = $request->validated();
 
         $data["created_by_id"] = $request->user()->id;
-        $data["status"] = "pending";
+        $data["status"] = TicketStatus::PENDING;
 
         $ticket = Ticket::create($data);
 
@@ -81,5 +83,15 @@ class TicketController extends Controller
         $ticket->delete();
 
         return response()->noContent();
+    }
+
+    // STATUS
+    public function updateStatus(UpdateTicketStatusRequest $request, Ticket $ticket)
+    {
+        $ticket->update($request->validated());
+
+        return new TicketResource(
+            $ticket->load(["createdBy", "assignedTo", "category"])
+        );
     }
 }

@@ -35,6 +35,9 @@ Route::middleware("auth:sanctum")->group(function () {
     // ADMINS ONLY   
     Route::middleware("admin")->group(function () {
 
+        // Ticket Section
+        Route::patch("/tickets/{ticket}/status", [TicketController::class, "updateStatus"]);
+
         // Category Section
         Route::post("/categories", [CategoryController::class, "store"]);
         Route::put("/categories/{category}", [CategoryController::class, "update"]);

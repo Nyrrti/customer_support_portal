@@ -49,6 +49,14 @@ class TicketPolicy
     }
 
     /**
+     *  Determine whether the user can change the status.
+     */
+    public function updateStatus(User $user, Ticket $ticket): bool
+    {
+        return $user->isAdmin(); 
+    }
+
+    /**
      * Determine whether the user can delete the ticket.
      */
     public function delete(User $user, Ticket $ticket): bool

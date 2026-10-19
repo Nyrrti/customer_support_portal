@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->text("description");
-            $table->string("status")->default("Pending");
+            $table->string("status")->default("pending");
             $table->timestamps();
 
             $table->foreignId("created_by_id")

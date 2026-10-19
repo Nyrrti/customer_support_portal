@@ -10,6 +10,7 @@
         loading: boolean;
         loadFailed: boolean;
     }>();
+
 </script>
 
 <template>
