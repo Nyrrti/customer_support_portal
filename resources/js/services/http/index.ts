@@ -100,6 +100,20 @@ export const postRequest = <ResponseData>(endpoint: string, data: unknown) => ht
 export const putRequest = <ResponseData>(endpoint: string, data: unknown) => http.put<ResponseData>(endpoint, data);
 
 /**
+ * Sends a PATCH request to the given API endpoint.
+ *
+ * Used to update part of an existing resource.
+ *
+ * @param endpoint - The API endpoint to send the request to.
+ * @param data - The fields that should be updated.
+ * @returns The Axios response promise.
+ */
+export const patchRequest = <ResponseData>(
+    endpoint: string,
+    data: unknown
+) => http.patch<ResponseData>(endpoint, data);
+
+/**
  * Sends a DELETE request to the given API endpoint.
  *
  * Usually used to remove existing data.

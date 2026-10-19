@@ -44,7 +44,7 @@
 
 <template>
     <div class="nav-link my-2 p-2">
-        <RouterLink :to="{ name: 'dashboard' }">
+        <RouterLink :to="{ name: 'tickets-overview' }">
             Tickets 
         </RouterLink>
         <span>
@@ -72,7 +72,7 @@
                 </h5>
             </div>
             <RouterLink
-                :to="{ name: 'dashboard' }"
+                :to="{ name: 'tickets-overview' }"
                 class="ticket-form-icon form-close"
                 aria-label="Back to ticket overview"
             >
