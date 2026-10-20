@@ -12,7 +12,7 @@ use App\Http\Requests\UpdateTicketStatusRequest;
 class TicketController extends Controller
 {
     public function index(Request $request) {
-
+        
         $user = $request->user();
 
         $query = Ticket::with([
@@ -48,16 +48,28 @@ class TicketController extends Controller
         );
     }
 
-    // VIEW
-    public function show(Ticket $ticket)
-    {
-        $this->authorize("view", $ticket);
-            return new TicketResource($ticket->load([
-            "createdBy",
-            "assignedTo",
-            "category",
-        ]));
-    }
+        // VIEW
+        public function show(Request $request, Ticket $ticket)
+        {
+            $this->authorize("view", $ticket);
+
+            $ticket->load([
+                "createdBy",
+                "assignedTo",
+                "category",
+            ]);
+
+            // Only load internal notes for administrators.
+            if ($request->user()->is_admin) {
+                $ticket->load([
+                    "notes" => fn ($query) => $query
+                        ->with("user")
+                        ->orderBy("created_at", "asc"),
+                ]);
+            }
+
+            return new TicketResource($ticket);
+        }
 
     // EDIT
     public function update(StoreTicketRequest $request, Ticket $ticket)

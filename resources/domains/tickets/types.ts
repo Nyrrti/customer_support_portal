@@ -1,5 +1,6 @@
     import type { Category } from "../categories/types";
-    import type { User } from "../auth/types"
+    import type { User } from "../auth/types";
+    import type { Note } from "../notes/types";
 
     /**
      * Status values accepted by the ticket API.
@@ -21,6 +22,7 @@
         created_by: User
         assigned_to: User | null
         category: Category
+        notes: Note[];
     }
 
     export interface CreateTicket {

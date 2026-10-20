@@ -1,15 +1,18 @@
 <script setup lang="ts">
-    import { onMounted, ref } from "vue";
+    import { onMounted, ref, computed } from "vue";
     import { useRoute } from "vue-router";
     import { ticketStore } from "../store";
     import TicketDetails from "../components/TicketDetails.vue";
     import RepliesOverview from "../../replies/components/RepliesOverview.vue";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
+    import CollapsibleNotes from "../../notes/components/CollapsibleNotes.vue";
+    import NoteCard from "../../notes/components/NoteCard.vue";
 
     const route = useRoute();
     const ticketId = Number(route.params.id);
 
     const ticket = ticketStore.getters.getById(ticketId);
+    const notes = computed(() => ticket.value?.notes ?? []);
     const loading = ref(true);
     const loadFailed = ref(false);
     
@@ -46,6 +49,9 @@
 
             <template v-else-if="ticket">
                 <TicketDetails :ticket="ticket" />
+                <CollapsibleNotes :count="notes.length">
+                    <NoteCard :notes="notes" />
+                </CollapsibleNotes>
                 <RepliesOverview />
             </template>
         </div>
