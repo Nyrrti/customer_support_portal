@@ -3,16 +3,18 @@
     import { useRoute } from "vue-router";
     import { ticketStore } from "../store";
     import TicketDetails from "../components/TicketDetails.vue";
-    import RepliesOverview from "../../replies/components/RepliesOverview.vue";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import CollapsibleNotes from "../../notes/components/CollapsibleNotes.vue";
     import NoteCard from "../../notes/components/NoteCard.vue";
+    import CollapsibleReplies from "../../replies/components/CollapsibleReplies.vue";
+    import ReplyCard from "../../replies/components/ReplyCard.vue";
 
     const route = useRoute();
     const ticketId = Number(route.params.id);
 
     const ticket = ticketStore.getters.getById(ticketId);
     const notes = computed(() => ticket.value?.notes ?? []);
+    const replies = computed(() => ticket.value?.replies ?? []);
     const loading = ref(true);
     const loadFailed = ref(false);
     
@@ -52,7 +54,9 @@
                 <CollapsibleNotes :count="notes.length">
                     <NoteCard :notes="notes" />
                 </CollapsibleNotes>
-                <RepliesOverview />
+                <CollapsibleReplies :count="notes.length">
+                    <ReplyCard :replies="replies" />
+                </CollapsibleReplies>
             </template>
         </div>
         

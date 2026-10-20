@@ -5,6 +5,7 @@
     import { useForm } from "../../../js/composables/useForm";
     import { ticketStore } from "../store";
     import type { Ticket, TicketStatus } from "../types";
+    import TicketStatusPill from "../../../js/components/TicketStatusPill.vue";
 
     /** The ticket loaded by the parent page. */
     const props = defineProps<{
@@ -15,13 +16,6 @@
 
     /** The selected status, kept separate until saving succeeds. */
     const selectedStatus = ref<TicketStatus>(props.ticket.status);
-
-    /** Display labels for the API's status values. */
-    const statusLabels: Record<TicketStatus, string> = {
-        pending: "Pending",
-        open: "Open",
-        closed: "Closed"
-    };
 
     /** Keeps the selection aligned with the saved ticket status. */
     watch(
@@ -130,43 +124,7 @@
                             Status:
                         </h4>
 
-                        <p
-                            class="status-pill"
-                            :class="`status-pill--${ticket.status}`"
-                            aria-live="polite"
-                        >
-                            <svg
-                                class="status-pill-icon"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                aria-hidden="true"
-                                focusable="false"
-                            >
-                                <!-- Pending: clock -->
-                                <template v-if="ticket.status === 'pending'">
-                                    <circle cx="12" cy="12" r="9" />
-                                    <path d="M12 7v5l3 2" />
-                                </template>
-
-                                <!-- Open: three dots -->
-                                <template v-else-if="ticket.status === 'open'">
-                                    <circle cx="5" cy="12" r="1" />
-                                    <circle cx="12" cy="12" r="1" />
-                                    <circle cx="19" cy="12" r="1" />
-                                </template>
-
-                                <!-- Closed: check -->
-                                <template v-else-if="ticket.status === 'closed'">
-                                    <path d="m5 12 4 4L19 6" />
-                                </template>
-                            </svg>
-
-                            <span>{{ statusLabels[ticket.status] }}</span>
-                        </p>
+                        <TicketStatusPill :status="ticket.status" />
                     </div>
                     <form
                         v-if="ticket.can_change_status"
@@ -406,40 +364,6 @@
 
     .btn.status {
         padding: 0.5rem 0.75rem;
-    }
-
-    .status-pill {
-        display: inline-flex;
-        align-items: center;
-        align-self: flex-start;
-        gap: 0.4rem;
-        padding: 0.35rem 0.75rem;
-        border: 1px solid currentColor;
-        border-radius: 999px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        line-height: 1.4;
-    }
-
-    .status-pill--pending {
-        color: #854d0e;
-        background-color: #fef3c7;
-    }
-
-    .status-pill--open {
-        color: #29a12d;
-        background-color: #dbfee8;
-    }
-
-    .status-pill--closed {
-        color: var(--color-red);
-        background-color: #fce1dc;
-    }
-
-    .status-pill-icon {
-        width: 1rem;
-        height: 1rem;
-        flex-shrink: 0;
     }
 
 </style>

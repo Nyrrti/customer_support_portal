@@ -59,6 +59,13 @@ class TicketController extends Controller
                 "category",
             ]);
 
+            // Load public replies for everyone.
+            $ticket->load([
+                "replies" => fn ($query) => $query
+                    ->with("user")
+                    ->orderBy("created_at", "asc"),
+            ]);
+
             // Only load internal notes for administrators.
             if ($request->user()->is_admin) {
                 $ticket->load([

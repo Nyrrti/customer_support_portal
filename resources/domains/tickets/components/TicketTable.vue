@@ -1,6 +1,14 @@
 <script setup lang="ts">
-    import type { Ticket } from "../types"
+    import type { Ticket, TicketStatus } from "../types"
     import CheckTime from "../../../js/components/CheckTime.vue";
+    import TicketStatusPill from "../../../js/components/TicketStatusPill.vue";
+
+    /** Display labels for the API's status values. */
+    const statusLabels: Record<TicketStatus, string> = {
+        pending: "Pending",
+        open: "Open",
+        closed: "Closed"
+    };
 
     defineProps<{
         tickets: Ticket[];
@@ -62,9 +70,7 @@
                     </td>
 
                     <td>
-                        <span class="pill status">
-                            {{ ticket.status }}
-                        </span>
+                        <TicketStatusPill :status="ticket.status" />
                     </td>
 
                     <td class="updated">

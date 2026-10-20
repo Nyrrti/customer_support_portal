@@ -1,6 +1,14 @@
 <script setup lang="ts">
     import CheckTime from '../../../js/components/CheckTime.vue';
-    import type { Ticket } from '../types';
+    import type { Ticket, TicketStatus } from '../types';
+    import TicketStatusPill from '../../../js/components/TicketStatusPill.vue';
+
+    /** Display labels for the API's status values. */
+    const statusLabels: Record<TicketStatus, string> = {
+        pending: "Pending",
+        open: "Open",
+        closed: "Closed"
+    };
 
     defineProps<{
         tickets: Ticket[];
@@ -36,20 +44,7 @@
                     {{ ticket.title }}
                 </RouterLink>
                 <div class="ticket-update-section content-border pb-1">
-                    <span class="ticket-status">
-                        <svg class="status-check" viewBox="0 0 24 24" aria-hidden="true">
-                            <circle cx="12" cy="12" r="12" fill="currentColor" />
-                            <path
-                                d="m6.5 12 3.5 3.5 7.5-7.5"
-                                fill="none"
-                                stroke="white"
-                                stroke-width="2.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                        </svg>
-                        {{ ticket.status }}
-                    </span>
+                    <TicketStatusPill :status="ticket.status" />
                     <span class="ticket-updated">
                         <svg class="clock-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="12" cy="12" r="9" />
@@ -199,7 +194,7 @@
     .ticket-link {
         color: var(--color-yellow);
         text-decoration: none;
-        padding-top: 0.65rem;
+        padding-block: 0.65rem;
         font-weight: 500;
     }
 
@@ -212,27 +207,6 @@
         flex-wrap: wrap;
         align-items: center;
         gap: 0.75rem 1rem;
-    }
-
-    .ticket-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 0.9rem;
-        border-radius: 0.5rem;
-        background: #b6cfb9;
-        color: #427749;
-        font-size: var(--text-caption);
-        font-weight: 700;
-        line-height: 1.2;
-    }
-
-    .status-check {
-        display: block;
-        width: 1.1rem;
-        height: 1.1rem;
-        flex-shrink: 0;
-        color: #66a36b;
     }
 
     .ticket-updated {
