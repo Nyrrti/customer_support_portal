@@ -1,9 +1,4 @@
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    is_admin: boolean;
-};
+import type { User } from "../users/types";
 
 export interface AuthStore {
     user: User | null;

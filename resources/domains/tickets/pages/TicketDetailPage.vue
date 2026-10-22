@@ -1,7 +1,9 @@
 <script setup lang="ts">
-    import { onMounted, ref, computed } from "vue";
+    import { watch, ref, computed } from "vue";
     import { useRoute } from "vue-router";
     import { ticketStore } from "../store";
+    import { noteStore } from "../../notes/store";
+    import { replyStore } from "../../replies/store";
     import TicketDetails from "../components/TicketDetails.vue";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import CollapsibleNotes from "../../notes/components/CollapsibleNotes.vue";
@@ -10,26 +12,89 @@
     import ReplyCard from "../../replies/components/ReplyCard.vue";
 
     const route = useRoute();
-    const ticketId = Number(route.params.id);
 
-    const ticket = ticketStore.getters.getById(ticketId);
-    const notes = computed(() => ticket.value?.notes ?? []);
-    const replies = computed(() => ticket.value?.replies ?? []);
+    watch(
+        
+        () => route.params.id,
+        (newId, oldId) => {
+            console.log("Ticket route changed:", oldId, "→", newId);
+        },
+        { immediate: true }
+    );
+    const ticketId = computed(() => Number(route.params.id));
+
+    const ticket = computed(() =>
+        ticketStore.getters.getById(ticketId.value).value
+    );
+
+    /**
+     * Notes belonging to the ticket currently on screen.
+     */
+    const notes = computed(() =>
+        Object.values(noteStore.getters.all.value)
+            .filter(note => note.ticket_id === ticketId.value)
+    );
+
+    /**
+     * Replies belonging to the ticket currently on screen.
+     */
+    const replies = computed(() =>
+        Object.values(replyStore.getters.all.value)
+            .filter(reply => reply.ticket_id === ticketId.value)
+    );
+
     const loading = ref(true);
     const loadFailed = ref(false);
     
-    /**
-     * Loads the requested ticket before displaying its contents.
-     */
-    onMounted(async () => {
-        try {
-            await ticketStore.actions.getOne(ticketId);
-        } catch {
-            loadFailed.value = true;
-        } finally {
-            loading.value = false;
-        }
-    });
+    // Prevents an older request from controlling the current page.
+    let loadVersion = 0;
+
+    watch(
+        ticketId,
+        async (id) => {
+            const version = ++loadVersion;
+
+            console.log("1. Start loading ticket:", id);
+
+            loading.value = true;
+            loadFailed.value = false;
+
+            if (!Number.isSafeInteger(id) || id <= 0) {
+                loadFailed.value = true;
+                loading.value = false;
+                return;
+            }
+
+            try {
+                await ticketStore.actions.getOne(id);
+
+                console.log(
+                    "2. Ticket in store:",
+                    ticketStore.getters.getById(id).value
+                );
+
+                if (version !== loadVersion) return;
+
+                await Promise.all([
+                    noteStore.actions.getByTicket(id),
+                    replyStore.actions.getByTicket(id),
+                ]);
+
+                console.log("3. Related data loaded for ticket:", id);
+            } catch (error) {
+                console.error("Ticket loading failed:", error);
+
+                if (version === loadVersion) {
+                    loadFailed.value = true;
+                }
+            } finally {
+                if (version === loadVersion) {
+                    loading.value = false;
+                }
+            }
+        },
+        { immediate: true }
+    );
 </script>
 
 <template>
@@ -54,7 +119,7 @@
                 <CollapsibleNotes :count="notes.length">
                     <NoteCard :notes="notes" />
                 </CollapsibleNotes>
-                <CollapsibleReplies :count="notes.length">
+                <CollapsibleReplies :count="replies.length">
                     <ReplyCard :replies="replies" />
                 </CollapsibleReplies>
             </template>

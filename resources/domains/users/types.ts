@@ -4,7 +4,8 @@ export interface User {
         last_name: string;
         name: string;
         email: string;
-        phone_number: number;
+        phone_number: string | null;
+        is_admin: boolean;
     }
 
     export interface CreateUser {

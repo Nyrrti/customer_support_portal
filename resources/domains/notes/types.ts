@@ -3,12 +3,15 @@
  export interface Note {
         id: number
         ticket_id: number
-        user_id: number
-        user: Pick<User, "id" | "first_name" | "last_name" | "name">;
+        user_id: number | null;
+        user: Pick<User, "id" | "first_name" | "last_name" | "name"> | null;
         content: string
         created_at: string
         updated_at: string
     }
 
-    export type CreateNote = Note;
-    export type UpdateNote = Note;
+    export interface CreateNote {
+        content: string;
+    }
+
+    export type UpdateNote = CreateNote;

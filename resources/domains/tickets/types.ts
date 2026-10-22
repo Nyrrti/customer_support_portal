@@ -1,5 +1,5 @@
     import type { Category } from "../categories/types";
-    import type { User } from "../auth/types";
+    import type { User } from "../users/types";
     import type { Note } from "../notes/types";
     import type { Reply } from "../replies/types";
 
