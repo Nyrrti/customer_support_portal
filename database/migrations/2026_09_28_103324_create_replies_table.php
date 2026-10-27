@@ -23,6 +23,7 @@ return new class extends Migration
             ->constrained()
             ->nullOnDelete();
             
+            $table->text("title");
             $table->text("content");
             
             $table->timestamps();

@@ -37,13 +37,13 @@ class TicketSeeder extends Seeder
                 ->create();
 
             Reply::factory()
-                ->count(rand(0, 3))
+                ->count(rand(0, 5))
                 ->for($ticket)
                 ->for($admin, "user")
                 ->create();
 
             Note::factory()
-                ->count(rand(0, 2))
+                ->count(rand(0, 5))
                 ->for($ticket)
                 ->for($admin, "user")
                 ->create();

@@ -22,6 +22,7 @@ class ReplyFactory extends Factory
         return [
             "ticket_id" => Ticket::factory(),
             "user_id" => User::factory()->admin(),
+            "title" =>fake()->sentence(),
             "content" => fake()->paragraph(),
         ];
     }

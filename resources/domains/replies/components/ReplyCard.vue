@@ -20,6 +20,9 @@
         :key="reply.id"
         class="reply-card"
         >
+            <h5>
+                {{ reply.title }}
+            </h5>
             <p>
                 {{ reply.content }}
             </p>
@@ -34,7 +37,7 @@
 <style scoped>
 
     .reply-card {
-        padding: 1rem;
+        padding: 1.25rem;
         margin-bottom: 0.5rem;
         border-radius: 0.6rem;
         background: var(--bg-color-card);
@@ -47,7 +50,7 @@
     }
 
     .reply-card p {
-        margin: 0 0 0.3rem;
+        margin: 0.3rem 0;
     }
 
     .reply-card small {

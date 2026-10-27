@@ -37,11 +37,16 @@
                 <h4>Replies ({{ count }})</h4>
             </div>
         </div>
+        <div class="replies-actions">
         <RouterLink
-            :to="{ name: 'create-reply' }"
+            :to="
+            { 
+                name: 'create-reply',
+                query: { returnTo: $route.fullPath }
+            }"
             class="btn reply"
         >
-            + New Reply
+            + Reply
         </RouterLink>
         <span
             class="chevron"
@@ -50,6 +55,7 @@
         >
             ▼
         </span>
+        </div>
         </button>
         
         <div v-if="isOpen" class="replies-content">
@@ -94,6 +100,13 @@
         color: var(--font-color-light);
     }
 
+    .replies-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
     .chevron {
         font-size: var(--text-label);
         transition: transform 0.2s ease;
@@ -101,6 +114,18 @@
 
     .chevron.rotated {
         transform: rotate(180deg);
+    }
+
+    .btn.reply {
+        border: 2px solid var(--color-yellow);
+        border-radius: 1.5rem;
+        background-color: transparent;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .btn.reply:hover {
+        background-color: var(--color-yellow);
+        color: var(--font-color-dark);
     }
 
     .replies-content {

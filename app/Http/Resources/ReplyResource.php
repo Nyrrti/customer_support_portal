@@ -18,6 +18,7 @@ class ReplyResource extends JsonResource
             "id" => $this->id,
             "ticket_id" => $this->ticket_id,
             "user_id" => $this->user_id,
+            "title" => $this->title,
             "content" => $this->content,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,

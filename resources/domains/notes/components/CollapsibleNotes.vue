@@ -46,14 +46,25 @@
                 </span>
             </div>
         </div>
-
-        <span
-            class="chevron"
-            :class="{ rotated: isOpen }"
-            aria-hidden="true"
-        >
-            ▼
-        </span>
+        <div class="notes-actions">
+            <RouterLink
+                :to="
+                { 
+                    name: 'create-note',
+                    query: { returnTo: $route.fullPath }
+                }"
+                class="btn note"
+            >
+                + Note
+            </RouterLink>
+            <span
+                class="chevron"
+                :class="{ rotated: isOpen }"
+                aria-hidden="true"
+            >
+                ▼
+            </span>
+        </div>
         </button>
 
         <div v-if="isOpen" class="notes-content">
@@ -105,6 +116,13 @@
         color: var(--font-color-medium-light);
     }
 
+    .notes-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
     .chevron {
         font-size: var(--text-label);
         transition: transform 0.2s ease;
@@ -112,6 +130,18 @@
 
     .chevron.rotated {
         transform: rotate(180deg);
+    }
+
+    .btn.note {
+        border: 2px solid var(--color-yellow);
+        border-radius: 1.5rem;
+        background-color: transparent;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .btn.note:hover {
+        background-color: var(--color-yellow);
+        color: var(--font-color-dark);
     }
 
     .notes-content {

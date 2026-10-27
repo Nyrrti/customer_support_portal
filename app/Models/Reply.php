@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 #[Fillable([
     "ticket_id",
     "user_id",
+    "title",
     "content",
 ])]
 class Reply extends Model
