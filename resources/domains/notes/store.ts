@@ -12,7 +12,10 @@ const baseStore = storeModuleFactory<
 export const noteStore = {
     getters: baseStore.getters,
     setters: baseStore.setters,
-    actions: { getByTicket }
+    actions: { 
+        ...baseStore.actions,
+        getByTicket 
+    }
 };
 
 /**
@@ -22,6 +25,7 @@ export const noteStore = {
  */
 async function getByTicket(ticketId: number): Promise<void> {
     const { data } = await getRequest<Note[]>(
+    // Get the notes related to this ticketId
         `tickets/${ticketId}/notes`
     );
     // Clear old notes for this ticket.

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { watch, ref, computed } from "vue";
+    import { onMounted, ref, computed } from "vue";
     import { useRoute } from "vue-router";
     import { ticketStore } from "../store";
     import { noteStore } from "../../notes/store";
@@ -10,17 +10,14 @@
     import NoteCard from "../../notes/components/NoteCard.vue";
     import CollapsibleReplies from "../../replies/components/CollapsibleReplies.vue";
     import ReplyCard from "../../replies/components/ReplyCard.vue";
+    import { useForm } from "../../../js/composables/useForm";
+    import type { Reply } from "../../replies/types";
+    import type { Note } from "../../notes/types";
 
     const route = useRoute();
+    // saving: deleting means, take saving from the returned object, but call it deleting on this page.
+    const { errors, saving: deleting, submit, clearError } = useForm();
 
-    watch(
-        
-        () => route.params.id,
-        (newId, oldId) => {
-            console.log("Ticket route changed:", oldId, "→", newId);
-        },
-        { immediate: true }
-    );
     const ticketId = computed(() => Number(route.params.id));
 
     const ticket = computed(() =>
@@ -34,7 +31,7 @@
         Object.values(noteStore.getters.all.value)
             .filter(note => note.ticket_id === ticketId.value)
     );
-
+    
     /**
      * Replies belonging to the ticket currently on screen.
      */
@@ -46,55 +43,42 @@
     const loading = ref(true);
     const loadFailed = ref(false);
     
-    // Prevents an older request from controlling the current page.
-    let loadVersion = 0;
+    /**
+     * Asks for confirmation and deletes the selected reply.
+     *
+     * Validation errors are handled by submit().
+     * General request messages are handled by the Axios interceptor.
+     *
+     * @param reply - The reply selected for deletion.
+     */
+    async function deleteReply(reply: Reply): Promise<void> {
+        if (deleting.value) return;
 
-    watch(
-        ticketId,
-        async (id) => {
-            const version = ++loadVersion;
+        const confirmed = window.confirm(
+            `Delete "${reply.id}"? This cannot be undone.`
+        );
 
-            console.log("1. Start loading ticket:", id);
+        if (!confirmed) return;
 
-            loading.value = true;
-            loadFailed.value = false;
+        await submit(() => replyStore.actions.delete(reply.id));
+    }
 
-            if (!Number.isSafeInteger(id) || id <= 0) {
-                loadFailed.value = true;
-                loading.value = false;
-                return;
-            }
+    /**
+     * Loads the Ticket and Replies, Notes related to that ticket
+     * The Axios interceptor displays general request errors.
+     */
+    onMounted(async () => {
+        try {
+            await ticketStore.actions.getOne(ticketId.value);
+            await noteStore.actions.getByTicket(ticketId.value);
+            await replyStore.actions.getByTicket(ticketId.value);
+        } catch {
+            loadFailed.value = true;
+        } finally {
+            loading.value = false;
+        }
+    });
 
-            try {
-                await ticketStore.actions.getOne(id);
-
-                console.log(
-                    "2. Ticket in store:",
-                    ticketStore.getters.getById(id).value
-                );
-
-                if (version !== loadVersion) return;
-
-                await Promise.all([
-                    noteStore.actions.getByTicket(id),
-                    replyStore.actions.getByTicket(id),
-                ]);
-
-                console.log("3. Related data loaded for ticket:", id);
-            } catch (error) {
-                console.error("Ticket loading failed:", error);
-
-                if (version === loadVersion) {
-                    loadFailed.value = true;
-                }
-            } finally {
-                if (version === loadVersion) {
-                    loading.value = false;
-                }
-            }
-        },
-        { immediate: true }
-    );
 </script>
 
 <template>
@@ -120,7 +104,11 @@
                     <NoteCard :notes="notes" />
                 </CollapsibleNotes>
                 <CollapsibleReplies :count="replies.length">
-                    <ReplyCard :replies="replies" />
+                    <ReplyCard 
+                        :replies="replies"
+                        :errors="errors"
+                        :deleting="deleting"
+                    />
                 </CollapsibleReplies>
             </template>
         </div>

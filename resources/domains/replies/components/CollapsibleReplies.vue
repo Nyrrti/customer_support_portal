@@ -37,7 +37,12 @@
                 <h4>Replies ({{ count }})</h4>
             </div>
         </div>
-
+        <RouterLink
+            :to="{ name: 'create-reply' }"
+            class="btn reply"
+        >
+            + New Reply
+        </RouterLink>
         <span
             class="chevron"
             :class="{ rotated: isOpen }"
@@ -46,7 +51,7 @@
             ▼
         </span>
         </button>
-
+        
         <div v-if="isOpen" class="replies-content">
             <slot />
         </div>

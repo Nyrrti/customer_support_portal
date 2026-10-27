@@ -6,6 +6,8 @@ import { categoryRoutes } from "../../domains/categories/routes";
 import { userRoutes } from "../../domains/users/routes";
 import { authStore } from "../../domains/auth/store";
 import { destroyMessage } from "../services/error";
+import { replyRoutes } from "../../domains/replies/routes";
+import { noteRoutes } from "../../domains/notes/routes";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -23,6 +25,8 @@ export const router = createRouter({
         ...ticketRoutes,
         ...categoryRoutes,
         ...userRoutes,
+        ...replyRoutes,
+        ...noteRoutes,
     ],
 
     

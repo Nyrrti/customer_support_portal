@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
-import Create from "./pages/Create.vue"
-import Edit from "./pages/Edit.vue"
+import Create from "./pages/Create.vue";
+import Edit from "./pages/Edit.vue";
 
 
 export const replyRoutes: RouteRecordRaw[] = [

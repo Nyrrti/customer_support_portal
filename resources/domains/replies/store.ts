@@ -12,7 +12,10 @@ const baseStore = storeModuleFactory<
 export const replyStore = {
     getters: baseStore.getters,
     setters: baseStore.setters,
-    actions: { getByTicket }
+    actions: { 
+        ...baseStore.actions,
+        getByTicket 
+    }
 };
 
 /**
