@@ -51,6 +51,7 @@
                 :to="
                 { 
                     name: 'create-note',
+                    params: { id: $route.params.id },
                     query: { returnTo: $route.fullPath }
                 }"
                 class="btn note"
@@ -68,7 +69,7 @@
         </button>
 
         <div v-if="isOpen" class="notes-content">
-        <slot />
+            <slot />
         </div>
     </section>
 </template>

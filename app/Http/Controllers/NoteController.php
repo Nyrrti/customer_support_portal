@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Ticket;
 use App\Models\Note;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Validation\ValidationException;
+
 
 
 class NoteController extends Controller
@@ -51,22 +51,14 @@ class NoteController extends Controller
 
     public function update(UpdateNoteRequest $request, Note $note)
     {
-        $this->authorize("update", $note);
-
         $note->update($request->validated());
 
-        return new NoteResource($note);
+        return new NoteResource($note->load("user"));
     }
     
     public function destroy(Note $note)
     {
         $this->authorize("delete", $note);
-
-        if ($note->tickets()->exists()) {
-            throw ValidationException::withMessages([
-                "note" => "This note cannot be deleted because tickets are linked to it.",
-            ]);
-        }
 
         $note->delete();
 

@@ -11,7 +11,7 @@ export const noteRoutes: RouteRecordRaw[] = [
         name: "create-note",
     },
     {
-        path: "/tickets/:id/notes/edit",
+        path: "/notes/:id/edit",
         component: Edit,
         name: "edit-note",
     },

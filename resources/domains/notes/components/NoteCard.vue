@@ -27,6 +27,9 @@
             </p>
             <small>
                 {{ note.user?.name }} · <CheckTime :date="note.created_at" />
+                <span v-if="note.updated_at !== note.created_at">
+                    · edited <CheckTime :date="note.updated_at" />
+                </span>
             </small>
         </div>
         <ActionButtons

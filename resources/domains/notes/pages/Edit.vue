@@ -17,16 +17,12 @@
 
     const noteId = Number(route.params.id);
 
-    const notes = computed<Note[]>(() =>
-        Object.values(noteStore.getters.all.value)
-    );
-
     const note = computed<Note | undefined>(() =>
         noteStore.getters.getById(noteId).value
     );
 
     /**
-     * Updates the note and opens the overview after a successful save.
+     * Updates the note and returns to the ticket when succesfull.
      *
      * @param data - The updated values submitted by the child form.
      */
@@ -36,17 +32,13 @@
         );
 
         if (saved) {
-            await router.push({ name: "tickets-overview" });
+            await router.push({ name: "ticket-detail", params: { id: note.value!.ticket_id } });
         }
     };
 
-    /**
-     * Loads categories before displaying the edit form.
-     * General request errors are displayed by the Axios interceptor.
-     */
     onMounted(async () => {
         try {
-            await noteStore.actions.getAll();
+            await noteStore.actions.getOne(noteId);
         } catch {
             loadFailed.value = true;
         } finally {
@@ -86,7 +78,7 @@
                         :to="{ name: 'tickets-overview' }"
                         class="note-state-link"
                     >
-                        Back to categories
+                        Back to tickets
                     </RouterLink>
                 </section>
 
