@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { User, CreateUser, UpdateUser } from '../types';
+    import { ref } from 'vue';
+    import type { User, CreateUser, UpdateUser } from '../types';
+    import FieldError from '../../../js/components/FieldError.vue';
 
 
     const props = defineProps<{
         mode: "create" | "edit"
         user?: User;
+        errors: Record<string, string[]>;
+        saving: boolean;
     }>();
     
     const user = ref<CreateUser>({
         first_name: props.user?.first_name ?? "",
         last_name: props.user?.last_name ?? "",
         email: props.user?.email ?? "",
-        phone_number: null as number | null,
+        phone_number: props.user?.phone_number ?? "",
     });
 
     /**
@@ -22,6 +25,7 @@ import type { User, CreateUser, UpdateUser } from '../types';
      */
     const emit = defineEmits<{
         submit: [user: CreateUser | UpdateUser]
+        "dismiss-error": [field: string];
     }>();
 
     /**
@@ -39,7 +43,7 @@ import type { User, CreateUser, UpdateUser } from '../types';
 
 <template>
     <div class="nav-link my-2 p-2">
-        <RouterLink :to="{ name: 'user-overview' }">
+        <RouterLink :to="{ name: 'users-overview' }">
             Users 
         </RouterLink>
         <span>
@@ -67,7 +71,7 @@ import type { User, CreateUser, UpdateUser } from '../types';
                 </h5>
             </div>
             <RouterLink
-                :to="{ name: 'user-overview' }"
+                :to="{ name: 'users-overview' }"
                 class="user-form-icon form-close"
                 aria-label="Back to user overview"
             >
@@ -84,7 +88,11 @@ import type { User, CreateUser, UpdateUser } from '../types';
                     v-model="user.first_name"
                     type="text"
                 >
-                <label for="firstName">
+                <FieldError 
+                    :errors="errors.first_name"
+                    @dismiss="emit('dismiss-error', 'first_name')" 
+                />
+                <label for="lastName">
                     Last Name
                 </label>
                 <input 
@@ -92,7 +100,11 @@ import type { User, CreateUser, UpdateUser } from '../types';
                     v-model="user.last_name"
                     type="text"
                 >
-                <label for="firstName">
+                <FieldError 
+                    :errors="errors.last_name"
+                    @dismiss="emit('dismiss-error', 'last_name')" 
+                />
+                <label for="email">
                     Email
                 </label>
                 <input 
@@ -100,7 +112,11 @@ import type { User, CreateUser, UpdateUser } from '../types';
                     v-model="user.email"
                     type="email"
                 >
-                <label for="firstName">
+                <FieldError 
+                    :errors="errors.email"
+                    @dismiss="emit('dismiss-error', 'email')" 
+                />
+                <label for="phoneNumber">
                     Phone Number
                 </label>
                 <input 
@@ -108,10 +124,14 @@ import type { User, CreateUser, UpdateUser } from '../types';
                     v-model="user.phone_number"
                     type="tel"
                 >
+                <FieldError 
+                    :errors="errors.phone_number"
+                    @dismiss="emit('dismiss-error', 'phone_number')" 
+                />
             </div>
         </div>
         <div class="user-form-footer p-4">
-            <button class="btn create" type="submit">
+            <button class="btn create" type="submit" :disabled="saving">
                 {{ mode === "create" ? "Create user" : "Edit user" }}
             </button>
         </div>

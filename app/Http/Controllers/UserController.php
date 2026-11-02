@@ -14,6 +14,13 @@ class UserController extends Controller
         return UserResource::collection(User::orderBy("first_name")->get());
     }
 
+    public function show(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return new UserResource($user);
+    }
+
     // EDIT
     public function update(UserRequest $request, User $user)
     {

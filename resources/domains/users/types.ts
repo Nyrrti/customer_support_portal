@@ -12,13 +12,7 @@ export interface User {
         first_name: string;
         last_name: string;
         email: string;
-        phone_number: number | null;
+        phone_number: string | null;
     }
 
-    export interface UpdateUser {
-        user_id: number;
-        first_name?: string;
-        last_name?: string;
-        email?: string;
-        phone_number?: number;
-    }
+    export type UpdateUser = CreateUser;

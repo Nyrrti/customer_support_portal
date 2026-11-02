@@ -23,7 +23,6 @@
             <UserOverview 
                 :users="users"
                 :deleting="deleting"
-                @delete="deleteUser" 
             />
             
         </div> 

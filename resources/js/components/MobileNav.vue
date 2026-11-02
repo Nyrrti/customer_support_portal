@@ -34,6 +34,7 @@
                 Categories
             </RouterLink>
              <RouterLink
+                v-if="authStore.user?.is_admin"
                 to="/users"
                 class="nav-item"
                 active-class="active"

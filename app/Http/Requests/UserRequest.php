@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -23,10 +24,15 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "first_name" =>  "required|string",
-            "last_name" =>  "required|string",
-            "email" =>  "required|email",
-            "phone_number" => "required",
+            "first_name" =>  "required|string|max:255",
+            "last_name" =>  "required|string|max:255",
+            "email" => [
+                "required",
+                "email",
+                "max:255",
+                Rule::unique("users", "email")->ignore($this->route("user")),
+            ],
+            "phone_number" => "nullable|string|max:30",
         ];
     }
 }

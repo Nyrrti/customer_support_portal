@@ -2,7 +2,6 @@
     import type { User } from "../types"
     import ActionButtons from "../../../js/components/ActionButtons.vue";
 
-
     defineProps<{
         users: User[];
         deleting: boolean;
@@ -53,7 +52,7 @@
                         {{ user.email }}
                     </td> 
                     <td>
-                        Role
+                        {{ user.is_admin ? "Administrator" : "User" }}
                     </td>
                     <td>
                         {{ user.phone_number }}

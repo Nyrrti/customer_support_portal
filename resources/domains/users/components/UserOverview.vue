@@ -12,7 +12,10 @@
 <template>
     
     <div class="user-section">
-        <UserTable :users="users" />
+        <UserTable 
+            :users="users"
+            :deleting="deleting"
+        />
     </div>
 
 </template>

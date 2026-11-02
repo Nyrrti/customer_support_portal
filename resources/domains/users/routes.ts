@@ -9,16 +9,19 @@ export const userRoutes: RouteRecordRaw[] = [
     {
         path: "/users",
         component: UserPage,
-        name: "user-overview",
+        name: "users-overview",
+        meta: { requiresAdmin: true },
     },
     {
         path: "/users/create",
         component: Create,
         name: "create-user",
+        meta: { requiresAdmin: true },
     },
     {
         path: "/users/:id/edit",
         component: Edit,
         name: "edit-user",
+        meta: { requiresAdmin: true },
     },
 ]
