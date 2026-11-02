@@ -1,7 +1,6 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from "vue";
     import Form from "../components/Form.vue";
-    import { useRouter } from "vue-router";
+    import { useRouter, useRoute } from "vue-router";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import { useForm } from "../../../js/composables/useForm.js";
     import type { CreateReply } from "../types.js";
@@ -9,9 +8,12 @@
 
 
     const router = useRouter();
+    const route = useRoute();
     
     const { errors, saving, submit, clearError } = useForm();
-   
+    
+    const ticketId = Number(route.params.id);
+
     /**
      * Creates a reply
      *
@@ -19,11 +21,11 @@
      */
     const createReply = async (data: CreateReply) => {
         const saved = await submit(
-            () => replyStore.actions.create(data)
+            () => replyStore.actions.createForTicket(ticketId, data)
         );
 
         if (saved) {
-            await router.push({ name: "tickets-overview" });
+            await router.push({ name: "ticket-detail", params: { id: ticketId } });
         }
     };
 </script>

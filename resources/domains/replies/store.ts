@@ -1,6 +1,6 @@
 import { storeModuleFactory } from "../../js/services/store/index";
 import type { Reply, CreateReply, UpdateReply } from './types';
-import { getRequest } from "../../js/services/http";
+import { getRequest, postRequest } from "../../js/services/http";
 
 
 const baseStore = storeModuleFactory<
@@ -14,7 +14,8 @@ export const replyStore = {
     setters: baseStore.setters,
     actions: { 
         ...baseStore.actions,
-        getByTicket 
+        getByTicket,
+        createForTicket
     }
 };
 
@@ -37,4 +38,19 @@ async function getByTicket(ticketId: number): Promise<void> {
     for (const note of data) {
         baseStore.setters.setOne(note);
     }
+}
+
+/**
+ * Creates a reply for one ticket and adds it to the store.
+ *
+ * @param ticketId - The ticket the reply belongs to.
+ * @param reply - The reply values from the form.
+ */
+async function createForTicket(ticketId: number, reply: CreateReply): Promise<void> {
+    const { data } = await postRequest<Reply>(
+        `tickets/${ticketId}/replies`,
+        reply
+    );
+
+    baseStore.setters.setOne(data);
 }

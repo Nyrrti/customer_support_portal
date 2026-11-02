@@ -6,7 +6,7 @@ import Edit from "./pages/Edit.vue";
 export const replyRoutes: RouteRecordRaw[] = [
   
     {
-        path: "/replies/create",
+        path: "/tickets/:id/replies/create",
         component: Create,
         name: "create-reply",
     },

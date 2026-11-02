@@ -7,9 +7,12 @@
         replies: Reply[];
         errors: Record<string, string[]>;
         deleting: boolean;
+        canManage: boolean;
     }>();
-    
-
+        
+    const emit = defineEmits<{
+        (event: "delete", reply: Reply): void;
+    }>();
 </script>
 
 
@@ -20,15 +23,29 @@
         :key="reply.id"
         class="reply-card"
         >
+        <div class="title-header">
             <h5>
-                {{ reply.title }}
+                {{ reply.title }} 
             </h5>
+            <ActionButtons v-if="canManage"
+                :edit-to="{ name: 'edit-reply', params: { id: reply.id }, query: { returnTo: $route.fullPath } }"
+                label="reply"
+                align="end"
+                :deleting="deleting"
+                @delete="emit('delete', reply)"
+            />
+        </div>
+         
+           
             <p>
                 {{ reply.content }}
             </p>
 
         <small>
             {{ reply.user?.name }} · <CheckTime :date="reply.created_at" />
+            <span v-if="reply.updated_at !== reply.created_at">
+                · edited <CheckTime :date="reply.updated_at" />
+            </span>
         </small>
     </article>
 
@@ -43,6 +60,12 @@
         background: var(--bg-color-card);
         color: var(--font-color-medium-dark);
         overflow-wrap: anywhere;
+    }
+
+    .title-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .reply-card:last-child {

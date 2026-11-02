@@ -130,6 +130,8 @@
                         :replies="replies"
                         :errors="errors"
                         :deleting="deleting"
+                        :can-manage="isAdmin"
+                        @delete="deleteReply"
                     />
                 </CollapsibleReplies>
             </template>

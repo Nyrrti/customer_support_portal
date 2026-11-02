@@ -1,6 +1,8 @@
 <script setup lang="ts">
+    import { ref, computed } from "vue";
+    import { authStore } from "../../auth/store";
 
-    import { ref } from "vue";
+    const isAdmin = computed(() => authStore.user?.is_admin === true);
 
     const props = defineProps({
         count: {
@@ -38,10 +40,11 @@
             </div>
         </div>
         <div class="replies-actions">
-        <RouterLink
+        <RouterLink v-if="isAdmin"
             :to="
             { 
                 name: 'create-reply',
+                params: { id: $route.params.id },
                 query: { returnTo: $route.fullPath }
             }"
             class="btn reply"
