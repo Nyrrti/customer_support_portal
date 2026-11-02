@@ -1,17 +1,18 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from "vue";
     import Form from "../components/Form.vue";
-    import { useRouter } from "vue-router";
+    import { useRouter, useRoute } from "vue-router";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import { useForm } from "../../../js/composables/useForm.js";
     import type { CreateNote } from "../types.js";
     import { noteStore } from "../store.js";
 
-
     const router = useRouter();
+    const route = useRoute();
     
     const { errors, saving, submit, clearError } = useForm();
-   
+    
+    const ticketId = Number(route.params.id);
+
     /**
      * Creates a reply
      *
@@ -19,11 +20,11 @@
      */
     const createNote = async (data: CreateNote) => {
         const saved = await submit(
-            () => noteStore.actions.create(data)
+            () => noteStore.actions.createForTicket(ticketId, data)
         );
 
         if (saved) {
-            await router.push({ name: "tickets-overview" });
+            await router.push({ name: "ticket-detail", params: { id: ticketId } });
         }
     };
 </script>

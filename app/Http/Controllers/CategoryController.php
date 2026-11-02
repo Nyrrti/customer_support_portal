@@ -52,7 +52,9 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return response()->noContent();
+        return response()->json([
+            "message" => "Category deleted successfully.",
+        ]);
     }
 
     public function options()

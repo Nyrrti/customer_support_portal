@@ -42,6 +42,9 @@ Route::middleware("auth:sanctum")->group(function () {
         // Notes Section
         Route::get("/tickets/{ticket}/notes", [NoteController::class, "index"]);
         Route::post("/tickets/{ticket}/notes", [NoteController::class, "store"]);
+        Route::get("/notes/{note}", [NoteController::class, "show"]);
+        Route::put("/notes/{note}", [NoteController::class, "update"]);
+        Route::delete("/notes/{note}", [NoteController::class, "destroy"]);
 
         // Category Section
         Route::post("/categories", [CategoryController::class, "store"]);

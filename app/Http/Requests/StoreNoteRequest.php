@@ -14,7 +14,7 @@ class StoreNoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can("create", Note::class) ?? false;
+        return $this->user()->can("create", Note::class);
     }
 
     /**

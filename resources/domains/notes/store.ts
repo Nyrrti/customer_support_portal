@@ -1,6 +1,6 @@
 import { storeModuleFactory } from "../../js/services/store/index";
 import type { Note, CreateNote, UpdateNote } from './types';
-import { getRequest } from "../../js/services/http";
+import { getRequest, postRequest } from "../../js/services/http";
 
 
 const baseStore = storeModuleFactory<
@@ -14,7 +14,8 @@ export const noteStore = {
     setters: baseStore.setters,
     actions: { 
         ...baseStore.actions,
-        getByTicket 
+        getByTicket,
+        createForTicket,
     }
 };
 
@@ -39,3 +40,19 @@ async function getByTicket(ticketId: number): Promise<void> {
         baseStore.setters.setOne(note);
     }
 }
+
+/**
+ * Creates a note for one ticket and adds it to the store.
+ *
+ * @param ticketId - The ticket the note belongs to.
+ * @param note - The note values from the form.
+ */
+async function createForTicket(ticketId: number, note: CreateNote): Promise<void> {
+    const { data } = await postRequest<Note>(
+        `tickets/${ticketId}/notes`,
+        note
+    );
+
+    baseStore.setters.setOne(data);
+}
+

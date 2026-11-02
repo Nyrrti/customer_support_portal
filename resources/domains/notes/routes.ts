@@ -6,12 +6,12 @@ import Edit from "./pages/Edit.vue";
 export const noteRoutes: RouteRecordRaw[] = [
   
     {
-        path: "/notes/create",
+        path: "/tickets/:id/notes/create",
         component: Create,
         name: "create-note",
     },
     {
-        path: "/notes/:id/edit",
+        path: "/tickets/:id/notes/edit",
         component: Edit,
         name: "edit-note",
     },

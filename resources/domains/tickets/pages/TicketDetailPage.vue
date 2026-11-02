@@ -2,6 +2,7 @@
     import { onMounted, ref, computed } from "vue";
     import { useRoute } from "vue-router";
     import { ticketStore } from "../store";
+    import { authStore } from "../../auth/store";
     import { noteStore } from "../../notes/store";
     import { replyStore } from "../../replies/store";
     import TicketDetails from "../components/TicketDetails.vue";
@@ -13,10 +14,13 @@
     import { useForm } from "../../../js/composables/useForm";
     import type { Reply } from "../../replies/types";
     import type { Note } from "../../notes/types";
+   
 
     const route = useRoute();
     // saving: deleting means, take saving from the returned object, but call it deleting on this page.
     const { errors, saving: deleting, submit, clearError } = useForm();
+
+    const isAdmin = computed(() => authStore.user?.is_admin === true);
 
     const ticketId = computed(() => Number(route.params.id));
 
@@ -63,6 +67,18 @@
         await submit(() => replyStore.actions.delete(reply.id));
     }
 
+    async function deleteNote(note: Note): Promise<void> {
+        if (deleting.value) return;
+
+        const confirmed = window.confirm(
+            `Delete "${note.id}"? This cannot be undone.`
+        );
+
+        if (!confirmed) return;
+
+        await submit(() => noteStore.actions.delete(note.id));
+    }
+
     /**
      * Loads the Ticket and Replies, Notes related to that ticket
      * The Axios interceptor displays general request errors.
@@ -70,8 +86,10 @@
     onMounted(async () => {
         try {
             await ticketStore.actions.getOne(ticketId.value);
-            await noteStore.actions.getByTicket(ticketId.value);
             await replyStore.actions.getByTicket(ticketId.value);
+            if (isAdmin.value) {
+                await noteStore.actions.getByTicket(ticketId.value);
+            }
         } catch {
             loadFailed.value = true;
         } finally {
@@ -100,8 +118,12 @@
 
             <template v-else-if="ticket">
                 <TicketDetails :ticket="ticket" />
-                <CollapsibleNotes :count="notes.length">
-                    <NoteCard :notes="notes" />
+                <CollapsibleNotes v-if="isAdmin" :count="notes.length">
+                    <NoteCard 
+                        :notes="notes"
+                        :deleting="deleting"
+                        @delete="deleteNote" 
+                    />
                 </CollapsibleNotes>
                 <CollapsibleReplies :count="replies.length">
                     <ReplyCard 
