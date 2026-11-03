@@ -38,6 +38,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
         // Ticket Section
         Route::patch("/tickets/{ticket}/status", [TicketController::class, "updateStatus"]);
+        Route::patch("/tickets/{ticket}/assigned", [TicketController::class, "updateAssigned"]);
 
         // Notes Section
         Route::get("/tickets/{ticket}/notes", [NoteController::class, "index"]);

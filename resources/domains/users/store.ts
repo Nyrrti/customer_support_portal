@@ -14,6 +14,7 @@ export const userStore = {
     setters: baseStore.setters,
     actions: { 
         ...baseStore.actions,
+        getAdmins
     }
 };
 

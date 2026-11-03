@@ -1,11 +1,12 @@
 <script setup lang="ts">
-    import { ref, watch, computed } from "vue";
+    import { ref, watch, computed, onMounted } from "vue";
     import CheckTime from "../../../js/components/CheckTime.vue";
     import FieldError from "../../../js/components/FieldError.vue";
     import { useForm } from "../../../js/composables/useForm";
     import { ticketStore } from "../store";
     import { userStore } from "../../users/store.js";
-    import type { Ticket, TicketStatus, Assigned } from "../types";
+    import { authStore } from "../../auth/store.js";
+    import type { Ticket, TicketStatus} from "../types";
     import TicketStatusPill from "../../../js/components/TicketStatusPill.vue";
 
     /** The ticket loaded by the parent page. */
@@ -25,12 +26,14 @@
         }
     );
     
-    const selectedAssigned = ref(props.ticket.assigned_to);
+    const selectedAssigned = ref<number | "">(
+        props.ticket.assigned_to_id ?? ""
+    );
     /** Keeps the selection aligned with the saved ticket assignee. */
     watch(
-        () => props.ticket.assigned_to,
-        (assigned_to) => {
-            assigned_to.value = assigned_to ?? "";
+        () => props.ticket.assigned_to_id,
+        (assigneeId) => {
+            selectedAssigned.value = assigneeId ?? "";
         }
     );
 
@@ -59,6 +62,9 @@
         );
     }
 
+    onMounted(async () => {
+        await userStore.actions.getAdmins();
+    });
     /**
      * Saves the selected assigned admin through the ticket store.
      *
@@ -72,10 +78,12 @@
             return;
         }
 
-        await submit(() =>
+            await submit(() =>
             ticketStore.actions.updateAssigned(
                 props.ticket.id,
-                selectedAssigned.value
+                selectedAssigned.value === ""
+                    ? null
+                    : selectedAssigned.value
             )
         );
     }
@@ -83,6 +91,10 @@
     /** Clears the validation messages for the status field. */
     function clearStatusError(): void {
         clearError("status");
+    }
+
+    function clearAssignedError(): void {
+        clearError("assigned_to_id");
     }
 </script>
 
@@ -162,10 +174,10 @@
                     </div>
                     <form
                         v-if="ticket.can_change_status"
-                        class="ticket-status-form"
+                        class="ticket-management-form"
                         @submit.prevent="saveStatus"
                     >
-                        <div class="ticket-status-controls">
+                        <div class="ticket-management-controls">
                             <label for="ticket-status">Change status</label>
 
                             <select
@@ -198,12 +210,11 @@
                     <!-- Assigned -->
                      <form
                         v-if="ticket.can_change_assigned"
-                        class="ticket-status-form"
+                        class="ticket-management-form"
                         @submit.prevent="saveAssigned"
                     >
                         <div class="ticket-management-controls">
                             <label for="ticket-assigned">Change Assignee</label>
-
                             <select
                                 class="management-select"
                                 id="ticket-assigned"
@@ -211,24 +222,31 @@
                                 :disabled="saving"
                                 @change="clearAssignedError"
                             >
-                                <option value="pending">Pending</option>
-                                <option value="open">Open</option>
-                                <option value="closed">Closed</option>
-                            </select>
+                                <option value="">Unassigned</option>
 
+                                <option
+                                    v-for="admin in admins"
+                                    :key="admin.id"
+                                    :value="admin.id"
+                                >
+                                    {{ admin.id === authStore.user?.id
+                                        ? `Me (${admin.name})`
+                                        : admin.name
+                                    }}
+                                </option>
+                            </select>
                             <button
                                 class="btn management"
                                 type="submit"
-                                :disabled="saving || selectedStatus === ticket.status"
+                                :disabled="saving || selectedAssigned === (ticket.assigned_to_id ?? '')"
                             >
                                 <span v-if="saving">Saving...</span>
                                 <span v-else>Save Assignee</span>
                             </button>
                         </div>
-
                         <FieldError
-                            :errors="errors.status"
-                            @dismiss="clearStatusError"
+                            :errors="errors.assigned_to_id"
+                            @dismiss="clearAssignedError"
                         />
                     </form>   
                 </section>
@@ -412,7 +430,7 @@
         align-self: auto;
     }
 
-    .ticket-status-form {
+    .ticket-management-form {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
