@@ -57,6 +57,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
         // User Section
         Route::get("/users", [UserController::class, "index"]);
+        Route::get("/admins", [UserController::class, "admins"]);
         Route::put("/users/{user}", [UserController::class, "update"]);
         Route::get("/users/{user}", [UserController::class, "show"]);
         Route::delete("/users/{user}", [UserController::class, "destroy"]);

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-    import { ref, watch } from "vue";
+    import { ref, watch, computed } from "vue";
     import CheckTime from "../../../js/components/CheckTime.vue";
     import FieldError from "../../../js/components/FieldError.vue";
     import { useForm } from "../../../js/composables/useForm";
     import { ticketStore } from "../store";
-    import type { Ticket, TicketStatus } from "../types";
+    import { userStore } from "../../users/store.js";
+    import type { Ticket, TicketStatus, Assigned } from "../types";
     import TicketStatusPill from "../../../js/components/TicketStatusPill.vue";
 
     /** The ticket loaded by the parent page. */
@@ -16,13 +17,25 @@
 
     /** The selected status, kept separate until saving succeeds. */
     const selectedStatus = ref<TicketStatus>(props.ticket.status);
-
     /** Keeps the selection aligned with the saved ticket status. */
     watch(
         () => props.ticket.status,
         (status) => {
             selectedStatus.value = status;
         }
+    );
+    
+    const selectedAssigned = ref(props.ticket.assigned_to);
+    /** Keeps the selection aligned with the saved ticket assignee. */
+    watch(
+        () => props.ticket.assigned_to,
+        (assigned_to) => {
+            assigned_to.value = assigned_to ?? "";
+        }
+    );
+
+    const admins = computed(() =>
+        Object.values(userStore.getters.all.value)
     );
 
     /**
@@ -42,6 +55,27 @@
             ticketStore.actions.updateStatus(
                 props.ticket.id,
                 selectedStatus.value
+            )
+        );
+    }
+
+    /**
+     * Saves the selected assigned admin through the ticket store.
+     *
+     * @returns A promise that resolves after handling submission.
+     */
+    async function saveAssigned(): Promise<void> {
+        if (
+            !props.ticket.can_change_assigned ||
+            selectedAssigned.value === props.ticket.assigned_to_id
+        ) {
+            return;
+        }
+
+        await submit(() =>
+            ticketStore.actions.updateAssigned(
+                props.ticket.id,
+                selectedAssigned.value
             )
         );
     }
@@ -135,7 +169,7 @@
                             <label for="ticket-status">Change status</label>
 
                             <select
-                                class="status-select"
+                                class="management-select"
                                 id="ticket-status"
                                 v-model="selectedStatus"
                                 :disabled="saving"
@@ -147,7 +181,7 @@
                             </select>
 
                             <button
-                                class="btn status"
+                                class="btn management"
                                 type="submit"
                                 :disabled="saving || selectedStatus === ticket.status"
                             >
@@ -160,7 +194,43 @@
                             :errors="errors.status"
                             @dismiss="clearStatusError"
                         />
-                    </form>  
+                    </form>
+                    <!-- Assigned -->
+                     <form
+                        v-if="ticket.can_change_assigned"
+                        class="ticket-status-form"
+                        @submit.prevent="saveAssigned"
+                    >
+                        <div class="ticket-management-controls">
+                            <label for="ticket-assigned">Change Assignee</label>
+
+                            <select
+                                class="management-select"
+                                id="ticket-assigned"
+                                v-model="selectedAssigned"
+                                :disabled="saving"
+                                @change="clearAssignedError"
+                            >
+                                <option value="pending">Pending</option>
+                                <option value="open">Open</option>
+                                <option value="closed">Closed</option>
+                            </select>
+
+                            <button
+                                class="btn management"
+                                type="submit"
+                                :disabled="saving || selectedStatus === ticket.status"
+                            >
+                                <span v-if="saving">Saving...</span>
+                                <span v-else>Save Assignee</span>
+                            </button>
+                        </div>
+
+                        <FieldError
+                            :errors="errors.status"
+                            @dismiss="clearStatusError"
+                        />
+                    </form>   
                 </section>
                 <div class="ticket-summary-description">
                     <h4>Description</h4>
@@ -349,20 +419,20 @@
         padding: 0.3rem;
     }
 
-    .ticket-status-controls {
+    .ticket-management-controls {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         gap: 0.75rem;
     }
 
-    .status-select {
+    .management-select {
         font-size: var(--text-label);
         color: var(--font-color-medium-dark);
         padding: 0.5rem 0.75rem;
     }
 
-    .btn.status {
+    .btn.management {
         padding: 0.5rem 0.75rem;
     }
 

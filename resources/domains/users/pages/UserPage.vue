@@ -4,6 +4,9 @@
     import UserOverview from "../components/UserOverview.vue"
     import { userStore } from "../store.js";
     import type { User } from "../types.js";
+    import { useForm } from "../../../js/composables/useForm.js";
+
+    const { errors, saving: deleting, submit, clearError } = useForm();
 
     // Read the state
     const users = computed<User[]>(() =>
@@ -23,8 +26,7 @@
             <UserOverview 
                 :users="users"
                 :deleting="deleting"
-            />
-            
+            /> 
         </div> 
     </LoggedInLayout>
 

@@ -41,7 +41,7 @@ class TicketPolicy
             return true;
         }
 
-        if ($ticket->status === 'closed') {
+        if ($ticket->status === TicketStatus::CLOSED) {
             return false;
         }
 
@@ -52,6 +52,14 @@ class TicketPolicy
      *  Determine whether the user can change the status.
      */
     public function updateStatus(User $user, Ticket $ticket): bool
+    {
+        return $user->isAdmin(); 
+    }
+
+    /**
+     *  Determine whether the user can change the status.
+     */
+    public function updateAssigned(User $user, Ticket $ticket): bool
     {
         return $user->isAdmin(); 
     }

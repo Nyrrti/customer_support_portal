@@ -5,6 +5,7 @@ import { ticketStore } from "../tickets/store";
 import { categoryStore } from "../categories/store";
 import { userStore } from "../users/store";
 import { replyStore } from "../replies/store";
+import { noteStore } from "../notes/store";
 
 
 /**
@@ -15,6 +16,7 @@ function clearStores(): void {
     categoryStore.setters.clearAll();
     userStore.setters.clearAll();
     replyStore.setters.clearAll();
+    noteStore.setters.clearAll();
 }
 
 export const authStore = reactive<AuthStore>({

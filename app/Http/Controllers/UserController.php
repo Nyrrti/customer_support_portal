@@ -36,8 +36,24 @@ class UserController extends Controller
     {
         $this->authorize("delete", $user);
 
+        if ($user->tickets()->exists()) {
+            throw ValidationException::withMessages([
+                "user" => "This user cannot be deleted because tickets are linked to it.",
+            ]);
+        }
+
         $user->delete();
 
-        return response()->noContent();
+        return response()->json([
+            "message" => "User deleted successfully.",
+        ]);
+    }
+
+    // GET ADMINS
+    public function admins()
+    {
+        return UserResource::collection(
+            User::where('is_admin', true)->get()
+        );
     }
 }

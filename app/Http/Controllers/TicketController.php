@@ -8,6 +8,7 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Models\Ticket;
 use App\Enums\TicketStatus;
 use App\Http\Requests\UpdateTicketStatusRequest;
+use App\Http\Requests\UpdateTicketAssignedRequest;
 
 class TicketController extends Controller
 {
@@ -24,7 +25,10 @@ class TicketController extends Controller
         if (!$user->is_admin) {
             $query->where("created_by_id", $user->id);
         }
+
+        $query->orderBy("created_at", "desc");
         return TicketResource::collection($query->get());
+       
     }
 
     // CREATE
@@ -90,6 +94,16 @@ class TicketController extends Controller
 
     // STATUS
     public function updateStatus(UpdateTicketStatusRequest $request, Ticket $ticket)
+    {
+        $ticket->update($request->validated());
+
+        return new TicketResource(
+            $ticket->load(["createdBy", "assignedTo", "category"])
+        );
+    }
+
+    // ASSIGN 
+    public function updateAssigned(UpdateTicketAssignedRequest $request, Ticket $ticket)
     {
         $ticket->update($request->validated());
 

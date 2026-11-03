@@ -11,28 +11,41 @@ const baseStore = storeModuleFactory<
 >("tickets");
 
 export const ticketStore = {
-    ...baseStore,
-
+    getters: baseStore.getters,
+    setters: baseStore.setters,
     actions: {
         ...baseStore.actions,
-
-        /**
-         * Saves a new status and updates the ticket in the store.
-         *
-         * @param id - The ticket ID.
-         * @param status - The new ticket status.
-         * @returns A promise that resolves after updating the store.
-         */
-        updateStatus: async (
-            id: number,
-            status: TicketStatus
-        ): Promise<void> => {
-            const { data } = await patchRequest<Ticket>(
-                `tickets/${id}/status`,
-                { status }
-            );
-
-            baseStore.setters.setOne(data);
-        }
+        updateStatus,
+        updateAssigned
     }
 };
+    
+
+/**
+ * Saves a new status and updates the ticket in the store.
+ *
+ * @param id - The ticket ID.
+ * @param status - The new ticket status.
+ */
+async function updateStatus(id: number, status: TicketStatus): Promise<void> 
+{
+    const { data } = await patchRequest<Ticket>(
+        `tickets/${id}/status`,
+        { status }
+    );
+
+    baseStore.setters.setOne(data);
+}
+
+/**
+ * Assigns a ticket to a user.
+ */
+async function updateAssigned(id: number, assignedToId: number | null): Promise<void> 
+{
+    const { data } = await patchRequest<Ticket>(
+        `tickets/${id}/assigned`,
+        { assigned_to_id: assignedToId }
+    );
+
+    baseStore.setters.setOne(data);
+}
