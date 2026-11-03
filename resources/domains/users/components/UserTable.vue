@@ -1,6 +1,9 @@
 <script setup lang="ts">
     import type { User } from "../types"
     import ActionButtons from "../../../js/components/ActionButtons.vue";
+    import { useForm } from "../../../js/composables/useForm";
+
+    const { errors, saving: deleting, submit, clearError } = useForm();
 
     defineProps<{
         users: User[];
@@ -19,7 +22,7 @@
             <colgroup>
                 <col>
                 <col>
-                <col>
+                <col class="table-w-25">
                 <col class="table-w-10">
                 <col>
                 <col class="table-w-10">
@@ -51,7 +54,7 @@
                     <td>
                         {{ user.email }}
                     </td> 
-                    <td>
+                    <td class="role">
                         {{ user.is_admin ? "Administrator" : "User" }}
                     </td>
                     <td>
@@ -137,6 +140,11 @@
             var(--table-bg) 98%,
             var(--color-grey)
         );
+    }
+
+    td.role {
+        font-size: var(--text-caption);
+        color: var(--font-color-medium-dark);
     }
 
 

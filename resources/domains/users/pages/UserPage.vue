@@ -13,6 +13,26 @@
         Object.values(userStore.getters.all.value)
     );
 
+    /**
+     * Asks for confirmation and deletes the selected user.
+     *
+     * Validation errors are handled by submit().
+     * General request messages are handled by the Axios interceptor.
+     *
+     * @param user - The user selected for deletion.
+     */
+    async function deleteUser(user: User): Promise<void> {
+        if (deleting.value) return;
+
+        const confirmed = window.confirm(
+            `Delete "${user.name}"? This cannot be undone.`
+        );
+
+        if (!confirmed) return;
+
+        await submit(() => userStore.actions.delete(user.id));
+    }
+
     onMounted(async () => {
         // Fetch users and put them into state
         await userStore.actions.getAll();
@@ -26,6 +46,7 @@
             <UserOverview 
                 :users="users"
                 :deleting="deleting"
+                @delete="deleteUser"
             /> 
         </div> 
     </LoggedInLayout>

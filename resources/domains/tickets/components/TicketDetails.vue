@@ -39,6 +39,7 @@
 
     const admins = computed(() =>
         Object.values(userStore.getters.all.value)
+            .filter(user => user.is_admin)
     );
 
     /**
@@ -62,9 +63,6 @@
         );
     }
 
-    onMounted(async () => {
-        await userStore.actions.getAdmins();
-    });
     /**
      * Saves the selected assigned admin through the ticket store.
      *
@@ -88,6 +86,12 @@
         );
     }
     
+    onMounted(async () => {
+        if (props.ticket.can_change_assigned) {
+            await userStore.actions.getAdmins();
+        }
+    });
+
     /** Clears the validation messages for the status field. */
     function clearStatusError(): void {
         clearError("status");
@@ -265,7 +269,6 @@
         --card-border: #3b68a5;
         --ticket-card-border-dark: #597db1;
         --bg-ticket-card: #2d5690;
-
     }
 
     .ticket-nav {
@@ -373,13 +376,14 @@
 
     .meta-item dt {
         color: var(--font-color-medium-dark);
-        font-size: 0.8rem;
+        font-size: var(--text-caption);
     }
 
     .meta-item dd {
         margin: 0.25rem 0 0;
         color: var(--font-color-dark);
         font-weight: 500;
+        font-size: var(--text-body);
     }
 
     .ticket-summary-description {

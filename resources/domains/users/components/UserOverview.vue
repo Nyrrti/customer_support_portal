@@ -1,12 +1,18 @@
 <script setup lang="ts">
     import type { User } from '../types';
-    import UserTable from "../components/UserTable.vue"
+    import UserTable from "../components/UserTable.vue";
+    import { useForm } from '../../../js/composables/useForm';
    
+    const { errors, saving: deleting, submit, clearError } = useForm();
+
     const props = defineProps<{
         users: User[];
         deleting: boolean;
     }>();
 
+    const emit = defineEmits<{
+        (event: "delete", user: User): void;
+    }>();
 </script>
 
 <template>
@@ -15,6 +21,7 @@
         <UserTable 
             :users="users"
             :deleting="deleting"
+            @delete="emit('delete', $event)"
         />
     </div>
 

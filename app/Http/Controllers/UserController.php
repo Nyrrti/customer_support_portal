@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
+
 
 class UserController extends Controller
 {
@@ -36,7 +38,7 @@ class UserController extends Controller
     {
         $this->authorize("delete", $user);
 
-        if ($user->tickets()->exists()) {
+        if ($user->createdTickets()->exists() || $user->assignedTickets()->exists()) {
             throw ValidationException::withMessages([
                 "user" => "This user cannot be deleted because tickets are linked to it.",
             ]);
