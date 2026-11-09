@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
-import CategoryPage from "./pages/CategoryPage.vue"
-import Create from "./pages/Create.vue"
-import Edit from "./pages/Edit.vue"
+import CategoryPage from "./pages/CategoryPage.vue";
+import Create from "./pages/Create.vue";
+import Edit from "./pages/Edit.vue";
 
 
 export const categoryRoutes: RouteRecordRaw[] = [

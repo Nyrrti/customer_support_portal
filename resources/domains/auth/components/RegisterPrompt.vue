@@ -17,9 +17,9 @@
                 </p>
             </div>
         </div>
-        <button class="btn register">
-            Create account
-        </button>
+        <RouterLink :to="{name: 'register'}" class="btn register">
+                Create Account
+        </RouterLink>
     </div>
 </template>
 
@@ -59,6 +59,9 @@
     }
 
     .btn.register {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: transparent;
         border: 3px solid var(--color-purple);
         color: var(--font-color-title-dark);

@@ -4,6 +4,7 @@ import DashboardPage from '../pages/DashboardPage.vue';
 import { ticketRoutes } from "../../domains/tickets/routes";
 import { categoryRoutes } from "../../domains/categories/routes";
 import { userRoutes } from "../../domains/users/routes";
+import { authRoutes } from "../../domains/auth/routes";
 import { authStore } from "../../domains/auth/store";
 import { destroyMessage } from "../services/error";
 import { replyRoutes } from "../../domains/replies/routes";
@@ -22,6 +23,7 @@ export const router = createRouter({
             component: DashboardPage,
             name: 'dashboard',
         },
+        ...authRoutes,
         ...ticketRoutes,
         ...categoryRoutes,
         ...userRoutes,
@@ -33,11 +35,16 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-    // Login page is public.
-    if (to.name === "home") return true;
-
     // Check the current login session.
     await authStore.getUser();
+
+    const isPublic = to.name ==="home" || to.meta.public;
+    
+    // Public pages (login, register) when not logged in.
+    // If logged in go to ticket overview, else page is public(loginpage).
+    if (isPublic) {
+        return authStore.user ? { name: "tickets-overview" } : true;
+    }
 
     if (!authStore.user) {
         return { name: "home" };

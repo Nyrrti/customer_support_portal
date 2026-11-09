@@ -15,9 +15,7 @@
             <div class="login-form">
                 <LoginForm />
             </div>
-            
-            <RegisterPrompt />
-            
+            <RegisterPrompt /> 
         </div>
         
     </div>

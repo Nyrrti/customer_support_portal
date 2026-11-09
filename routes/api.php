@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 // PUBLIC
 Route::post("/login", [AuthController::class, "login"])
     ->middleware("throttle:5,1");
+Route::post("/register", [AuthController::class, "register"])
+    ->middleware("throttle:5,1");
 
 // USERS AND ADMINS
 Route::middleware("auth:sanctum")->group(function () {

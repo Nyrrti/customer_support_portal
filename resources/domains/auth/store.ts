@@ -6,6 +6,7 @@ import { categoryStore } from "../categories/store";
 import { userStore } from "../users/store";
 import { replyStore } from "../replies/store";
 import { noteStore } from "../notes/store";
+import type { RegisterUser } from "./types";
 
 
 /**
@@ -24,7 +25,8 @@ export const authStore = reactive<AuthStore>({
     loading: false,
 
 
-    async getUser() {
+    async getUser() 
+    {
         this.loading = true;
 
         try {
@@ -58,7 +60,8 @@ export const authStore = reactive<AuthStore>({
      * @param email 
      * @param password 
      */
-    async login(email: string, password: string) {
+    async login(email: string, password: string) 
+    {
         await axios.get("/sanctum/csrf-cookie");
 
         await axios.post("/api/login", {
@@ -73,10 +76,18 @@ export const authStore = reactive<AuthStore>({
     /**
      * Ends the session and clears cached account data.
      */
-    async logout() {
+    async logout() 
+    {
         await axios.post("/api/logout");
 
         clearStores();
         this.user = null;
+    },
+
+    async register(data: RegisterUser) 
+    {
+        await axios.get("/sanctum/csrf-cookie");
+        await axios.post("/api/register", data);
+        await this.getUser();
     },
 });
