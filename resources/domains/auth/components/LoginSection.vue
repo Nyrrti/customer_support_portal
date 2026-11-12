@@ -24,7 +24,7 @@
 
 <style scoped>
     .login-section {
-        --login-padding: 3rem;
+        --login-padding: 1rem;
         --login-content-width: 28rem;
         
         min-height: 100%;

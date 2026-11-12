@@ -7,9 +7,23 @@ export interface AuthStore {
     getUser(): Promise<void>;
     logout(): Promise<void>;
     register(data: RegisterUser): Promise<void>;
+    
+    forgotPassword(email: string): Promise<{ message: string }>;
+    resetPassword(payload: ResetPasswordData): Promise<{ message: string }>;
 }
-export interface RegisterUser extends CreateUser {
+export interface RegisterUser extends CreateUser 
+{
     password: string;
     password_confirmation: string;
 }
+
+export interface ResetPasswordData 
+{
+    email: string;
+    token: string;
+    password: string;
+    password_confirmation: string;
+}
+
+
 

@@ -78,7 +78,9 @@
                             Remember me
                         </label>
                     </div>
-                    <a href="/" class="dark">Forgot password?</a>
+                    <RouterLink :to="{name: 'forgot-password'}" class="forgot-password">
+                        Forgot password?
+                    </RouterLink>
                 </div>
                 <button class="btn login" type="submit">
                     Login

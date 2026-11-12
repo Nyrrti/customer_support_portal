@@ -1,12 +1,13 @@
 import { reactive } from "vue";
 import axios from "axios";
-import type { AuthStore } from "./types";
+import type { AuthStore, ResetPasswordData } from "./types";
 import { ticketStore } from "../tickets/store";
 import { categoryStore } from "../categories/store";
 import { userStore } from "../users/store";
 import { replyStore } from "../replies/store";
 import { noteStore } from "../notes/store";
 import type { RegisterUser } from "./types";
+import { postRequest } from "../../js/services/http";
 
 
 /**
@@ -20,6 +21,7 @@ function clearStores(): void {
     noteStore.setters.clearAll();
 }
 
+// Application session state
 export const authStore = reactive<AuthStore>({
     user: null,
     loading: false,
@@ -90,4 +92,23 @@ export const authStore = reactive<AuthStore>({
         await axios.post("/api/register", data);
         await this.getUser();
     },
+
+    async forgotPassword(email: string)
+    {
+        const { data } = await postRequest<{ message: string}>(
+            "forgot-password",
+            { email }
+        );
+        return data;
+    },
+
+    async resetPassword(payload: ResetPasswordData)
+    {
+        const { data } = await postRequest<{message: string}>(
+            "reset-password",
+            payload
+        );
+        return data;
+    },
+
 });
