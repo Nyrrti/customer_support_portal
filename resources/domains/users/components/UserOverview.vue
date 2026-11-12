@@ -2,6 +2,7 @@
     import type { User } from '../types';
     import UserTable from "../components/UserTable.vue";
     import { useForm } from '../../../js/composables/useForm';
+    import UserCard from "../components/UserCard.vue";
    
     const { errors, saving: deleting, submit, clearError } = useForm();
 
@@ -14,18 +15,23 @@
         (event: "delete", user: User): void;
     }>();
 </script>
+    <template>
+        <div class="mobile">
+            <UserCard
+                :users="users"
+                :deleting="deleting"
+                @delete="emit('delete', $event)"
+            />
+        </div>
 
-<template>
-    
-    <div class="user-section">
-        <UserTable 
-            :users="users"
-            :deleting="deleting"
-            @delete="emit('delete', $event)"
-        />
-    </div>
-
-</template>
+        <div class="desktop">
+            <UserTable
+                :users="users"
+                :deleting="deleting"
+                @delete="emit('delete', $event)"
+            />
+        </div>
+    </template>
 
 <style scoped>
 
@@ -77,4 +83,11 @@
         }
     }
 
+    .mobile  { display: flex; }   
+    .desktop { display: none; }   
+
+    @media (min-width: 1200px) {
+        .mobile  { display: none; } 
+        .desktop { display: block; }  
+    }
 </style>
