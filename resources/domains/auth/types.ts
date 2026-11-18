@@ -3,11 +3,11 @@ import type { User, CreateUser } from "../users/types";
 export interface AuthStore {
     user: User | null;
     loading: boolean;
-    login(email: string, password: string): Promise<boolean>;
+    login(email: string, password: string): Promise<void>;
     getUser(): Promise<void>;
     logout(): Promise<void>;
     register(data: RegisterUser): Promise<void>;
-    
+    resendVerification(email: string): Promise<void>;
     forgotPassword(email: string): Promise<{ message: string }>;
     resetPassword(payload: ResetPasswordData): Promise<{ message: string }>;
 }

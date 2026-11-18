@@ -19,6 +19,8 @@ Route::post("/forgot-password", [PasswordResetController::class, "sendResetLink"
     ->middleware("throttle:5,1");
 Route::post("/reset-password", [PasswordResetController::class, "resetPassword"])
     ->middleware("throttle:5,1");
+Route::post("/email/verification-notification", [AuthController::class, "resendVerification"])
+    ->middleware("throttle:3,1");
 
 
 // USERS AND ADMINS

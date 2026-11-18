@@ -18,21 +18,48 @@
         password_confirmation: "",
     });
 
+    const registered = ref(false);
+    const resent = ref(false);  
+
     /**
-     * Creates the account, logs the new user in
-     * and sends them to their tickets.
+     * Creates the account and shows the "check your inbox" message.
+     * Validation errors are shown under the matching fields.
      */
-    async function handleRegister() {
+    async function handleRegister(): Promise<void> {
         const success = await submit(() => authStore.register(form.value));
 
         if (success) {
-            await router.push("/tickets");
+            registered.value = true;
         }
+    }
+
+    /**
+     * Sends the verification email again to the address in the form.
+     */
+    async function resend(): Promise<void> {
+        resent.value = await submit(() =>
+            authStore.resendVerification(form.value.email)
+        );
     }
 </script>
 
 <template>
-    <form @submit.prevent="handleRegister" class="register-bg p-4 mt-5">
+   <div v-if="registered" class="register-bg p-4 mt-5">
+        <h5>Check your inbox</h5>
+        <p>We sent a confirmation link to {{ form.email }}.</p>
+
+        <p v-if="resent">A new email is on its way.</p>
+
+        <FieldError
+            :errors="errors.email"
+            @dismiss="clearError('email')"
+        />
+
+        <button class="btn" type="button" :disabled="saving" @click="resend">
+            {{ saving ? "Sending..." : "Resend email" }}
+        </button>
+    </div>
+    <form v-else @submit.prevent="handleRegister" class="register-bg p-4 mt-5">
         <div class="register-heading py-2">
             <div class="register-icon">
                 R

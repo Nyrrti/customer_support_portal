@@ -26,6 +26,41 @@ export const authStore = reactive<AuthStore>({
     user: null,
     loading: false,
 
+    /**
+     * Creates a new account. The user is not logged in afterwards,
+     * they must confirm their email address first.
+     *
+     * @param data - The registration form data.
+     */
+    async register(data: RegisterUser)
+    {
+        await axios.get("/sanctum/csrf-cookie");
+        await postRequest("register", data);
+    },
+
+    /**
+     * Asks the backend to send a new verification email.
+     *
+     * @param email - The email address the account was registered with.
+     */
+    async resendVerification(email: string)
+    {
+        await axios.get("/sanctum/csrf-cookie");
+        await postRequest("email/verification-notification", { email });
+    },
+
+    /**
+     * Logs the user in and loads their profile.
+     *
+     * @param email - The user's email address.
+     * @param password - The user's password.
+     */
+    async login(email: string, password: string)
+    {
+        await axios.get("/sanctum/csrf-cookie");
+        await postRequest("login", { email, password });
+        await this.getUser();
+    },
 
     async getUser() 
     {
@@ -57,25 +92,6 @@ export const authStore = reactive<AuthStore>({
     },
 
     /**
-     * Login
-     * 
-     * @param email 
-     * @param password 
-     */
-    async login(email: string, password: string) 
-    {
-        await axios.get("/sanctum/csrf-cookie");
-
-        await axios.post("/api/login", {
-            email,
-            password,
-        });
-
-        await this.getUser();
-        return true;
-    },
-
-    /**
      * Ends the session and clears cached account data.
      */
     async logout() 
@@ -84,13 +100,6 @@ export const authStore = reactive<AuthStore>({
 
         clearStores();
         this.user = null;
-    },
-
-    async register(data: RegisterUser) 
-    {
-        await axios.get("/sanctum/csrf-cookie");
-        await axios.post("/api/register", data);
-        await this.getUser();
     },
 
     async forgotPassword(email: string)
