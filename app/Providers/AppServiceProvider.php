@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
+use App\Models\User;
+use Illuminate\Auth\Notifications\ResetPassword;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -22,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         JsonResource::withoutWrapping();
+
+        // Send the reset link to the Vue page instead of a Laravel route.
+        ResetPassword::createUrlUsing(function (User $user, string $token) {
+            return config("app.url") . "/reset-password?token=" . $token
+                . "&email=" . urlencode($user->getEmailForPasswordReset());
+        });
     }
 }

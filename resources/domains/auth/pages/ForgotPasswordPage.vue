@@ -8,7 +8,7 @@
 <template>
 
     <LoggedOutLayout>
-        <div class="forgotpassword-section">
+        <div class="forgot-password-section">
             <ForgotPasswordForm />
         </div>
     </LoggedOutLayout>
@@ -17,7 +17,7 @@
 
 <style scoped>
 
-    .forgotpassword-section {
+    .forgot-password-section {
         min-height: 100%;
         display: flex;
         justify-content: center;

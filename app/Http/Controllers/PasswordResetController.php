@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
@@ -27,9 +28,9 @@ class PasswordResetController extends Controller
             ], 200);
         }
 
-        return response()->json([
-            "message" => __($status),
-        ], 422);
+        throw ValidationException::withMessages([
+            "email" => __($status),
+        ]);
     }
 
     public function resetPassword(Request $request) 
@@ -65,8 +66,8 @@ class PasswordResetController extends Controller
             ], 200);
         }
 
-        return response()->json([
-            'message' => __($status),
-        ], 422);
+        throw ValidationException::withMessages([
+            "email" => __($status),
+        ]);
     }
 }

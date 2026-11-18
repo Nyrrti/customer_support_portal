@@ -1,7 +1,6 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import {authStore} from "../../auth/store";
-    import axios from "axios";
     import { useRoute, useRouter } from "vue-router";
     import { useForm } from "../../../js/composables/useForm";
     import FieldError from "../../../js/components/FieldError.vue";
@@ -15,15 +14,34 @@
         password: "",
     });
 
-    /** True when the user arrives here from the verification link. */
-    const showVerified = ref(route.query.verified === "1");
+   /** Success messages that can be shown when arriving on the login page. */
+    const successMessages = {
+        success: {
+            title: "Email confirmed",
+            text: "Your account is ready. You can log in now.",
+        },
+        reset: {
+            title: "Password changed",
+            text: "You can log in with your new password.",
+        },
+    };
 
     /**
-     * Hides the "email confirmed" message and removes ?verified=1
-     * from the URL, so it doesn't show again after a refresh.
+     * The success message to show, based on the URL:
+     * ?success=1 after confirming an email, ?reset=1 after a password reset.
      */
-    function dismissVerified(): void {
-        showVerified.value = false;
+    const successMessage = ref(
+        route.query.success === "1" ? successMessages.success
+        : route.query.reset === "1" ? successMessages.reset
+        : null
+    );
+
+    /**
+     * Hides the success message and removes it from the URL,
+     * so it doesn't show again after a refresh.
+     */
+    function dismissSuccess(): void {
+        successMessage.value = null;
         router.replace({ query: {} });
     }
 
@@ -40,16 +58,6 @@
             await router.push("/tickets");
         }
     }
-
-    /**
-     * Log out user
-     */
-    async function handleLogout() {
-        await authStore.logout();
-
-        router.push("/");
-    }
-
 
 </script>
 
@@ -70,32 +78,32 @@
                 </div>
                 
             </div>
-            <div v-if="showVerified" class="verified-message" role="status">
-                    <div class="verified-icon" aria-hidden="true">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path d="M5 12.5l4.5 4.5L19 7.5" />
-                        </svg>
-                    </div>
-                    <div class="verified-text">
-                        <p class="verified-title">Email confirmed</p>
-                        <p>Your account is ready. You can log in now.</p>
-                    </div>
-                    <button
-                        type="button"
-                        class="btn remove-message"
-                        aria-label="Dismiss message"
-                        @click="dismissVerified"
+            <div v-if="successMessage" class="success-message" role="status">
+                <div class="success-icon" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                     >
-                        ×
-                    </button>
+                        <path d="M5 12.5l4.5 4.5L19 7.5" />
+                    </svg>
                 </div>
+                <div class="success-text">
+                    <p class="success-title">{{ successMessage.title }}</p>
+                    <p>{{ successMessage.text }}</p>
+                </div>
+                <button
+                    type="button"
+                    class="btn remove-message"
+                    aria-label="Dismiss message"
+                    @click="dismissSuccess"
+                >
+                    ×
+                </button>
+            </div>
             <div class="login-input-field">
                 <div class="field">
                     <label for="email">
@@ -227,7 +235,7 @@
         width: 100%;
     }
 
-    .verified-message {
+    .success-message {
         --success-bg: #d4efdf;
         --success-border: #2f9e5f;
         --success-text: #17663a;
@@ -243,7 +251,7 @@
         border-radius: 0.4rem;
     }
 
-    .verified-icon {
+    .success-icon {
         width: 2rem;
         height: 2rem;
         flex-shrink: 0;
@@ -255,22 +263,22 @@
         border-radius: 0.5rem;
     }
 
-    .verified-icon svg {
+    .success-icon svg {
         width: 1.1rem;
         height: 1.1rem;
     }
 
-    .verified-text {
+    .success-text {
         flex: 1;
     }
 
-    .verified-title {
+    .success-title {
         font-weight: 600;
         font-size: var(--text-body);
         color: var(--success-text);
     }
 
-    .verified-text p:last-child {
+    .success-text p:last-child {
         font-size: var(--text-label);
         color: var(--success-text);
     }

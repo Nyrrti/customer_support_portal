@@ -1,20 +1,31 @@
 <script setup lang="ts">
     import { ref } from "vue";
-    import { useRouter } from "vue-router";
     import { authStore } from "../store";
     import { useForm } from "../../../js/composables/useForm";
     import FieldError from "../../../js/components/FieldError.vue";
 
-    const router = useRouter();
     const { errors, saving, submit, clearError } = useForm();
 
-    const form = ({
-        email: ""
+    const form = ref({
+        email: "",
     });
+
+    /** True once the reset email has been sent, so the confirmation is shown. */
+    const sent = ref(false);
+
+    /**
+     * Asks the backend to email a password reset link.
+     * Validation errors are shown under the email field.
+     */
+    async function handleForgotPassword(): Promise<void> {
+        sent.value = await submit(() =>
+            authStore.forgotPassword(form.value.email)
+        );
+    }
 </script>
 
 <template>
-    <form @submit.prevent="" class="forgot-password-bg p-4 mt-5">
+    <form @submit.prevent="handleForgotPassword" class="forgot-password-bg p-4 mt-5">
         <div class="forgot-password-heading py-2">
             <div class="forgot-password-icon">
                 F
@@ -28,6 +39,9 @@
                 </p>
             </div>
         </div>
+        <p v-if="sent" class="sent-message" role="status">
+            Check your inbox for a link to reset your password.
+        </p>
         <div class="forgot-password-input-field">
             <div class="field">
                 <label for="email">
