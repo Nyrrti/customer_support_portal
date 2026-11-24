@@ -40,7 +40,7 @@ class AuthController extends Controller
             Auth::guard("web")->logout();
 
             throw ValidationException::withMessages([
-                "email" => "Please confirm your email first.",
+                "unverified" => "Please confirm your email first.",
             ]);
         }
 

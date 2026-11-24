@@ -9,6 +9,13 @@
     const router = useRouter();
     const { errors, saving, submit, clearError } = useForm();
     
+    const {
+        errors: resendErrors,
+        saving: resending,
+        submit: submitResend,
+        clearError: clearResendError,
+    } = useForm();
+
     const form = ref({
         email: "",
         password: "",
@@ -23,6 +30,10 @@
         reset: {
             title: "Password changed",
             text: "You can log in with your new password.",
+        },
+        resent: {
+            title: "Email sent",
+            text: "Check your inbox for a new confirmation link.",
         },
     };
 
@@ -56,6 +67,21 @@
 
         if (success) {
             await router.push("/tickets");
+        }
+    }
+
+    /**
+     * Sends a new verification email to the address in the login form.
+     * On success the login error is replaced by a success message.
+     */
+    async function resendVerification(): Promise<void> {
+        const success = await submitResend(() =>
+            authStore.resendVerification(form.value.email)
+        );
+
+        if (success) {
+            clearError("unverified");
+            successMessage.value = successMessages.resent;
         }
     }
 
@@ -120,6 +146,24 @@
                         :errors="errors.email"
                         @dismiss="clearError('email')"
                     />
+                    <div v-if="errors.unverified" class="unverified">
+                        <FieldError
+                            :errors="errors.unverified"
+                            @dismiss="clearError('unverified')"
+                        />
+                        <button
+                            type="button"
+                            class="btn resend"
+                            :disabled="resending"
+                            @click="resendVerification"
+                        >
+                            {{ resending ? "Sending..." : "Resend confirmation email" }}
+                        </button>
+                        <FieldError
+                            :errors="resendErrors.email"
+                            @dismiss="clearResendError('email')"
+                        />
+                    </div>
                 </div>
                 <div class="field">
                     <label for="password">
@@ -296,5 +340,27 @@
         color: var(--success-text);
         font-size: 1.25rem;
         cursor: pointer;
+    }
+
+    .unverified {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .btn.resend {
+        align-self: flex-start;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--color-blue);
+        font-size: var(--text-label);
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .btn.resend:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
     }
 </style>
