@@ -20,11 +20,11 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(string $id, string $hash)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
 
         // Same check Laravel's EmailVerificationRequest does
-        if (! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
-            abort(403);
+        if (! $user || ! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
+            return redirect("/?verification=invalid");
         }
 
         if (! $user->hasVerifiedEmail()) {

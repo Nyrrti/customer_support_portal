@@ -119,7 +119,7 @@
                             <strong>#{{ String(ticket.id).padStart(3, '0') }}</strong>
                         </div>
                     </div>
-                    <RouterLink :to="{ name: 'edit-ticket', params: { id: ticket.id } }" class="btn edit">
+                    <RouterLink v-if="ticket.can_update" :to="{ name: 'edit-ticket', params: { id: ticket.id } }" class="btn edit">
                         > Edit Ticket
                     </RouterLink>
                 </header>

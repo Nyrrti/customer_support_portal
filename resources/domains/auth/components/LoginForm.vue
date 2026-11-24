@@ -23,7 +23,7 @@
 
    /** Success messages that can be shown when arriving on the login page. */
     const successMessages = {
-        success: {
+        verified: {
             title: "Email confirmed",
             text: "Your account is ready. You can log in now.",
         },
@@ -42,9 +42,16 @@
      * ?success=1 after confirming an email, ?reset=1 after a password reset.
      */
     const successMessage = ref(
-        route.query.success === "1" ? successMessages.success
+        route.query.success === "1" ? successMessages.verified
         : route.query.reset === "1" ? successMessages.reset
         : null
+    );
+
+    /** Shown when the user arrives from an expired or invalid verification link. */
+    const linkErrors = ref<string[]>(
+        route.query.verification === "invalid"
+            ? ["This confirmation link has expired or is invalid. Log in to request a new one."]
+            : []
     );
 
     /**
@@ -131,6 +138,7 @@
                 </button>
             </div>
             <div class="login-input-field">
+                <FieldError :errors="linkErrors" @dismiss="linkErrors = []" />
                 <div class="field">
                     <label for="email">
                         Email address

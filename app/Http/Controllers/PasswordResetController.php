@@ -56,6 +56,12 @@ class PasswordResetController extends Controller
 
                 $user ->save();
 
+                // Resetting proves the user owns this email address,
+                // so an unconfirmed account is confirmed as well.
+                if (! $user->hasVerifiedEmail()) {
+                    $user->markEmailAsVerified();
+                }
+                
                 event(new PasswordReset($user));
             }
         );

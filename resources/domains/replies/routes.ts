@@ -9,10 +9,12 @@ export const replyRoutes: RouteRecordRaw[] = [
         path: "/tickets/:id/replies/create",
         component: Create,
         name: "create-reply",
+        meta: { requiresAdmin: true },
     },
     {
         path: "/replies/:id/edit",
         component: Edit,
         name: "edit-reply",
+        meta: { requiresAdmin: true },
     },
 ]

@@ -45,6 +45,10 @@
             </div>
         </div>
         <div class="forgot-password-input-field">
+            <p class="login-link">
+                Link expired?
+                <RouterLink :to="{ name: 'forgot-password' }">Request a new one</RouterLink>
+            </p>
             <div class="field">
                 <label for="email">Email address</label>
                 <input 

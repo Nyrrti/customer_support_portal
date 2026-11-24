@@ -16,6 +16,7 @@
         /** Whether the current user may change this ticket's status. */
         can_change_status: boolean;
         can_change_assigned: boolean;
+        can_update: boolean;
         created_at: string
         updated_at: string
         created_by_id: number

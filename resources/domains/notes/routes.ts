@@ -9,10 +9,12 @@ export const noteRoutes: RouteRecordRaw[] = [
         path: "/tickets/:id/notes/create",
         component: Create,
         name: "create-note",
+        meta: { requiresAdmin: true },
     },
     {
         path: "/notes/:id/edit",
         component: Edit,
         name: "edit-note",
+        meta: { requiresAdmin: true },
     },
 ]
