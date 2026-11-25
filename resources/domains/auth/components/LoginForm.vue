@@ -38,11 +38,11 @@
     };
 
     /**
-     * The success message to show, based on the URL:
-     * ?success=1 after confirming an email, ?reset=1 after a password reset.
+     * The verified message to show, based on the URL:
+     * ?verified=1 after confirming an email, ?reset=1 after a password reset.
      */
     const successMessage = ref(
-        route.query.success === "1" ? successMessages.verified
+        route.query.verified === "1" ? successMessages.verified
         : route.query.reset === "1" ? successMessages.reset
         : null
     );
@@ -138,7 +138,7 @@
                 </button>
             </div>
             <div class="login-input-field">
-                <FieldError :errors="linkErrors" @dismiss="linkErrors = []" />
+                <FieldError :errors="linkErrors" @dismiss="linkErrors = []; router.replace({ query: {} })" />
                 <div class="field">
                     <label for="email">
                         Email address
@@ -192,12 +192,6 @@
             </div>
             <div class="bottom-row">
                 <div class="remember-field mt-2">
-                    <div class="remember">
-                        <input id="remember" type="checkbox">
-                        <label for="remember">
-                            Remember me
-                        </label>
-                    </div>
                     <RouterLink :to="{name: 'forgot-password'}" class="forgot-password">
                         Forgot password?
                     </RouterLink>
