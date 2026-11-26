@@ -35,8 +35,8 @@ async function getByTicket(ticketId: number): Promise<void> {
         }
     }
 
-    for (const note of data) {
-        baseStore.setters.setOne(note);
+    for (const reply of data) {
+        baseStore.setters.setOne(reply);
     }
 }
 

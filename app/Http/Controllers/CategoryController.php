@@ -57,10 +57,4 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function options()
-    {
-        return CategoryResource::collection(
-            Category::orderBy('title')->get()
-        );
-    }
 }

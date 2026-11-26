@@ -8,6 +8,7 @@ use App\Models\Reply;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Http\Requests\StoreReplyRequest;
 use App\Http\Requests\UpdateReplyRequest;
+use App\Notifications\TicketReplied;
 
 class ReplyController extends Controller
 {
@@ -34,9 +35,11 @@ class ReplyController extends Controller
     }
 
     /**
-     * Saves a note for this ticket and the signed in author.
+     * Saves a reply for this ticket and emails the ticket's creator.
+     *
+     * A failed email is logged, so the reply is still saved.
      */
-    public function store(StoreReplyRequest $request, Ticket $ticket) 
+    public function store(StoreReplyRequest $request, Ticket $ticket)
     {
         $reply = $ticket->replies()->create([
             "title" => $request->validated("title"),
@@ -44,8 +47,18 @@ class ReplyController extends Controller
             "user_id" => $request->user()->id,
         ]);
 
+        // Don't email admins about their own reply on their own ticket.
+        if ($ticket->created_by_id !== $request->user()->id) {
+            try {
+                $ticket->createdBy->notify(new TicketReplied($reply));
+            } catch (\Throwable $e) {
+                // The reply is saved, even if email fails
+                report($e);
+            }
+        }
+
         return (new ReplyResource($reply->load("user")))
-        ->response()->setStatusCode(201);
+            ->response()->setStatusCode(201);
     }
 
     public function update(UpdateReplyRequest $request, Reply $reply)

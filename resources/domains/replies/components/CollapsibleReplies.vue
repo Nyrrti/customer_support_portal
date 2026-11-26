@@ -27,7 +27,7 @@
         @click="isOpen = !isOpen"
         >
         <div class="replies-heading">
-            <span class="lock-icon">
+            <span class="reply-icon">
                 <svg width="28px" height="28px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" id="Layer_1" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Layer_3">
                         <path d="M0,1.499v36h12.031V48l14.906-10.501H48v-36H0z M44,33.499H26.906L16,41.125v-3.75v-3.876H4v-28h40V33.499z   " fill="currentColor"/>
@@ -140,7 +140,7 @@
         outline-offset: -3px;
     }
 
-    .lock-icon {
+    .reply-icon {
         color: var(--color-yellow);
     }
 

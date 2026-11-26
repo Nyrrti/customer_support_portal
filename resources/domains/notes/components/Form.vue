@@ -45,10 +45,10 @@
             > {{ mode === "create" ? "Create new note" : "Edit note" }}
         </span>
     </div>
-    <form class="reply-form-bg"  @submit.prevent="submitForm">
-        <div class="reply-form-heading p-4">
+    <form class="note-form-bg"  @submit.prevent="submitForm">
+        <div class="note-form-heading p-4">
             <div class="d-flex items-center">
-                <div class="reply-form-icon me-1" aria-hidden="true">
+                <div class="note-form-icon me-1" aria-hidden="true">
                     <svg
                         viewBox="0 0 24 24"
                         width="40"
@@ -67,20 +67,20 @@
             </div>
             <RouterLink
                 :to="{ name: 'tickets-overview' }"
-                class="reply-form-icon form-close"
+                class="note-form-icon form-close"
                 aria-label="Back to ticket"
             >
                 
             </RouterLink>
             <RouterLink 
                 :to="returnTo"
-                class="reply-form-icon form-close"
+                class="note-form-icon form-close"
                 aria-label="Back to ticket"
             >
                 ↩
             </RouterLink>
         </div>
-        <div class="reply-form-input-field">
+        <div class="note-form-input-field">
             <div class="field">
                 <label for="content">
                     Description
@@ -96,7 +96,7 @@
                 />
             </div>
         </div>
-        <div class="reply-form-footer p-4">
+        <div class="note-form-footer p-4">
             <button 
                 class="btn create" 
                 type="submit"
@@ -120,7 +120,7 @@
         color: var(--font-color-medium-light);
     }
 
-    .reply-form-bg {
+    .note-form-bg {
         background-color: var(--bg-color-card);    
         border-radius: 0.6rem;
         border: 1px solid var(--bg-color-card-dark);
@@ -130,7 +130,7 @@
         gap: 1.5rem;
     }
 
-    .reply-form-heading {
+    .note-form-heading {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -145,11 +145,11 @@
         position: relative;
     }
 
-    .reply-form-heading h5 {
+    .note-form-heading h5 {
         color: var(--font-color-light);
     }
 
-    .reply-form-icon {
+    .note-form-icon {
         flex-shrink: 0;
         display: flex;
         align-items: center;
@@ -174,14 +174,14 @@
         color: var(--color-yellow);
     }
 
-    .reply-form-input-field {
+    .note-form-input-field {
         display: flex;
         flex-direction: column;
         gap: 1rem;
         padding: 1.5rem 1.5rem 0rem 1.5rem;
     }
 
-    .reply-form-input-field input {
+    .note-form-input-field input {
         width: 100%;
         padding: 0.7rem;
         background-color: var(--bg-color-card);
@@ -189,7 +189,7 @@
         border-radius: 0.4rem;
     }
 
-    .reply-form-footer {
+    .note-form-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;

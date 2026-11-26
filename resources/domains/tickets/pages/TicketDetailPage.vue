@@ -18,7 +18,7 @@
 
     const route = useRoute();
     // saving: deleting means, take saving from the returned object, but call it deleting on this page.
-    const { errors, saving: deleting, submit, clearError } = useForm();
+    const { errors, saving: deleting, submit} = useForm();
 
     const isAdmin = computed(() => authStore.user?.is_admin === true);
 

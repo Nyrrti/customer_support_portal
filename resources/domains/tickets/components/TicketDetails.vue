@@ -4,8 +4,8 @@
     import FieldError from "../../../js/components/FieldError.vue";
     import { useForm } from "../../../js/composables/useForm";
     import { ticketStore } from "../store";
-    import { userStore } from "../../users/store.js";
-    import { authStore } from "../../auth/store.js";
+    import { userStore } from "../../users/store";
+    import { authStore } from "../../auth/store";
     import type { Ticket, TicketStatus} from "../types";
     import TicketStatusPill from "../../../js/components/TicketStatusPill.vue";
 

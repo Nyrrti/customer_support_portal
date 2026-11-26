@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use App\Enums\TicketStatus;
 
 class TicketPolicy
@@ -50,7 +49,7 @@ class TicketPolicy
     }
 
     /**
-     *  Determine whether the user can change the status.
+     *  Determine whether the assignee can change the status.
      */
     public function updateStatus(User $user, Ticket $ticket): bool
     {

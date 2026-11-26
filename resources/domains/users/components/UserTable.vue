@@ -1,10 +1,7 @@
 <script setup lang="ts">
     import type { User } from "../types"
     import ActionButtons from "../../../js/components/ActionButtons.vue";
-    import { useForm } from "../../../js/composables/useForm";
-
-    const { errors, saving: deleting, submit, clearError } = useForm();
-
+    
     defineProps<{
         users: User[];
         deleting: boolean;

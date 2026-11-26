@@ -1,11 +1,8 @@
 <script setup lang="ts">
     import type { User } from '../types';
     import UserTable from "../components/UserTable.vue";
-    import { useForm } from '../../../js/composables/useForm';
     import UserCard from "../components/UserCard.vue";
    
-    const { errors, saving: deleting, submit, clearError } = useForm();
-
     const props = defineProps<{
         users: User[];
         deleting: boolean;
