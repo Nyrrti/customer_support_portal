@@ -3,9 +3,12 @@
     import { computed } from 'vue';
     import type { TicketStatus } from '../../domains/tickets/types';
 
-    const props = defineProps<{
+    const props = withDefaults(defineProps<{
         status: TicketStatus;
-    }>();
+        mode?: "pill" | "dot";
+    }>(), {
+        mode: "pill",
+    });
 
     const statusLabels: Record<TicketStatus, string> = {
         pending: "Pending",
@@ -17,7 +20,18 @@
 </script>
 
 <template>
+    <template>
     <span
+        v-if="variant === 'dot'"
+        class="status-dot"
+        :class="`status-dot--${status}`"
+        :title="statusLabel"
+        role="img"
+        :aria-label="statusLabel"
+    ></span>
+
+    <span
+        v-else
         class="status-pill"
         :class="`status-pill--${status}`"
         aria-live="polite"
@@ -47,9 +61,10 @@
                 <path d="m5 12 4 4L19 6" />
             </template>
         </svg>
-        
+
         <span>{{ statusLabel }}</span>
     </span>
+</template>
 </template>
 
 <style scoped>

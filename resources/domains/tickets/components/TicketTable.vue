@@ -18,19 +18,25 @@
         (event: "actions", ticket: Ticket): void;
     }>();
 
+    const formatDate = (date: string) => {
+        if (!date) return '';
+
+        return new Date(date).toLocaleDateString('en-GB').replace(/\//g, '-');
+    };
 </script>
 
 <template>
     <div class="overview-table-wrap">
         <table class="ticket-table">
             <colgroup>
-                <col class="table-w-7">
-                <col>
-                <col class="table-w-15">
-                <col class="table-w-12">
-                <col class="table-w-12">
-                <col class="table-w-18">
-                <col class="table-w-5">
+                <col class="table-w-5"> <!-- ID -->
+                <col> <!-- Subject -->
+                <col class="table-w-15"> <!-- Category -->
+                <col class="table-w-10"> <!-- Status -->
+                <col class="table-w-12"> <!-- Created By -->
+                <col class="table-w-11"> <!-- Created -->
+                <col class="table-w-11"> <!-- Updated -->
+                <col class="table-w-15"> <!-- Assigned to -->
             </colgroup>
 
             <thead>
@@ -39,9 +45,10 @@
                     <th scope="col">Subject</th>
                     <th scope="col">Category</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">Created</th>
                     <th scope="col">Updated</th>
                     <th scope="col">Assigned To</th>
-                    <th scope="col" aria-label="Actions"></th>
                 </tr>
             </thead>
 
@@ -72,24 +79,18 @@
                     <td>
                         <TicketStatusPill :status="ticket.status" />
                     </td>
-
-                    <td class="updated">
+                    <td>
+                        {{ ticket.created_by.name}}
+                    </td>
+                    <td class="small-muted">
+                        {{ formatDate(ticket.created_at) }}
+                    </td>
+                    <td class="small-muted">
                         <CheckTime :date="ticket.updated_at" />
                     </td>
 
                     <td class="assigned">
                         {{ ticket.assigned_to?.name ?? "Not assigned yet" }}
-                    </td>
-
-                    <td class="actions-cell">
-                        <button
-                            class="actions-button"
-                            type="button"
-                            :aria-label="`Actions for ticket ${ticket.id}`"
-                            @click="emit('actions', ticket)"
-                        >
-                            ⋮
-                        </button>
                     </td>
                 </tr>
 
@@ -139,12 +140,20 @@
         /* background-color: var(--table-bg); */
     }
 
+    .ticket-table td:first-child,
+    .ticket-table td:nth-child(4),
+    .ticket-table td:nth-child(6),
+    .ticket-table td:nth-child(7),
+    .ticket-table td:last-child {
+        white-space: nowrap;
+    }
+
     .ticket-table thead {
         background-color: var(--table-header);
     }
 
     .ticket-table th {
-        padding: 1.5rem 1rem;
+        padding: 1.2rem 0.7rem;
         text-align: left;
         color: var(--font-color-medium-light);
         font-size: var(--text-label);
@@ -154,7 +163,7 @@
     }
 
     .ticket-table td {
-        padding: 1.2rem 1rem;
+        padding: 1rem 0.7rem;
         color: var(--table-text);
         font-size: var(--text-table);
         letter-spacing: var(--table-letter-spacing);
@@ -166,7 +175,7 @@
         color: var(--table-text-muted);
     }
 
-    .ticket-table td.updated {
+    .ticket-table td.small-muted {
         color: var(--font-color-medium-dark);
         font-size: var(--text-caption);
     }
@@ -224,37 +233,4 @@
         );
     }
 
-    .pill.status {
-        background-color: color-mix(
-            in srgb,
-            var(--bg-color-card) 84%,
-            #6ccf8d
-        );
-
-        color: #4d7f5f;
-    }
-
-    .actions-cell {
-        text-align: center;
-    }
-
-    .actions-button {
-        width: 2rem;
-        height: 2rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        background: transparent;
-        border: 0;
-        border-radius: 0.4rem;
-        color: var(--font-color-medium-dark);
-        font-size: var(--text-page-title);
-        cursor: pointer;
-    }
-
-    .actions-button:hover {
-        background-color: var(--table-row-hover);
-        color: var(--font-color-dark);
-    }
 </style>

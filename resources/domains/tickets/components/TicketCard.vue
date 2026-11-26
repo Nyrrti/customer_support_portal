@@ -14,9 +14,15 @@
         tickets: Ticket[];
     }>();
 
+    const formatDate = (date: string) => {
+        if (!date) return '';
+
+        return new Date(date).toLocaleDateString('en-GB').replace(/\//g, '-');
+    };
 </script>
 
 <template>
+    <div class="ticket-list">
     <div v-for="ticket in tickets" :key="ticket.id" class="ticket-card">
         <div class="card-header">
             <div class="ticket-number">
@@ -25,13 +31,6 @@
                     #{{ String(ticket.id).padStart(3, '0') }}
                 </strong>
             </div>
-            <button
-                class="ticket-menu"
-                type="button"
-                aria-label="Actions for ticket 001"
-            >
-                <span aria-hidden="true">•••</span>
-            </button>
         </div>
         <div class="card-content">
                 <RouterLink
@@ -43,15 +42,24 @@
                 >
                     {{ ticket.title }}
                 </RouterLink>
-                <div class="ticket-update-section content-border pb-1">
+               <div class="ticket-update-section content-border pb-3">
                     <TicketStatusPill :status="ticket.status" />
-                    <span class="ticket-updated">
-                        <svg class="clock-icon" viewBox="0 0 24 24" aria-hidden="true">
-                            <circle cx="12" cy="12" r="9" />
-                            <path d="M12 6v6h5" />
-                        </svg>
-                        <CheckTime :date="ticket.updated_at" />
-                    </span>
+
+                    <div class="ticket-dates">
+                        <div class="date-item">
+                            <span class="date-label">Created</span>
+                            <span class="date-value">
+                                {{ formatDate(ticket.created_at) }}
+                            </span>
+                        </div>
+
+                        <div class="date-item">
+                            <span class="date-label">Updated</span>
+                            <span class="date-value">
+                                <CheckTime :date="ticket.updated_at" />
+                            </span>
+                        </div>
+                    </div>
                 </div>
             
             <div class="ticket-category mt-1 ">
@@ -108,16 +116,18 @@
             </div>
         </div>
     </div>
-
+    </div>
 </template>
 
 <style scoped>
     .ticket-card {
-        --card-border: #3b68a5;
+        --card-border: #22416f;
         --ticket-card-border-dark: #597db1;
-        --bg-ticket-card: #2d5690;
+        --bg-ticket-card: #1f3e6b;
+        --bg-footer: #bac5d3;
     
         width: 100%;
+        max-width: 800px;
         min-width: 0;
         box-sizing: border-box;
         border: 1px solid var(--card-border);
@@ -133,9 +143,8 @@
         border-radius: 1.25rem 1.25rem 0rem 0rem;
         background: linear-gradient(
             110deg,
-            #1b4682,
-            #244e88 50%,
-            #2d5690 100%
+            #1a3a66 40%,
+            transparent 100%
         );
     }
 
@@ -200,13 +209,6 @@
 
     .ticket-link:hover {
         text-decoration: underline;
-    }
-
-    .ticket-update-section {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.75rem 1rem;
     }
 
     .ticket-updated {
@@ -310,11 +312,56 @@
         padding: 1.2rem 1.5rem;
         border-top: 1px dashed var(--ticket-card-border-dark);
         border-radius: 0 0 calc(1.25rem - 1px) calc(1.25rem - 1px);
-        background: var(--bg-color-card-medium);
+        background: var(--bg-footer);
     }
 
     .content-border {
         border-bottom: 1px dashed var(--ticket-card-border-dark);
+    }
+
+    .ticket-update-section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem 1rem;
+    }
+
+    .ticket-dates {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+        padding-left: 1rem;
+    }
+
+    .date-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .date-label {
+        color: var(--font-color-medium-light);
+        font-size: var(--text-caption);
+    }
+
+    .date-value {
+        color: var(--font-color-medium-light);
+        font-size: var(--text-label);
+        font-weight: 600;
+    }
+
+    .date-item:first-child {
+        padding-right: 1.5rem;
+        border-right: 1px solid var(--card-border);
+    }
+
+    .ticket-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
     }
 
     @media (min-width: 400px) {
@@ -375,4 +422,6 @@
             gap: var(--space-4);
         }
     }
+
+
 </style>
