@@ -49,7 +49,7 @@ class TicketPolicy
     }
 
     /**
-     *  Determine whether the assignee can change the status.
+     *  Determine whether the user can change the status.
      */
     public function updateStatus(User $user, Ticket $ticket): bool
     {
@@ -57,7 +57,7 @@ class TicketPolicy
     }
 
     /**
-     *  Determine whether the user can change the status.
+     *  Determine whether the user can change the assignee.
      */
     public function updateAssigned(User $user, Ticket $ticket): bool
     {

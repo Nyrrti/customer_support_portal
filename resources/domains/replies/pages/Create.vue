@@ -2,9 +2,9 @@
     import Form from "../components/Form.vue";
     import { useRouter, useRoute } from "vue-router";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
-    import { useForm } from "../../../js/composables/useForm.js";
-    import type { CreateReply } from "../types.js";
-    import { replyStore } from "../store.js";
+    import { useForm } from "../../../js/composables/useForm";
+    import type { CreateReply } from "../types";
+    import { replyStore } from "../store";
 
 
     const router = useRouter();

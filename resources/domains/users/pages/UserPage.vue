@@ -2,9 +2,10 @@
     import { computed, onMounted } from "vue";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
     import UserOverview from "../components/UserOverview.vue"
-    import { userStore } from "../store.js";
-    import type { User } from "../types.js";
-    import { useForm } from "../../../js/composables/useForm.js";
+    import { userStore } from "../store";
+    import type { User } from "../types";
+    import { useForm } from "../../../js/composables/useForm";
+    import FieldError from "../../../js/components/FieldError.vue";
 
     const { errors, saving: deleting, submit, clearError } = useForm();
 
@@ -43,6 +44,10 @@
 
     <LoggedInLayout>
         <div class="user-page-background">
+            <FieldError
+                :errors="errors.user"
+                @dismiss="clearError('user')"
+            />
             <UserOverview 
                 :users="users"
                 :deleting="deleting"

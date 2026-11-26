@@ -1,11 +1,11 @@
 <script setup lang="ts">
     import { ref, onMounted, computed } from "vue";
     import Form from "../components/Form.vue";
-    import { replyStore } from "../store.js";
+    import { replyStore } from "../store";
     import { useRouter, useRoute } from "vue-router";
-    import type { Reply, UpdateReply } from "../types.js";
+    import type { Reply, UpdateReply } from "../types";
     import LoggedInLayout from "../../../js/layouts/LoggedInLayout.vue";
-    import { useForm } from "../../../js/composables/useForm.js";
+    import { useForm } from "../../../js/composables/useForm";
    
 
     const route = useRoute();

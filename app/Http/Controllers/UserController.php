@@ -7,6 +7,8 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
+use App\Enums\TicketStatus;
+use Illuminate\Http\JsonResponse;
 
 
 class UserController extends Controller
@@ -33,14 +35,26 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    // DELETE
-    public function destroy(User $user)
+    /**
+     * Delete a user, unless unresolved tickets are linked to them.
+     *
+     * A ticket is unresolved when its status is not "closed". Tickets the user
+     * created or is assigned to both count.
+     *
+     * @param User $user The user to delete.
+     * @throws ValidationException When unresolved tickets are linked to the user.
+     */
+    public function destroy(User $user): JsonResponse
     {
         $this->authorize("delete", $user);
 
-        if ($user->createdTickets()->exists() || $user->assignedTickets()->exists()) {
+        $hasUnresolvedTickets =
+            $user->createdTickets()->where("status", "!=", TicketStatus::CLOSED)->exists()
+            || $user->assignedTickets()->where("status", "!=", TicketStatus::CLOSED)->exists();
+
+        if ($hasUnresolvedTickets) {
             throw ValidationException::withMessages([
-                "user" => "This user cannot be deleted because tickets are linked to it.",
+                "user" => "This user cannot be deleted because unresolved tickets are linked to them.",
             ]);
         }
 

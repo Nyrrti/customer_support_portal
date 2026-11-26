@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import type { Reply } from "../types.js";
+    import type { Reply } from "../types";
     import CheckTime from "../../../js/components/CheckTime.vue";
     import ActionButtons from "../../../js/components/ActionButtons.vue";
 

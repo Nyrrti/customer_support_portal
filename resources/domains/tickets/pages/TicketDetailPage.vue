@@ -59,7 +59,7 @@
         if (deleting.value) return;
 
         const confirmed = window.confirm(
-            `Delete "${reply.id}"? This cannot be undone.`
+            `Delete this reply? This cannot be undone.`
         );
 
         if (!confirmed) return;
@@ -71,7 +71,7 @@
         if (deleting.value) return;
 
         const confirmed = window.confirm(
-            `Delete "${note.id}"? This cannot be undone.`
+            `Delete this note? This cannot be undone.`
         );
 
         if (!confirmed) return;

@@ -25,8 +25,8 @@ export const noteStore = {
  * 
  */
 async function getByTicket(ticketId: number): Promise<void> {
-    const { data } = await getRequest<Note[]>(
     // Get the notes related to this ticketId
+    const { data } = await getRequest<Note[]>(
         `tickets/${ticketId}/notes`
     );
     // Clear old notes for this ticket.

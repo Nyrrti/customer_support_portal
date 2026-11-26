@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Http\RedirectResponse;
 
 class VerifyEmailController extends Controller
 {
@@ -17,7 +18,7 @@ class VerifyEmailController extends Controller
      * @param string $id   The ID of the user to verify.
      * @param string $hash The SHA-1 hash of the user's email address.
      */
-    public function __invoke(string $id, string $hash)
+    public function __invoke(string $id, string $hash) :RedirectResponse
     {
         $user = User::find($id);
 

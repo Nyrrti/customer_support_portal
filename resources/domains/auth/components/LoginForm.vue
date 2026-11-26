@@ -262,13 +262,7 @@
 
     .remember-field {
         display: flex;
-        justify-content: space-between;
-    }
-
-    .remember {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        justify-content: flex-end;
     }
 
     .bottom-row a {
